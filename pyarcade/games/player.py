@@ -91,7 +91,11 @@ class Player:
             str: representation of the cards in the player's hand
         """
         # TODO: sort the cards
-        return self.hand.__str__
+        str_hand = ""
+        for card in self.hand:
+            str_hand += card.__str__() + "\n"
+
+        return str_hand
 
     def clear_hand(self) -> Player:
         """Clear the player's hand of all cards.
