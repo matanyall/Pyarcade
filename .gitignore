@@ -1,1 +1,6 @@
-.idea
+.idea/
+.coverage
+__pycache__
+
+# Visual Studio Code settings
+.vscode
