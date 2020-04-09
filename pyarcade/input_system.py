@@ -17,16 +17,7 @@ class InputSystem:
         elif game_name == "Minesweeper":
             return self.handle_minesweeper_input(user_choice)
         else:
-            return self.invalid_input(user_choice)
-
-    @staticmethod
-    def invalid_input(invalid_input: str) -> str:
-        output_msg = """
-           {0} is not recognized as a game input or command.
-
-           Type 'help' to view all game inputs and commands.
-           """.format(invalid_input)
-        return output_msg
+            return "Invalid game provided."
 
     def handle_mastermind_input(self, guess_input):
         """
@@ -47,10 +38,9 @@ class InputSystem:
                 if guess[idx].isdigit():
                     guess_output.append(int(guess[idx]))
 
-            if len(guess_output) != MASTERMIND_WIDTH:
-                return self.invalid_input(guess_input)
-            return self.mastermind_game.evaluate(guess_output)
-        return self.invalid_input(guess_input)
+            if len(guess_output) == MASTERMIND_WIDTH:
+                return self.mastermind_game.evaluate(guess_output)
+        return "Invalid input. Input should be of the form \"####\""
 
     def handle_minesweeper_input(self, location_input: str):
         if type(location_input) == str:
@@ -63,4 +53,4 @@ class InputSystem:
             elif location_input == "Clear Game History":
                 return self.minesweeper_game.clear_game_history()
 
-        return self.invalid_input(location_input)
+        return "Invalid input. User should specify an x and y coordinate: \"#,#\""
