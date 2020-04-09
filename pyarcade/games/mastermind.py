@@ -15,7 +15,8 @@ class Mastermind:
 
     """
 
-    def __init__(self, width: Optional[int] = 4, max_range: Optional[int] = 10):
+    def __init__(self, width: Optional[int] = 4, max_range: Optional[int] = 9):
+        self.game_state = "New game."
         self.width = width
         self.max_range = max_range
         self.hidden_sequence = self.generate_hidden_sequence()
@@ -33,7 +34,7 @@ class Mastermind:
     def set_hidden_sequence(self, sequence: List[int]):
         self.hidden_sequence = sequence
 
-    def evaluate(self, user_guess: List[int]) -> Dict[int, int]:
+    def evaluate(self, user_guess: List[int]) -> str:
         """
 
         Args:
@@ -47,23 +48,37 @@ class Mastermind:
         # Dictionary containing the user's guess and its evaluation
         evaluation = {}
         exact_match = True
+        cows = 0
+        bulls = 0
 
         for idx in range(len(user_guess)):
-            if user_guess[idx] == self.hidden_sequence[idx]:
-                evaluation[user_guess[idx]] = 1
-            elif user_guess[idx] in self.hidden_sequence:
-                evaluation[user_guess[idx]] = 0
+            guess = user_guess[idx]
+            if guess == self.hidden_sequence[idx]:
+                eval_digit = 1
+                bulls += 1
+            elif guess in self.hidden_sequence:
+                eval_digit = 0
                 exact_match = False
+                cows += 1
             else:
-                evaluation[user_guess[idx]] = -1
+                eval_digit = -1
                 exact_match = False
+
+            if guess not in evaluation:
+                evaluation[guess] = [eval_digit]
+            else:
+                evaluation[guess].append(eval_digit)
 
         self.current_history[tuple(user_guess)] = evaluation
 
         if exact_match:
+            str(user_guess) + ": " + str(bulls) + " bulls and " + str(cows) + " cows"
+            self.game_state = "Game over."
             total_history[total_games] = self.current_history
-
-        return evaluation
+            return str(user_guess) + ": " + str(bulls) + " bulls and " + str(cows) + " cows. \n" \
+                                                                                     "Congratulations, you win!"
+        else:
+            return str(user_guess) + ": " + str(bulls) + " bulls and " + str(cows) + " cows"
 
     # Clears current and total game history
     def clear(self):
@@ -72,8 +87,11 @@ class Mastermind:
         total_history.clear()
         global total_games
         total_games = 0
+        return "History cleared"
 
     # Resets current game history
     def reset(self):
         self.current_history.clear()
         self.hidden_sequence = self.generate_hidden_sequence()
+        self.game_state = "New game."
+        return "Game reset"
