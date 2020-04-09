@@ -8,20 +8,22 @@ def run_pyarcade():
         print("(1) Mastermind      (2) Minesweeper     (3) Exit")
         game_input = str(input())
 
-        while True:
-            if game_input == "3":
-                break
+        if game_input == "3":
+            break
 
+        while True:
             if game_input.lower() == "1":
                 print("Please enter your guess (\"####\") or enter quit to leave game")
                 user_move = str(input())
                 if user_move == "quit":
                     break
                 print(input_sys.handle_game_input("Mastermind", user_move))
-                if input_sys.minesweeper_game.game_state == "Game Over":
+                if input_sys.mastermind_game.game_state == "Game over.":
                     print("Game over. Play again? y/n")
                     if str(input()) != "y":
                         break
+                    else:
+                        input_sys.mastermind_game.reset()
             elif game_input.lower() == "2":
                 input_sys.minesweeper_game.draw_board()
                 print("Please enter x, y coordinate (\"#,#\") or enter quit to leave game")
@@ -33,6 +35,8 @@ def run_pyarcade():
                     print("Game over. Play again? y/n")
                     if str(input()) != "y":
                         break
+                    else:
+                        input_sys.minesweeper_game.reset_game()
             else:
                 break
 
