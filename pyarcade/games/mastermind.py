@@ -72,8 +72,10 @@ class Mastermind:
         total_history.clear()
         global total_games
         total_games = 0
+        return "History cleared"
 
     # Resets current game history
     def reset(self):
         self.current_history.clear()
         self.hidden_sequence = self.generate_hidden_sequence()
+        return "Game reset"
