@@ -83,7 +83,7 @@ class InputSystem:
         card = self.handle_card(card_input)
 
         if card:
-            not_str = 'not ' if not self.crazy_eights_game.play(card) else ''
+            not_str = 'not ' if not self.crazy_eights_game.play(CRAZY_EIGHTS_PLAYER_NUM, card) else ''
             return 'card {} was '.format(str(card)) + not_str + 'played'
         else:
             return "Invalid input. User should specify either to draw or which card to place (Ex: Eight,Spades)"
