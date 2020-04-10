@@ -21,16 +21,18 @@ def run_pyarcade():
 
         print(input_sys.handle_game_input(game_in_play, "New Game"))
         while True:
-            print("Game Options:    "
-                  "(1) New Game      "
-                  "(2) Reset Game     "
-                  "(3) Clear Game History      "
-                  "(4) Quit")
+            print("Game Options: \n"
+                  "New Game (Start new game)\n"
+                  "Reset    (Reset game)\n"
+                  "Clear    (Clear game history)\n"
+                  "Quit     (Leave game)\n"
+                  "* The options above can be entered at any time during game play *\n")
             if game_input == "1":
-                print("Please enter your guess (\"####\") or enter quit to leave game")
+                print("Please enter your guess (\"####\")")
                 user_move = str(input())
-                if user_move == "quit":
+                if user_move.lower() == "quit":
                     break
+
                 print(input_sys.handle_game_input(game_in_play, user_move))
                 if input_sys.mastermind_game.game_state == "Game over.":
                     print("Game over. Play again? y/n")
@@ -41,7 +43,7 @@ def run_pyarcade():
             elif game_input == "2":
                 print("Please enter x, y coordinate (\"#,#\")")
                 user_move = str(input())
-                if user_move == "quit":
+                if user_move.lower() == "quit":
                     break
                 print(input_sys.handle_game_input(game_in_play, user_move))
                 if input_sys.minesweeper_game.game_state == "Game over.":
@@ -49,12 +51,11 @@ def run_pyarcade():
                     if str(input()) != "y":
                         break
                     else:
-                        print(input_sys.handle_game_input(game_in_play, "Reset"))
+                        print(input_sys.handle_game_input(game_in_play, "reset"))
             elif game_input == "3":
                 print("Please type draw or enter card you wish to play (Ex: Eight,Spades).")
-                print("Or enter quit to leave game")
                 user_move = str(input())
-                if user_move == "quit":
+                if user_move.lower() == "quit":
                     break
                 print(input_sys.handle_game_input(game_in_play, user_move))
                 if input_sys.crazy_eights_game.game_state == "Game over.":
@@ -62,7 +63,7 @@ def run_pyarcade():
                     if str(input()) != "y":
                         break
                     else:
-                        print(input_sys.handle_game_input(game_in_play, "Reset"))
+                        print(input_sys.handle_game_input(game_in_play, "reset"))
             else:
                 break
 
