@@ -1,6 +1,11 @@
+# IntelliJ
 .idea/
+
+# pytest-cov
 .coverage
 __pycache__
+.pytest_cache
+htmlcov
 
-# Visual Studio Code settings
+# Visual Studio Code data
 .vscode
