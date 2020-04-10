@@ -20,7 +20,7 @@ class CrazyEights:
 
         # Keep track of the game history.
         self.game_hist = []
-        self.game_state = "New game."
+        self.game_state = "Round 1"
 
     def setup_round(self, num_players: int) -> CrazyEights:
         """Set up the game by making a deck, shuffling it, dealing cards,
@@ -311,7 +311,7 @@ class CrazyEights:
         Returns:
             CrazyEights: game after being reset
         """
-        self.game_state = "New game."
+        self.game_state = "Round 1"
         self.reset_round()  # reset round to store current round into hist
         self.game_hist.append((self.players, self.round_hist))
         if num_players:
