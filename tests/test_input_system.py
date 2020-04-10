@@ -10,11 +10,11 @@ class InputSystemTestCase(unittest.TestCase):
 
     def test_mastermind_clear(self):
         input_system = InputSystem()
-        self.assertEqual("History cleared", input_system.handle_mastermind_input("Clear Game History"))
+        self.assertEqual("History cleared", input_system.handle_mastermind_input("Clear"))
 
     def test_mastermind_reset(self):
         input_system = InputSystem()
-        result = input_system.handle_mastermind_input("Reset Game")
+        result = input_system.handle_mastermind_input("reset")
         self.assertEqual(True, "Game reset" in result)
 
     def test_mastermind_invalid_input(self):
@@ -30,7 +30,7 @@ class InputSystemTestCase(unittest.TestCase):
     def test_minesweeper_input_reset(self):
         i_s = InputSystem()
         i_s.handle_minesweeper_input("4,3")
-        result = i_s.handle_minesweeper_input("Reset Game")
+        result = i_s.handle_minesweeper_input("Reset")
         self.assertEqual(True, "Game reset" in result)
 
     def test_minesweeper_input_clear(self):
@@ -55,3 +55,25 @@ class InputSystemTestCase(unittest.TestCase):
         in_sys = InputSystem()
         result = in_sys.handle_game_input("Go Fish", "1,2")
         self.assertEqual(True, "Invalid game" in result)
+
+    def test_crazy_eights_input_invalid(self):
+        input_sys = InputSystem()
+        result = input_sys.handle_crazy_eights_input("345")
+        self.assertEqual(True, "Invalid input" in result)
+
+    def test_crazy_eights_input_valid(self):
+        input_sys = InputSystem()
+        result = input_sys.handle_crazy_eights_input("Eight,Spades")
+        self.assertEqual(True, "Player Hand" in result)
+
+    def test_crazy_eights_input_clear(self):
+        input_sys = InputSystem()
+        result = input_sys.handle_crazy_eights_input("clear")
+        self.assertEqual(True, "History cleared" in result)
+
+    def test_crazy_eights_game(self):
+        input_sys = InputSystem()
+        result = input_sys.handle_game_input("Crazy Eights", "Eight,Spades")
+        self.assertEqual(True, "Player Hand" in result)
+
+

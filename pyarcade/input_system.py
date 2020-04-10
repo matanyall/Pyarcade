@@ -77,6 +77,8 @@ class InputSystem:
 
     def handle_card(self, user_card: str):
         user_card = user_card.split(",")
+        if len(user_card) != 2:
+            return None
 
         for rank in Rank:
             card_rank = "rank.{}".format(user_card[0].lower())
@@ -90,7 +92,7 @@ class InputSystem:
     def handle_crazy_eights_input(self, card_input: str) -> str:
         if card_input.lower() == "clear":
             return self.crazy_eights_game.clear()
-        if card_input.lower == "reset":
+        if card_input.lower() == "reset":
             output = self.crazy_eights_game.reset(CRAZY_EIGHTS_NUM_PLAYERS) + "\n" + self.crazy_eights_game.game_state
             return output + "\n\nTop Card: " + self.crazy_eights_game.show_top_card() + "\n\nPlayer Hand: \n" \
                 + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM)
