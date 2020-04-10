@@ -14,7 +14,8 @@ class InputSystemTestCase(unittest.TestCase):
 
     def test_mastermind_reset(self):
         input_system = InputSystem()
-        self.assertEqual("Game reset", input_system.handle_mastermind_input("Reset Game"))
+        result = input_system.handle_mastermind_input("Reset Game")
+        self.assertEqual(True, "Game reset" in result)
 
     def test_mastermind_invalid_input(self):
         input_system = InputSystem()
@@ -29,7 +30,8 @@ class InputSystemTestCase(unittest.TestCase):
     def test_minesweeper_input_reset(self):
         i_s = InputSystem()
         i_s.handle_minesweeper_input("4,3")
-        self.assertEqual("Game reset", i_s.handle_minesweeper_input("Reset Game"))
+        result = i_s.handle_minesweeper_input("Reset Game")
+        self.assertEqual(True, "Game reset" in result)
 
     def test_minesweeper_input_clear(self):
         in_sys = InputSystem()

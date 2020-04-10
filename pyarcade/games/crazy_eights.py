@@ -12,6 +12,7 @@ class CrazyEights:
     Args:
         num_players (int): number of players from [2, 7].
     """
+
     def __init__(self, num_players: int):
         # Set up the game.
         self.setup_game(num_players)
@@ -19,6 +20,7 @@ class CrazyEights:
 
         # Keep track of the game history.
         self.game_hist = []
+        self.game_state = "New game."
 
     def setup_round(self, num_players: int) -> CrazyEights:
         """Set up the game by making a deck, shuffling it, dealing cards,
@@ -92,7 +94,7 @@ class CrazyEights:
         """
         for curr_idx in reversed(range(len(self.deck))):
             swap_idx = random.randint(0, curr_idx)
-            self.deck[curr_idx], self.deck[swap_idx] =\
+            self.deck[curr_idx], self.deck[swap_idx] = \
                 self.deck[swap_idx], self.deck[curr_idx]
         return self
 
@@ -179,6 +181,7 @@ class CrazyEights:
             self.discard.append(card_to_play)
 
             if not player.has_cards():
+                self.game_state = "Round {}".format(str(len(self.round_hist) + 1))
                 self.reset_round()
 
             if card_to_play.get_rank() == Rank.EIGHT:
@@ -298,7 +301,7 @@ class CrazyEights:
         self.setup_round(len(self.players))
         return self
 
-    def reset(self, num_players: Optional[int] = None) -> CrazyEights:
+    def reset(self, num_players: Optional[int] = None) -> str:
         """Reset the game, storing its current state in the game history.
 
         Args:
@@ -308,15 +311,16 @@ class CrazyEights:
         Returns:
             CrazyEights: game after being reset
         """
+        self.game_state = "New game."
         self.reset_round()  # reset round to store current round into hist
         self.game_hist.append((self.players, self.round_hist))
         if num_players:
             self.setup_game(num_players)
         else:
             self.setup_game(len(self.players))
-        return self
+        return "Game reset"
 
-    def clear(self) -> CrazyEights:
+    def clear(self) -> str:
         """Reset the current game and clear all game history.
 
         Returns:
@@ -324,3 +328,4 @@ class CrazyEights:
         """
         self.reset()
         self.game_hist.clear()
+        return "History cleared"
