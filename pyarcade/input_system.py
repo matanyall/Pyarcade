@@ -17,13 +17,23 @@ class InputSystem:
         self.minesweeper_game = Minesweeper()
         self.crazy_eights_game = CrazyEights(CRAZY_EIGHTS_NUM_PLAYERS)
 
-    def handle_game_input(self, game_name: str, user_choice: str):
+    def handle_game_input(self, game_name: str, user_input: str):
         if game_name == "Mastermind":
-            return self.handle_mastermind_input(user_choice)
+            if user_input == "New Game":
+                self.mastermind_game = Mastermind()
+                return "\nMastermind\n"
+            return self.handle_mastermind_input(user_input)
         elif game_name == "Minesweeper":
-            return self.handle_minesweeper_input(user_choice)
+            if user_input == "New Game":
+                self.minesweeper_game = Minesweeper()
+                return "\nMinesweeper\n\n" + self.minesweeper_game.draw_board() + "\n"
+            return self.handle_minesweeper_input(user_input)
         elif game_name == "Crazy Eights":
-            return self.handle_crazy_eights_input(user_choice)
+            if user_input == "New Game":
+                self.crazy_eights_game = CrazyEights(CRAZY_EIGHTS_NUM_PLAYERS)
+                return "\nCrazy Eights\nTop Card: " + self.crazy_eights_game.show_top_card() + " \n\nPlayer Hand: \n" \
+                    + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM) + "\n"
+            return self.handle_crazy_eights_input(user_input)
         else:
             return "Invalid game provided."
 
@@ -57,7 +67,8 @@ class InputSystem:
                 location_guess = location_input.split(',')
                 return self.minesweeper_game.make_move([int(location_guess[0]), int(location_guess[1])])
             elif location_input == "Reset Game":
-                return self.minesweeper_game.reset_game()
+                output = self.minesweeper_game.reset_game() + "\n"
+                return output + self.minesweeper_game.draw_board()
             elif location_input == "Clear Game History":
                 return self.minesweeper_game.clear_game_history()
 
@@ -76,6 +87,13 @@ class InputSystem:
         return None
 
     def handle_crazy_eights_input(self, card_input: str) -> str:
+        if card_input == "Clear Game History":
+            return self.crazy_eights_game.clear()
+        if card_input == "Reset Game":
+            output = self.crazy_eights_game.reset(CRAZY_EIGHTS_NUM_PLAYERS) + "\n"
+            return output + "\nTop Card: " + self.crazy_eights_game.show_top_card() + "\n\nPlayer Hand: \n" \
+                + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM)
+
         if card_input == 'draw':
             self.crazy_eights_game.draw(CRAZY_EIGHTS_PLAYER_NUM)
             return self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM)
@@ -84,6 +102,8 @@ class InputSystem:
 
         if card:
             not_str = 'not ' if not self.crazy_eights_game.play(CRAZY_EIGHTS_PLAYER_NUM, card) else ''
-            return 'card {} was '.format(str(card)) + not_str + 'played'
+            return 'card {} was '.format(str(card)) + not_str + 'played \nTop Card: ' \
+                   + self.crazy_eights_game.show_top_card() + "\n\nPlayer Hand: \n" \
+                   + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM)
         else:
             return "Invalid input. User should specify either to draw or which card to place (Ex: Eight,Spades)"
