@@ -187,6 +187,9 @@ class CrazyEights:
             return True
         return False
 
+    def show_top_card(self):
+        return self.discard[-1].__str__()
+
     def playable(self, card_to_play: Card) -> bool:
         """Checks whether a card can be played.
 
