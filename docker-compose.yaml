@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  db:
+    image: mysql:8.0
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+
+  app:
+    depends_on:
+      - db
+    build: .
+
+volumes:
+  db-data:

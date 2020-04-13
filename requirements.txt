@@ -1,0 +1,11 @@
+# 
+# requirements.txt
+# 
+
+# Requirements Without Version Specifiers
+PyMySQL
+SQLAlchemy
+
+# Requirements With Version Specifiers
+# See https://www.python.org/dev/peps/pep-0440/#version-specifiers.
+#django3
