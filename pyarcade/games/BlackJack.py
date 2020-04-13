@@ -66,10 +66,12 @@ class BlackJack:
         self.house_hand.clear()
         self.user_hand.clear()
         self.game_state = "New Game"
+        return "History cleared"
 
     def reset(self):
         self.clear()
         self.setup()
+        return "Game reset"
 
     # calculates sum of cards in hand
     @staticmethod
@@ -184,9 +186,7 @@ class BlackJack:
         user_hand_str = "CURRENT HAND: " + str(user_hand_sum)
         house_hand_str = "HOUSE HAND: " + str(house_hand_sum)
 
-        print(user_hand_str)
-        print(house_hand_str)
-        print(win_status)
+        return user_hand_str + "\n" + house_hand_str + "\n" + win_status
 
     def start_game(self, decision: str):
 
@@ -195,3 +195,11 @@ class BlackJack:
         if decision not in result:
             decision = self.next_state(self.user_hand, self.house_hand, decision)
         return decision
+
+    @staticmethod
+    def display_help():
+        return "You are originally dealt two cards and one card from the houses hand will be flipped up." \
+                "You have the choice to either have another card dealt to you (hit) or to stick with " \
+               "your cards (stand). If your hand's sum is closest to twenty-one then you win, if the sum " \
+               "is over twenty-one, you lose (bust), or if the sum is exactly twenty-one you win (blackjack)." \
+               "(User input should be in the form of either: Hit or Stand))"
