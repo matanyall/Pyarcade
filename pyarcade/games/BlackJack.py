@@ -177,8 +177,7 @@ class BlackJack:
             return "QUIT"
 
         # return the decision
-        self.display_state(user_sum, house_sum, win_status)
-        return win_status
+        return self.display_state(user_sum, house_sum, win_status)
 
     def display_state(self, user_hand_sum: int, house_hand_sum: int, win_status: str):
         # strings to display

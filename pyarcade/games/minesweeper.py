@@ -237,7 +237,8 @@ class Minesweeper:
         self.game_history.clear()
         return "History Cleared"
 
-    def display_help(self):
+    @staticmethod
+    def display_help():
         return "The goal is to find all the mines in the board by clicking on and revealing the number of mines in the area." \
                "To click on that coordinate in the minesweeper board" \
                "enter coordinates in the format number,number i.e: 4,5" \
