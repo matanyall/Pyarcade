@@ -5,7 +5,8 @@
 - [Contributions](#contributions)
 
 ## Overview
-PyArcade is an arcade full of a variety of games. These games range from simple guessing games to strategical games.
+PyArcade is an arcade full of a variety of games. These games range from simple guessing games to strategical games. Currently,
+PyArcade is only playable through command line. Online option coming soon.
 
 ## Setup
 To play pyarcade, download the pyarcade_extension and navigate to the directory using your terminal. Run the command `python setup.py install` 
