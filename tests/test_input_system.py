@@ -17,6 +17,11 @@ class InputSystemTestCase(unittest.TestCase):
         result = input_system.handle_mastermind_input("reset")
         self.assertEqual(True, "Game reset" in result)
 
+    def test_mastermind_help(self):
+        input_system = InputSystem()
+        result = input_system.handle_mastermind_input("help")
+        self.assertEqual(True, "bulls are numbers" in result)
+
     def test_mastermind_invalid_input(self):
         input_system = InputSystem()
         result = input_system.handle_mastermind_input(1234)
@@ -45,6 +50,11 @@ class InputSystemTestCase(unittest.TestCase):
         self.assertEqual(True, "Invalid input" in result)
         result = in_sys.handle_minesweeper_input("1,2,3")
         self.assertEqual(True, "Invalid input" in result)
+
+    def test_minesweeper_input_help(self):
+        i_s = InputSystem()
+        result = i_s.handle_minesweeper_input("help")
+        self.assertEqual(True, "find all the mines" in result)
 
     def test_handle_game_input_correct(self):
         in_sys = InputSystem()
@@ -75,5 +85,35 @@ class InputSystemTestCase(unittest.TestCase):
         input_sys = InputSystem()
         result = input_sys.handle_game_input("Crazy Eights", "Eight,Spades")
         self.assertEqual(True, "Player Hand" in result)
+
+    def test_crazy_eights_input_help(self):
+        input_sys = InputSystem()
+        result = input_sys.handle_crazy_eights_input("help")
+        self.assertEqual(True, "matches either the suit" in result)
+
+    def test_blackjack_input_invalid(self):
+        input_sys = InputSystem()
+        result = input_sys.handle_blackjack_input("345")
+        self.assertEqual(True, "Invalid input" in result)
+
+    def test_blackjack_input_valid(self):
+        input_sys = InputSystem()
+        result = input_sys.handle_blackjack_input("hit")
+        self.assertEqual(True, "CURRENT HAND" in result)
+
+    def test_blackjack_input_help(self):
+        input_sys = InputSystem()
+        result = input_sys.handle_blackjack_input("help")
+        self.assertEqual(True, "If your hand's sum" in result)
+
+    def test_blackjack_input_clear(self):
+        input_sys = InputSystem()
+        result = input_sys.handle_blackjack_input("clear")
+        self.assertEqual(True, "History cleared" in result)
+
+    def test_blackjack_game(self):
+        input_sys = InputSystem()
+        result = input_sys.handle_game_input("BlackJack", "stand")
+        self.assertEqual(True, "CURRENT HAND" in result)
 
 

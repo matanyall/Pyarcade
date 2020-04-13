@@ -86,7 +86,8 @@ class InputSystem:
 
         return "Invalid input. User should specify an x and y coordinate: \"#,#\""
 
-    def handle_card(self, user_card: str):
+    @staticmethod
+    def handle_card(user_card: str):
         user_card = user_card.split(",")
         if len(user_card) != 2:
             return None
@@ -123,7 +124,8 @@ class InputSystem:
                    + self.crazy_eights_game.show_top_card() + "\n\nPlayer Hand: \n" \
                    + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM)
             if curr_state != self.crazy_eights_game.game_state:
-                return self.crazy_eights_game.state + "\n" + game_output
+                score = self.crazy_eights_game.players.get(CRAZY_EIGHTS_PLAYER_NUM).get_score()
+                return self.crazy_eights_game.game_state + "\nScore: " + str(score) + "\n" + game_output
             else:
                 return game_output
         else:
@@ -134,10 +136,9 @@ class InputSystem:
         if user_input.lower() == "help":
             return BlackJack.display_help()
         if user_input.lower() == "reset":
-            print("this is being reset")
             return self.blackjack_game.reset()
         if user_input.lower() == "clear":
-            return
+            return self.blackjack_game.clear()
         if user_input.lower() == "hit" or user_input.lower() == "stand":
             return self.blackjack_game.start_game(user_input)
         else:
