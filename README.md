@@ -45,4 +45,8 @@ is closest to twenty-one then the player wins, if the sum is over twenty-one the
 
 ### Anders
 
-### Andy
+### Andy(15%)
+* Added Blackjack to pyarcade 
+* formatted input system 
+* updated blackjack to fit input system and remove coupling with curses
+
