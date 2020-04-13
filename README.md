@@ -40,6 +40,7 @@ is closest to twenty-one then the player wins, if the sum is over twenty-one the
 *  Updated each game so that they integrate with the input system
 *  Created a basic command line ui to manual test interactions between the input system and the games
 *  Created tests for input system
+*  Updated README (Overview, Setup, Games, Contributions)
 
 ### Anders
 
