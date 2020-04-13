@@ -49,4 +49,5 @@ is closest to twenty-one then the player wins, if the sum is over twenty-one the
 * Added Blackjack to pyarcade 
 * formatted input system 
 * updated blackjack to fit input system and remove coupling with curses
+* added feature to display help menu for each game
 
