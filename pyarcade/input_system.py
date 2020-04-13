@@ -2,6 +2,7 @@ from pyarcade.games.mastermind import Mastermind
 from pyarcade.games.minesweeper import Minesweeper
 from pyarcade.games.card import Rank, Suit, Card
 from pyarcade.games.crazy_eights import CrazyEights
+from pyarcade.games.BlackJack import BlackJack
 import re
 
 MASTERMIND_WIDTH = 4
@@ -16,6 +17,7 @@ class InputSystem:
         self.mastermind_game = Mastermind()
         self.minesweeper_game = Minesweeper()
         self.crazy_eights_game = CrazyEights(CRAZY_EIGHTS_NUM_PLAYERS)
+        self.blackjack_game = BlackJack()
 
     def handle_game_input(self, game_name: str, user_input: str):
         if game_name.lower() == "mastermind":
@@ -35,6 +37,11 @@ class InputSystem:
                        + self.crazy_eights_game.show_top_card() + " \n\nPlayer Hand: \n" \
                     + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM) + "\n"
             return self.handle_crazy_eights_input(user_input)
+        elif game_name.lower() == "blackjack":
+            if user_input.lower() == "new game":
+                self.blackjack_game = BlackJack()
+                return "\n Blackjack\n"
+            return self.handle_blackjack_input(user_input)
         else:
             return "Invalid game provided."
 
@@ -50,6 +57,8 @@ class InputSystem:
                 return self.mastermind_game.clear()
             if guess_input.lower() == "reset":
                 return self.mastermind_game.reset()
+            if guess_input.lower() == "help":
+                return self.mastermind_game.display_help()
 
             guess = list(guess_input)
             guess_output = []
@@ -72,6 +81,8 @@ class InputSystem:
                 return output + self.minesweeper_game.draw_board()
             elif location_input.lower() == "clear":
                 return self.minesweeper_game.clear_game_history()
+            elif location_input.lower() == "help":
+                return self.minesweeper_game.display_help()
 
         return "Invalid input. User should specify an x and y coordinate: \"#,#\""
 
@@ -90,6 +101,8 @@ class InputSystem:
         return None
 
     def handle_crazy_eights_input(self, card_input: str) -> str:
+        if card_input.lower() == "help":
+            return CrazyEights.display_help()
         if card_input.lower() == "clear":
             return self.crazy_eights_game.clear()
         if card_input.lower() == "reset":
@@ -115,3 +128,17 @@ class InputSystem:
                 return game_output
         else:
             return "Invalid input. User should specify either to draw or which card to place (Ex: Eight,Spades)"
+
+    def handle_blackjack_input(self, user_input: str) -> str:
+
+        if user_input.lower() == "help":
+            return BlackJack.display_help()
+        if user_input.lower() == "reset":
+            print("this is being reset")
+            return self.blackjack_game.reset()
+        if user_input.lower() == "clear":
+            return
+        if user_input.lower() == "hit" or user_input.lower() == "stand":
+            return self.blackjack_game.start_game(user_input)
+        else:
+            return "Invalid input. User should specify hit or stand."

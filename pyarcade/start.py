@@ -5,10 +5,10 @@ def run_pyarcade():
 
     while True:
         print("Welcome to PyArcade (Enter number)")
-        print("(1) Mastermind      (2) Minesweeper      (3) Crazy Eights     (4) Exit")
+        print("(1) Mastermind      (2) Minesweeper      (3) Crazy Eights   (4) Blackjack  (5) Exit")
         game_input = str(input())
 
-        if game_input == "4":
+        if game_input == "5":
             break
 
         game_in_play = ""
@@ -18,6 +18,8 @@ def run_pyarcade():
             game_in_play = "Minesweeper"
         elif game_input == "3":
             game_in_play = "Crazy Eights"
+        elif game_input == "4":
+            game_in_play = "BlackJack"
 
         print(input_sys.handle_game_input(game_in_play, "New Game"))
         while True:
@@ -25,6 +27,7 @@ def run_pyarcade():
                   "New Game (Start new game)\n"
                   "Reset    (Reset game)\n"
                   "Clear    (Clear game history)\n"
+                  "Help     (Game Instructions)\n"
                   "Quit     (Leave game)\n"
                   "* The options above can be entered at any time during game play *\n")
             if game_input == "1":
@@ -59,6 +62,18 @@ def run_pyarcade():
                     break
                 print(input_sys.handle_game_input(game_in_play, user_move))
                 if input_sys.crazy_eights_game.game_state == "Game over.":
+                    print("Game over. Play again? y/n")
+                    if str(input()) != "y":
+                        break
+                    else:
+                        print(input_sys.handle_game_input(game_in_play, "reset"))
+            elif game_input == "4":
+                print("Please enter your move (hit or stand)")
+                user_move = str(input())
+                if user_move.lower() == "quit":
+                    break
+                print(input_sys.handle_game_input(game_in_play, user_move))
+                if input_sys.blackjack_game.game_state == "Game over.":
                     print("Game over. Play again? y/n")
                     if str(input()) != "y":
                         break

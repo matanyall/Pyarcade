@@ -95,3 +95,9 @@ class Mastermind:
         self.hidden_sequence = self.generate_hidden_sequence()
         self.game_state = "New game."
         return "Game reset"
+
+    def display_help(self):
+        return "type a 4 digit number to guess a 4 digit secret number" \
+               "Each turn the game will return how close your guess was " \
+               "bulls are numbers that are the correct value in the correct position" \
+               "cows are numbers that are the correct value but not in the correct position"

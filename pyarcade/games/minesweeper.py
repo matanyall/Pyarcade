@@ -189,3 +189,10 @@ class Minesweeper:
     def clear_game_history(self) -> str:
         self.game_history.clear()
         return "History Cleared"
+
+    def display_help(self):
+        return "The goal is to find all the mines in the board by clicking on and revealing the number of mines in the area." \
+               "To click on that coordinate in the minesweeper board" \
+               "enter coordinates in the format number,number i.e: 4,5" \
+               "dashes represent remaining spaces that are available" \
+

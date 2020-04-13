@@ -329,3 +329,9 @@ class CrazyEights:
         self.reset()
         self.game_hist.clear()
         return "History cleared"
+
+    def display_help(self):
+        return " Play a card that matches either the suit or value of the top card. Input is taken as value,suit i.e" \
+               "seven,hearts to play the seven of hearts." \
+               " The first one to play all of their cards wins."\
+               " If you don't have a corresponding card then type draw to draw a card."
