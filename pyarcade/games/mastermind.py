@@ -96,7 +96,8 @@ class Mastermind:
         self.game_state = "New game."
         return "Game reset"
 
-    def display_help(self):
+    @staticmethod
+    def display_help():
         return "type a 4 digit number to guess a 4 digit secret number" \
                "Each turn the game will return how close your guess was " \
                "bulls are numbers that are the correct value in the correct position" \
