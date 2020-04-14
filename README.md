@@ -9,8 +9,19 @@ PyArcade is an arcade full of a variety of games. These games range from simple 
 PyArcade is only playable through command line. Online version coming soon.
 
 ## Setup
-To play pyarcade, download the pyarcade_extension and navigate to the directory using your terminal. Run the command `python setup.py install` 
-to install the package. To run pyarcade all you need to do is type the command `pyarcade`. Enjoy!
+### Docker (recommended)
+1. Build the PyArcade image.  
+`docker build -t pyarcade https://cmsc435.garrettvanhoy.com/cmsc435_group/pyarcade_extension`
+2. Run the app.  
+`docker run -it --rm pyarcade`
+
+### Git
+1. Clone the repository.  
+`git clone https://cmsc435.garrettvanhoy.com/cmsc435_group/pyarcade_extension`
+2. Navigate to the repository root and install the project dependencies.  
+`pip install -r requirements.txt`
+3. Run the app manually.  
+`python pyarcade/start.py`
 
 ## Games
 ### Mastermind
@@ -34,7 +45,7 @@ the choice to either have another card dealt to them (hit) or if they want to st
 is closest to twenty-one then the player wins, if the sum is over twenty-one they lose (bust), or if the sum is exactly twenty-one they win (blackjack).
 (User input should be in the form of either: Hit or Stand))
 
-## Contributions
+## Contributors
 ### Jill (50%)
 *  Added Mastermind, Minesweeper, and Crazy Eight games to PyArcade along with their tests
 *  Created an input system to handle input for all of the games
@@ -44,6 +55,15 @@ is closest to twenty-one then the player wins, if the sum is over twenty-one the
 *  Updated README (Overview, Setup, Games, Contributions)
 
 ### Anders (35%)
+*Note: login functionality not currently supported*
+- Create Dockerfile to build app in stages
+- Add `requirements.txt` to manage project dependencies
+- Create Docker Compose YAML configuration
+  - Specify MySQL database
+  - Build app
+- Add `controller.py` to query the database using SQLAlchemy with PyMySQL
+- Add SQLAlchemy ORM User class for the database Users table
+- `.dockerignore`, `db.env`, README format and [Setup](#setup)
 
 ### Andy(15%)
 * Added Blackjack to pyarcade 
