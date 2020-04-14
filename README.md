@@ -35,7 +35,7 @@ is closest to twenty-one then the player wins, if the sum is over twenty-one the
 (User input should be in the form of either: Hit or Stand))
 
 ## Contributions
-### Jill (45%)
+### Jill (50%)
 *  Added Mastermind, Minesweeper, and Crazy Eight games to PyArcade along with their tests
 *  Created an input system to handle input for all of the games
 *  Updated each game so that they integrate with the input system
@@ -43,7 +43,7 @@ is closest to twenty-one then the player wins, if the sum is over twenty-one the
 *  Created tests for input system
 *  Updated README (Overview, Setup, Games, Contributions)
 
-### Anders (40%)
+### Anders (35%)
 
 ### Andy(15%)
 * Added Blackjack to pyarcade 
