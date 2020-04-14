@@ -3,6 +3,7 @@
 # 
 
 # Requirements Without Version Specifiers
+cryptography
 PyMySQL
 SQLAlchemy
 
