@@ -1,4 +1,6 @@
+from pyarcade.controller import Controller
 from pyarcade.input_system import InputSystem
+
 
 def run_pyarcade():
     input_sys = InputSystem()
@@ -85,3 +87,7 @@ def run_pyarcade():
 
 if __name__ == "__main__":
     run_pyarcade()
+    # controller = Controller()
+    # controller.register('pi', 'raspberry', 'raspberry')
+    # user = controller.get_user('pi')
+    # print(user)
