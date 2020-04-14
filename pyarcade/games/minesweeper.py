@@ -4,6 +4,13 @@ from typing import Optional, Dict, List
 
 
 class Minesweeper:
+    """Class representing a Minesweeper game
+
+        Args:
+            width (int): width of the minesweeper grid
+            height (int): height of minesweeper grid
+            mines (int): number of mines to be placed in the grid
+        """
 
     def __init__(self, width: Optional[int] = 9, height: Optional[int] = 9, mines: Optional[int] = 10):
         self.game_state = "New game."
@@ -18,7 +25,13 @@ class Minesweeper:
         self.start_time = time.time()
         self.end_time = time.time()
 
-    def generate_hidden_grid(self):
+    def generate_hidden_grid(self) -> [List[int]]:
+        """
+        Generates a minesweeper grid with randomly placed mines
+
+        Returns:
+            hidden_grid [List[int]]: a minesweeper grid with randomly generated mines
+        """
         temp_grid = [['-'] * self.height for _ in range(self.width)]
 
         mines_placed: int = 0
@@ -33,13 +46,22 @@ class Minesweeper:
         return temp_grid
 
     def set_hidden_grid(self, mine_locations: Dict[int, List[int]]):
+        """
+        Creates a minesweeper grid based on the mine locations that are provided
+        Args:
+            mine_locations: indices of mines to be placed in grid
+        """
         self.hidden_grid = [['-'] * self.height for _ in range(self.width)]
 
         for row in mine_locations:
             for col in mine_locations[row]:
                 self.hidden_grid[row][col] = '*'
 
-    def draw_board(self):
+    def draw_board(self) -> str:
+        """
+        Returns:
+            board_str (str): string representation of minesweeper board
+        """
         board_string = ""
 
         for x in range(0, self.width):
@@ -60,6 +82,11 @@ class Minesweeper:
         return board_string
 
     def count_threebv(self):
+        """
+        Calculates the threebv of the hidden grid. (threebv is the minimum number of clicks
+        to uncover all of the mines.)
+        """
+
         solution = [row[:] for row in self.hidden_grid]
         row = 0
         col = 0
@@ -78,10 +105,16 @@ class Minesweeper:
                 if processed[row_idx][col_idx] == "." and solution[row_idx][col_idx].isdigit():
                     self.threebv += 1
 
-    def get_threebv(self):
-        return self.threebv
-
-    def flood_fill(self, row_idx, col_idx, sol, proc):
+    def flood_fill(self, row_idx: int, col_idx: int, sol: [List[int]], proc: [List[int]]):
+        """
+        Processes the minesweeper grid by marking all of the cells reachable from the indices provided
+        that are not mines
+        Args:
+            row_idx: starting row of processed cell
+            col_idx: starting col of processed cell
+            sol: minesweeper grid solution (all hidden cells uncovered)
+            proc: processed grid with all reachable cells from starting indices marked with *
+        """
         queue = [(row_idx, col_idx)]
         proc[row_idx][col_idx] = "*"
         while queue:
@@ -94,18 +127,24 @@ class Minesweeper:
                     if sol[nxt_row][nxt_col] == " ":
                         queue.append((nxt_row, nxt_col))
 
+    def get_threebv(self):
+        return self.threebv
+
     def set_score(self):
+        """
+        Score is calculated by dividing threebv by the amount of time for the player
+        takes to find all of the mines
+        """
         time_elapsed = self.end_time - self.start_time
         self.count_threebv()
         self.score = int((self.threebv / time_elapsed) * 100)
 
     def make_move(self, guess: List[int]) -> str:
         """ Reveals squares surrounding user's guess
-
+        Args:
+            guess: The indices of the players guess
         Returns:
-            -1 if the square is a mine
-            0 if the square is already empty
-            1 if all squares without mines revealed
+           minesweeper_board: string representation of the current state of the minesweeper board
 
         """
         self.game_state = "Ongoing"
@@ -135,6 +174,14 @@ class Minesweeper:
         return self.draw_board()
 
     def bfs(self, grid: [[str]], row_idx: int, col_idx: int, reveal_board: bool):
+        """
+        Perform bfs to uncover of the surrounding cells that do not contain mines
+        Args:
+            grid: the grid to perform bfs on
+            row_idx: starting row index
+            col_idx: starting column index
+            reveal_board: option to either reveal the entire board including the mines (True) or not (False)
+        """
         queue = [(row_idx, col_idx)]
         grid[row_idx][col_idx] = self.check_adjacent_mines(row_idx, col_idx)
         if not reveal_board:
@@ -189,3 +236,11 @@ class Minesweeper:
     def clear_game_history(self) -> str:
         self.game_history.clear()
         return "History Cleared"
+
+    @staticmethod
+    def display_help():
+        return "The goal is to find all the mines in the board by clicking on and revealing the number of mines in the area." \
+               "To click on that coordinate in the minesweeper board" \
+               "enter coordinates in the format number,number i.e: 4,5" \
+               "dashes represent remaining spaces that are available" \
+
