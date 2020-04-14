@@ -34,12 +34,13 @@ the choice to either have another card dealt to them (hit) or if they want to st
 is closest to twenty-one then the player wins, if the sum is over twenty-one they lose (bust), or if the sum is exactly twenty-one they win (blackjack).
 (User input should be in the form of either: Hit or Stand))
 
-## Contributions
+## Contributions (Sprint 1)
 ### Jill (50%)
 *  Added Mastermind, Minesweeper, and Crazy Eight games to PyArcade along with their tests
 *  Created an input system to handle input for all of the games
 *  Updated each game so that they integrate with the input system
 *  Created a basic command line ui to manual test interactions between the input system and the games
+*  Added setup.py to run game through command line using the command pyarcade
 *  Created tests for input system
 *  Updated README (Overview, Setup, Games, Contributions)
 
