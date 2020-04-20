@@ -1,0 +1,33 @@
+default:
+  image: python:3.7
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+stages:
+  - build
+  - test
+  - coverage
+
+
+build:
+  stage: build
+  script:
+    - pip install -r requirements.txt
+
+test:
+  stage: test
+  retry: 2
+  script:
+    - pip install -r requirements.txt
+    - tox
+
+coverage:
+  stage: coverage
+  retry: 2
+  script:
+    - pip install -r requirements.txt
+    - coverage run setup.py test
+    - coverage report -m
+
+
