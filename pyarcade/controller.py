@@ -9,7 +9,7 @@ class Controller():
     """
     def __init__(self):
         # TODO: fix credentials!!!
-        self.engine = sqlalchemy.create_engine('mysql+pymysql://root:password@db:3306/sqlalchemy',
+        self.engine = sqlalchemy.create_engine('mysql+pymysql://root@db:3306/pyarcadedb',
                 echo=True)
         Session = sessionmaker(bind=self.engine)
         self.session = Session()

@@ -2,15 +2,10 @@ version: '3.7'
 
 services:
   db:
-    image: mysql:8.0
-    command: --default-authentication-plugin=mysql_native_password
+    image: mariadb:10.4
     restart: always
     env_file:
       - db.env
-    ports:
-      - 3306:3306
-    expose:
-      - 3306
     volumes:
       - db-data:/var/lib/mysql
 
@@ -18,7 +13,13 @@ services:
     depends_on:
       - db
     build: .
-    restart: always
+    # Wait for the database to spin up first if the app is started using Docker Compose.
+    command: wait-for-it.sh db:3306 -t 30 -s -- python3 ./pyarcade/start.py
+    # Use an interactive session for the terminal-based GUI.
+    tty: true
+    stdin_open: true
 
 volumes:
   db-data:
+
+#networks:
