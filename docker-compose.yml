@@ -6,20 +6,22 @@ services:
     restart: always
     env_file:
       - db.env
-    volumes:
-      - db-data:/var/lib/mysql
+    # volumes:
+    #   - db-data:/var/lib/mysql
+    logging:
+      driver: none
 
   app:
     depends_on:
       - db
-    build: .
+    build:
+      context: .
     # Wait for the database to spin up first if the app is started using Docker Compose.
     command: wait-for-it.sh db:3306 -t 30 -s -- python3 ./pyarcade/start.py
-    # Use an interactive session for the terminal-based GUI.
-    tty: true
-    stdin_open: true
+    logging:
+      driver: none
 
-volumes:
-  db-data:
+# volumes:
+#   db-data:
 
 #networks:

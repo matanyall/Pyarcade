@@ -4,13 +4,50 @@ from pyarcade.input_system import InputSystem
 
 def run_pyarcade():
     input_sys = InputSystem()
+    controller = Controller()
+    username_logged_in = None
 
     while True:
-        print("Welcome to PyArcade (Enter number)")
-        print("(1) Mastermind      (2) Minesweeper      (3) Crazy Eights   (4) Blackjack  (5) Exit")
-        game_input = str(input())
+        print('Welcome to PyArcade (Enter number)')
+        menu = '(1) Mastermind  (2) Minesweeper  (3) Crazy Eights  (4) Blackjack  (5) Create Account  (6) Login  (7) Exit'
+        if username_logged_in:
+            menu = '(1) Mastermind  (2) Minesweeper  (3) Crazy Eights  (4) Blackjack  (5) Logout  (6) Exit'
+        print(menu)
+        game_input = input()
 
-        if game_input == "5":
+        if game_input == '5' and username_logged_in:
+            username_logged_in = None
+            continue
+        if game_input == '5' and not username_logged_in:
+            print('Username:')
+            username = input()
+            print('Password:')
+            passwd = input()
+            print('Confirm password:')
+            confirm = input()
+            register_status = controller.register(username, passwd, confirm)
+            if not register_status:
+                print('Failed to create account.')
+            else:
+                print('Account created.')
+                controller.authenticate(username, passwd)
+                username_logged_in = username
+            continue
+        if game_input == '6' and username_logged_in:
+            break
+        if game_input == '6' and not username_logged_in:
+            print('Username:')
+            username = input()
+            print('Password:')
+            passwd = input()
+            auth_status = controller.authenticate(username, passwd)
+            if not auth_status:
+                print('Login failed.')
+            else:
+                print('Login success.')
+                username_logged_in = username
+            continue
+        if game_input == '7' and not username_logged_in:
             break
 
         game_in_play = ""
@@ -24,7 +61,7 @@ def run_pyarcade():
             game_in_play = "BlackJack"
 
         print(input_sys.handle_game_input(game_in_play, "New Game"))
-        while True:
+        while game_in_play:
             print("Game Options: \n"
                   "New Game (Start new game)\n"
                   "Reset    (Reset game)\n"
@@ -87,7 +124,3 @@ def run_pyarcade():
 
 if __name__ == "__main__":
     run_pyarcade()
-    # controller = Controller()
-    # controller.register('pi', 'raspberry', 'raspberry')
-    # user = controller.get_user('pi')
-    # print(user)

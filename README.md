@@ -1,7 +1,15 @@
 # PyArcade
 - [Overview](#overview)
 - [Setup](#setup)
+  - [Required Software](#required-software)
+  - [Steps](#steps)
+  - [Notes](#notes)
+- [Accounts](#accounts)
 - [Games](#games)
+  - [Blackjack](#blackjack)
+  - [Crazy Eights](#crazy-eights)
+  - [Mastermind](#mastermind)
+  - [Minesweeper](#minesweeper)
 - [Contributions](#contributions)
 
 ## Overview
@@ -9,21 +17,45 @@ PyArcade is an arcade full of a variety of games. These games range from simple 
 PyArcade is only playable through command line. Online version coming soon.
 
 ## Setup
-### Docker (recommended)
-1. Build the PyArcade image.  
-`docker build -t pyarcade https://cmsc435.garrettvanhoy.com/cmsc435_group/pyarcade_extension`
-2. Run the app.  
-`docker run -it --rm pyarcade`
+### Required Software
+- Git
+- Docker
 
-### Git
+### Steps
 1. Clone the repository.  
-`git clone https://cmsc435.garrettvanhoy.com/cmsc435_group/pyarcade_extension`
-2. Navigate to the repository root and install the project dependencies.  
-`pip install -r requirements.txt`
-3. Run the app manually.  
-`python pyarcade/start.py`
+```
+git clone http://cmsc435.garrettvanhoy.com/cmsc435_group/pyarcade_extension.git
+```
+2. Navigate to the repository root and run the app.
+```
+cd pyarcade_extension
+docker-compose run --rm app
+```
+
+### Notes
+- **DEVELOPERS:**  
+If changes are made to the code base, `docker-compose run` does not pick up on
+them. To bypass the Docker build cache and apply the changes correctly run
+`docker-compose build --no-cache` before `docker-compose run --rm app`.
+- The database container will be left running after exiting. In the current
+absence of a mounted volume this allows for data persistence. To reset the
+database in between runs use `docker-compose down`.
+
+## Accounts
+Luckily, this app runs locally. It probably could not be any less secure.
 
 ## Games
+### Blackjack
+In this game, the player will be originally dealt two cards and one card from the houses hand will be flipped up. The player has
+the choice to either have another card dealt to them (hit) or if they want to stick with their cards (stand). If the players hand's sum
+is closest to twenty-one then the player wins, if the sum is over twenty-one they lose (bust), or if the sum is exactly twenty-one they win (blackjack).
+(User input should be in the form of either: Hit or Stand))
+
+### Crazy Eights
+In this game, the player will be originally dealt five cards and one card from the top the deck will be up. If the player has a 
+card whose rank is eight or if they have a card that matches either the rank or the suit he can play the card. 
+Otherwise, the player must draw a card from the deck. (User input should be in the form of: Rank,Suit))
+
 ### Mastermind
 The goal of this game is for the player to correctly guess a hidden sequence of four numbers. The only hints the player will receive during the game is how many of the numbers they guessed 
 are in the right location (bulls) and how many are located somewhere else in the sequence (cows). 
@@ -34,40 +66,24 @@ The goal of this game is for the player to uncover all of the cells of a hidden 
 uncovers cells, all of the adjacent cells that do not contain mines will be revealed and the number of mines near certain cells will appear.
 (User input should be in the form of: #,#)
 
-### Crazy Eights
-In this game, the player will be originally dealt five cards and one card from the top the deck will be up. If the player has a 
-card whose rank is eight or if they have a card that matches either the rank or the suit he can play the card. 
-Otherwise, the player must draw a card from the deck. (User input should be in the form of: Rank,Suit))
-
-### Black Jack
-In this game, the player will be originally dealt two cards and one card from the houses hand will be flipped up. The player has
-the choice to either have another card dealt to them (hit) or if they want to stick with their cards (stand). If the players hand's sum
-is closest to twenty-one then the player wins, if the sum is over twenty-one they lose (bust), or if the sum is exactly twenty-one they win (blackjack).
-(User input should be in the form of either: Hit or Stand))
-
 ## Contributors
-### Jill (50%)
-*  Added Mastermind, Minesweeper, and Crazy Eight games to PyArcade along with their tests
-*  Created an input system to handle input for all of the games
-*  Updated each game so that they integrate with the input system
-*  Created a basic command line ui to manual test interactions between the input system and the games
-*  Created tests for input system
-*  Updated README (Overview, Setup, Games, Contributions)
+### Jill (%)
+- 
 
-### Anders (35%)
-*Note: login functionality not currently supported*
-- Create Dockerfile to build app in stages
-- Add `requirements.txt` to manage project dependencies
-- Create Docker Compose YAML configuration
-  - Specify MySQL database
-  - Build app
-- Add `controller.py` to query the database using SQLAlchemy with PyMySQL
-- Add SQLAlchemy ORM User class for the database Users table
-- `.dockerignore`, `db.env`, README format and [Setup](#setup)
+### Anders (%)
+- Fix the database integration
+  - Implement `wait-for-it.sh` script by cloning it onto the Docker machine
+  in the Dockerfile
+  - Debug `docker-compose` to run the database in the background and the app in
+  the foreground
+  - Rewrite (Setup)[#setup]
+- Add user accounts
+  - Add UI / input handling for create account, login, and logout
+  - Query database to insert and select users' usernames and passwords
 
-### Andy(15%)
-* Added Blackjack to pyarcade 
-* formatted input system 
-* updated blackjack to fit input system and remove coupling with curses
-* added feature to display help menu for each game
+### Andy(%)
+- 
+
+### Matanya (%)
+- 
 
