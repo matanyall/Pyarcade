@@ -14,10 +14,15 @@ services:
   app:
     depends_on:
       - db
+    environment:
+      FLASK_APP: "pyarcade/start:create_app()"
+      FLASK_ENV: "production"
     build:
       context: .
+    ports:
+      - 5000:5000
     # Wait for the database to spin up first if the app is started using Docker Compose.
-    command: wait-for-it.sh db:3306 -t 30 -s -- python3 ./pyarcade/start.py
+    command: wait-for-it.sh db:3306 -t 30 -s -- flask run --host=0.0.0.0
     logging:
       driver: none
 

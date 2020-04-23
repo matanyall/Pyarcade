@@ -6,6 +6,8 @@
 cryptography
 PyMySQL
 SQLAlchemy
+Flask-SQLAlchemy
+Flask-RESTful
 
 # Requirements With Version Specifiers
 # See https://www.python.org/dev/peps/pep-0440/#version-specifiers.
