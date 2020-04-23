@@ -1,6 +1,11 @@
 # Run once.
 FROM python:3.8-buster
 ENV PYTHONUNBUFFERED TRUE
+
+WORKDIR /home/root
+RUN git clone -q https://github.com/vishnubob/wait-for-it.git
+RUN cp wait-for-it/wait-for-it.sh /usr/bin
+
 WORKDIR /var/www/pyarcade
 ENV PYTHONPATH "${PYTHONPATH}:$pwd"
 

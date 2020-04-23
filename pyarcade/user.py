@@ -7,7 +7,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True)
     username = Column(String(30))
-    # TODO: fix this atrocity!
+    # TODO: fix the security!
     passwd = Column(String(255))
 
     def __repr__(self):
