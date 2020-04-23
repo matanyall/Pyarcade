@@ -76,7 +76,7 @@ uncovers cells, all of the adjacent cells that do not contain mines will be reve
   in the Dockerfile
   - Debug `docker-compose` to run the database in the background and the app in
   the foreground
-  - Rewrite (Setup)[#setup]
+  - Rewrite [Setup](#setup)
 - Add user accounts
   - Add UI / input handling for create account, login, and logout
   - Query database to insert and select users' usernames and passwords
