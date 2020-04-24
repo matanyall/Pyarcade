@@ -1,0 +1,21 @@
+version: '3.7'
+
+# To run api: docker-compose -f pyarcade_deploy.yml up
+
+services:
+  db:
+    image: mariadb:10.4
+    restart: always
+    env_file:
+      - db.env
+
+  pyarcade:
+    image: pyarcade:rest
+    depends_on:
+      - db
+    environment:
+      FLASK_APP: "pyarcade/start:create_app()"
+      FLASK_ENV: "production"
+    ports:
+      - 5000:5000
+    command: ["wait-for-it.sh", "database:3306", "-t", "20", "--", "flask", "run", "--host=0.0.0.0"]

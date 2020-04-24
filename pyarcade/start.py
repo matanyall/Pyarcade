@@ -18,8 +18,11 @@ class User(db.Model):
     """ A SQLAlchemy Model used to store information about a user. This only
     needs to have a collection of class variables that are of type db.Column.
     """
+    __tablename__ = 'Users'
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(128), unique=True, nullable=False)
+    passwd = db.Column(db.String(255), unique=False, nullable=False)
 
 
 class UserListResource(Resource):
@@ -45,7 +48,7 @@ class UserListResource(Resource):
         Returns:
             Dictionary describing user that was just created.
         """
-        new_user = User(username=request.json['username'])
+        new_user = User(username=request.json['username'], passwd=request.json['password'])
         db.session.add(new_user)
         db.session.commit()
         return {"username": request.json["username"]}
@@ -106,7 +109,6 @@ def create_app():
     application instance ONLY using this function for very good reasons, but this
     is good enough to use for now.
     """
-    print("CREATE APP")
     db.create_all()
     return app
 
@@ -218,6 +220,5 @@ def clear():
 
 
 if __name__ == "__main__":
-    app.debug = True
     app.run()
-    #run_pyarcade()
+    run_pyarcade()
