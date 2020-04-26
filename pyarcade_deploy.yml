@@ -18,4 +18,4 @@ services:
       FLASK_ENV: "production"
     ports:
       - 5000:5000
-    command: ["wait-for-it.sh", "database:3306", "-t", "20", "--", "flask", "run", "--host=0.0.0.0"]
+    command: ["wait-for-it.sh", "database:3306", "-t", "30", "--", "flask", "run", "--host=0.0.0.0"]

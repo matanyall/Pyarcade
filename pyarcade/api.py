@@ -33,7 +33,6 @@ class User(UserMixin, db.Model):
     passwd = db.Column(db.String(255), unique=False, nullable=False)
 
 
-
 class GameDB(db.Model):
     __tablename__ = 'GameDB'
 
@@ -41,7 +40,7 @@ class GameDB(db.Model):
     player_id = db.Column(db.Integer, primary_key=True)
     save_name = db.Column(db.String(128), unique=True, nullable=False)
     save = db.Column(db.BLOB, unique=False, nullable=False)
-    
+
 
 @login_manager.user_loader
 def load_user(user_id):

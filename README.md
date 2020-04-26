@@ -31,7 +31,13 @@ git clone http://cmsc435.garrettvanhoy.com/cmsc435_group/pyarcade_extension.git
 cd pyarcade_extension
 docker-compose run --rm app
 ```
-
+##Running the login page
+1. Start pyarcade with the pyarcade-deploy.yml
+```
+docker-compose -f pyarcade-deploy.yml up
+```
+2. Go to http://0.0.0.0/signup in your browser to make an account.
+3. After signing up, go to http://0.0.0.0/login to sign into your account.
 ### Notes
 - **DEVELOPERS:**  
 If changes are made to the code base, `docker-compose run` does not pick up on
