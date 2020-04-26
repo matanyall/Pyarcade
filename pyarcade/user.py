@@ -12,4 +12,4 @@ class User(Base):
 
     def __repr__(self):
         return '<User(id={0}, username="{1}", password="{2}")>'.format(self.id,
-                self.username, self.passwd)
+                                                                       self.username, self.passwd)

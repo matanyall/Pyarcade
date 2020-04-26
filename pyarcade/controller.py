@@ -1,19 +1,25 @@
-from pyarcade.base import Base
-from pyarcade.user import User
+import pickle
 from typing import Optional
+
 import sqlalchemy
+from pyarcade.base import Base
+from pyarcade.gamedb import GameDB
+from pyarcade.user import User
 from sqlalchemy.orm import sessionmaker
 
 
 # TODO: logically split the app. This is the model?
+
+
 class Controller():
     """[summary]
     """
+
     def __init__(self):
         # Create the engine. echo=(True|False) reflects the state of SQLAlchemy logging.
         # TODO: fix password security issues.
         self.engine = sqlalchemy.create_engine('mysql+pymysql://root@db:3306/pyarcadedb',
-                echo=False)
+                                               echo=False)
         Session = sessionmaker(bind=self.engine)
         self.session = Session()
         Base.metadata.create_all(self.engine)
@@ -80,7 +86,7 @@ class Controller():
         self.session.commit()
         return True
 
-    def __get_user(self, username: str, passwd: Optional[str]=None) -> User:
+    def __get_user(self, username: str, passwd: Optional[str] = None) -> User:
         """Get a registered user.
 
         Args:
@@ -97,13 +103,44 @@ class Controller():
 
         user = None
         if passwd:
-            user = self.session.query(User)\
-                    .filter(User.username==safe_username)\
-                    .filter(User.passwd==safe_passwd)\
-                    .first()
+            user = self.session.query(User) \
+                .filter(User.username == safe_username) \
+                .filter(User.passwd == safe_passwd) \
+                .first()
         else:
             # Note that usernames should be unique.
-            user = self.session.query(User)\
-                    .filter(User.username==safe_username)\
-                    .first()
+            user = self.session.query(User) \
+                .filter(User.username == safe_username) \
+                .first()
         return user
+
+    def save_game_with_username(self, game_object, save_name, username):
+        user_id = self.__get_user(username)
+        return self.save_game(game_object, save_name, user_id.id)
+
+    def save_game(self, game_object, save_name: str, user_id: int):
+        game_pickle = pickle.dumps(game_object)
+        game = GameDB(player_id=user_id, save_name=save_name, save=game_pickle)
+        self.session.add(game)
+        self.session.commit()
+
+    def load_game(self, save_name: str, username: int):
+        user_id = self.__get_user(username)
+        game = self.session.query(GameDB).filter(GameDB.player_id == user_id.id).filter(
+            GameDB.save_name == save_name).first()
+        result = pickle.loads(game.save)
+        return result
+
+    def list_saves(self, username: str):
+        user_id = self.__get_user(username)
+        save_list = self.session.query(GameDB).filter(GameDB.player_id == user_id.id).all()
+        return save_list
+
+    def get_save(self, save_name: str, username: str):
+        user_id = self.__get_user(username)
+        save = self.session.query(GameDB).filter(GameDB.player_id == user_id.id).filter(
+            GameDB.save_name == save_name).first()
+        return save
+
+    def delete_save(self, save_name: str, user_id: int):
+        pass
