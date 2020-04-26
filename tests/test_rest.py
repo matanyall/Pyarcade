@@ -1,4 +1,4 @@
-from pyarcade.start import app, db
+from pyarcade.api import app, db
 import unittest
 import json
 

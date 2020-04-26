@@ -10,11 +10,11 @@ services:
       - db.env
 
   pyarcade:
-    image: pyarcade:rest
+    image: pyarcade:app
     depends_on:
       - db
     environment:
-      FLASK_APP: "pyarcade/start:create_app()"
+      FLASK_APP: "pyarcade/api:create_app()"
       FLASK_ENV: "production"
     ports:
       - 5000:5000

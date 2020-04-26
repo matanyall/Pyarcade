@@ -9,7 +9,7 @@ services:
       - db.env
 
   pyarcade:
-    image: pyarcade:rest
+    image: pyarcade:app
     depends_on:
       - db
     environment:
