@@ -22,6 +22,25 @@ class User(db.Model):
     passwd = db.Column(db.String(255), unique=False, nullable=False)
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class GameDB(db.Model):
     __tablename__ = 'GameDB'
 
