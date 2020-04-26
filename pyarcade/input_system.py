@@ -13,7 +13,8 @@ CRAZY_EIGHTS_PLAYER_NUM = 1
 
 class InputSystem:
 
-    def __init__(self):
+    def __init__(self, controller):
+        self.controller = controller
         self.mastermind_game = Mastermind()
         self.minesweeper_game = Minesweeper()
         self.crazy_eights_game = CrazyEights(CRAZY_EIGHTS_NUM_PLAYERS)
@@ -146,6 +147,12 @@ class InputSystem:
 
     def handle_blackjack_input(self, user_input: str) -> str:
 
+        if user_input.lower() == "save":
+            print("Enter save name: ")
+            save_name = str(input())
+            print("Enter username: ")
+            username = str(input())
+            self.controller.save_game_with_username(self.blackjack_game, save_name, username)
         if user_input.lower() == "help":
             return BlackJack.display_help()
         if user_input.lower() == "reset":

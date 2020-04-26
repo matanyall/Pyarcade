@@ -1,19 +1,24 @@
 from pyarcade.controller import Controller
 from pyarcade.input_system import InputSystem
+from pyarcade.active_user import ActiveUser
 from os import system, name
 
 
 def run_pyarcade():
-    input_sys = InputSystem()
+
     controller = Controller()
+    input_sys = InputSystem(controller)
     username_logged_in = None
+    active_user = ActiveUser()
 
     while True:
         clear()
         print('Welcome to PyArcade (Enter number)')
-        menu = '(1) Mastermind  (2) Minesweeper  (3) Crazy Eights  (4) Blackjack  (5) Create Account  (6) Login  (7) Exit'
+        menu = '(1) Mastermind  (2) Minesweeper  (3) Crazy Eights  (4) Blackjack  (5) Create Account  (6) Login  (7) ' \
+               'Exit '
         if username_logged_in:
-            menu = '(1) Mastermind  (2) Minesweeper  (3) Crazy Eights  (4) Blackjack  (5) Logout  (6) Exit'
+            menu = '(1) Mastermind  (2) Minesweeper  (3) Crazy Eights  (4) Blackjack  (5) Logout  (6) Exit  (7) Load ' \
+                   'Save '
         print(menu)
         game_input = input()
 
@@ -57,6 +62,11 @@ def run_pyarcade():
         if game_input == '7' and not username_logged_in:
             break
 
+        if game_input == '7' and username_logged_in:
+            saves = controller.list_saves()
+            for save in saves:
+                print(save.save_name)
+
         game_in_play = ""
         if game_input == "1":
             game_in_play = "Mastermind"
@@ -74,6 +84,8 @@ def run_pyarcade():
                   "New Game (Start new game)\n"
                   "Reset    (Reset game)\n"
                   "Clear    (Clear game history)\n"
+                  "Save     (Save Game)\n"
+                  "Load     (Load Game)"
                   "Help     (Game Instructions)\n"
                   "Quit     (Leave game)\n"
                   "* The options above can be entered at any time during game play *\n")
