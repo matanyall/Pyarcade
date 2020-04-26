@@ -28,7 +28,7 @@ class GameDB(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     player_id = db.Column(db.Integer, primary_key=True)
     save_name = db.Column(db.String(128), unique=True, nullable=False)
-    saved = db.Column(db.BLOB, unique=False, nullable=False)
+    save = db.Column(db.BLOB, unique=False, nullable=False)
 
 
 class UserListResource(Resource):

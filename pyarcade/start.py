@@ -1,6 +1,5 @@
 from pyarcade.controller import Controller
 from pyarcade.input_system import InputSystem
-from pyarcade.active_user import ActiveUser
 from os import system, name
 
 
@@ -8,7 +7,6 @@ def run_pyarcade():
     controller = Controller()
     input_sys = InputSystem()
     username_logged_in = None
-    active_user = ActiveUser()
 
     while True:
         clear()
@@ -65,6 +63,8 @@ def run_pyarcade():
             saves = controller.list_saves(username_logged_in)
             for save in saves:
                 print(save.save_name)
+            print("Enter any key to continue:")
+            input()
 
         game_in_play = ""
         if game_input == "1":
@@ -103,25 +103,24 @@ def run_pyarcade():
             clear()
             if user_move.lower() == "quit":
                 break
-            if user_move.lower() == "save":
+            if user_move.lower() == "save" and username_logged_in:
                 print("Enter save name: ")
                 save_name = str(input())
                 game_obj = input_sys.handle_game_input(game_in_play, user_move)
                 controller.save_game_with_username(game_obj, save_name, username_logged_in)
-                user_move = "Invalid"
+                input_sys.handle_game_input(game_in_play, user_move)
 
-            if user_move.lower() == "load":
-                controller.list_saves(username_logged_in)
+            elif user_move.lower() == "load" and username_logged_in:
+                saves = controller.list_saves(username_logged_in)
+                for save in saves:
+                    print(save.save_name)
                 print("Type name of save: ")
                 save_name = str(input())
-                game_save= controller.load_game(save_name, username_logged_in)
-                # load_string = "load: " + game_save_db_entry.saved_game_path
-                #input_sys.handle_game_input(game_in_play, load_string)
-                if game_in_play == "2":
-                    input_sys.minesweeper_game = game_save
-                user_move = "Invalid"
-
-            print(input_sys.handle_game_input(game_in_play, user_move) + "\n")
+                game_save = controller.load_game(save_name, username_logged_in)
+                input_sys.set_game_to_load(game_save)
+                print(input_sys.handle_game_input(game_in_play, user_move))
+            else:
+                print(input_sys.handle_game_input(game_in_play, user_move) + "\n")
             if input_sys.handle_game_input(game_in_play, "state") == "Game over.":
                 print("Game over. Play again? y/n")
                 if str(input()) != "y":

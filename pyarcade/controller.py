@@ -119,24 +119,7 @@ class Controller():
         return self.save_game(game_object, save_name, user_id.id)
 
     def save_game(self, game_object, save_name: str, user_id: int):
-        # root = Path(".")
-        # file_name = save_name + "_" + str(user_id) + ".gs"
-        # path = root / 'pyarcade_extension/' / 'pyarcade' / 'data/' / file_name
-        # Path(path).touch()
-        # path_name_2 = "/home/matanya/Documents/SPRING2020/CMSC435/FinalPyarcadeExtension/pyarcade_extension/pyarcade/data/"
-        # path_name_2 = path_name_2 + file_name
-        # print(os.getcwd())
-        # path = Path(".")
-        # path = path / 'test_file.gs'
-
-        # open(path_name, 'wb') as file_descriptor:
-
-        # with path.open('wb') as file_descriptor:
-        #     pickle.dump(game_object, file_descriptor)
-        # print(path.cwd())
-
         game_pickle = pickle.dumps(game_object)
-
         game = GameDB(player_id=user_id, save_name=save_name, save=game_pickle)
         self.session.add(game)
         self.session.commit()
@@ -145,16 +128,8 @@ class Controller():
         user_id = self.__get_user(username)
         game = self.session.query(GameDB).filter(GameDB.player_id == user_id.id).filter(
             GameDB.save_name == save_name).first()
-        result = pickle.loads(game.saved)
+        result = pickle.loads(game.save)
         return result
-        # root = os.getcwd()
-        # file_name = save_name + "_" + str(user_id) + ".gs"
-        # path_name = root + "/data/" + file_name
-        # path_name_2 = "/home/matanya/Documents/SPRING2020/CMSC435/FinalPyarcadeExtension/pyarcade_extension/pyarcade/data/"
-        # path_name_2 = path_name_2 + file_name
-        # with open(path_name, 'rb') as game_save:
-        #     game_object = pickle.load(game_save)
-        # return game_object
 
     def list_saves(self, username: str):
         user_id = self.__get_user(username)
