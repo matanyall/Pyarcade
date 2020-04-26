@@ -12,6 +12,7 @@ services:
       driver: none
 
   app:
+    image: pyarcade:app
     depends_on:
       - db
     build:

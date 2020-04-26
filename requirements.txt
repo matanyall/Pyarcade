@@ -6,6 +6,12 @@
 cryptography
 PyMySQL
 SQLAlchemy
+Flask-SQLAlchemy
+Flask-RESTful
+flask_bootstrap
+flask_wtf
+wtforms
+flask_login
 
 # Requirements With Version Specifiers
 # See https://www.python.org/dev/peps/pep-0440/#version-specifiers.

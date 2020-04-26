@@ -1,5 +1,6 @@
 from pyarcade.controller import Controller
 from pyarcade.input_system import InputSystem
+from os import system, name
 
 
 def run_pyarcade():
@@ -8,6 +9,7 @@ def run_pyarcade():
     username_logged_in = None
 
     while True:
+        clear()
         print('Welcome to PyArcade (Enter number)')
         menu = '(1) Mastermind  (2) Minesweeper  (3) Crazy Eights  (4) Blackjack  (5) Create Account  (6) Login  (7) Exit'
         if username_logged_in:
@@ -26,6 +28,8 @@ def run_pyarcade():
             print('Confirm password:')
             confirm = input()
             register_status = controller.register(username, passwd, confirm)
+
+            clear()
             if not register_status:
                 print('Failed to create account.')
             else:
@@ -41,6 +45,9 @@ def run_pyarcade():
             print('Password:')
             passwd = input()
             auth_status = controller.authenticate(username, passwd)
+
+            clear()
+
             if not auth_status:
                 print('Login failed.')
             else:
@@ -60,6 +67,7 @@ def run_pyarcade():
         elif game_input == "4":
             game_in_play = "BlackJack"
 
+        clear()
         print(input_sys.handle_game_input(game_in_play, "New Game"))
         while game_in_play:
             print("Game Options: \n"
@@ -71,55 +79,34 @@ def run_pyarcade():
                   "* The options above can be entered at any time during game play *\n")
             if game_input == "1":
                 print("Please enter your guess (\"####\")")
-                user_move = str(input())
-                if user_move.lower() == "quit":
-                    break
-
-                print(input_sys.handle_game_input(game_in_play, user_move))
-                if input_sys.mastermind_game.game_state == "Game over.":
-                    print("Game over. Play again? y/n")
-                    if str(input()) != "y":
-                        break
-                    else:
-                        print(input_sys.handle_game_input(game_in_play, "Reset"))
             elif game_input == "2":
                 print("Please enter x, y coordinate (\"#,#\")")
-                user_move = str(input())
-                if user_move.lower() == "quit":
-                    break
-                print(input_sys.handle_game_input(game_in_play, user_move))
-                if input_sys.minesweeper_game.game_state == "Game over.":
-                    print("Game over. Play again? y/n")
-                    if str(input()) != "y":
-                        break
-                    else:
-                        print(input_sys.handle_game_input(game_in_play, "reset"))
             elif game_input == "3":
                 print("Please type draw or enter card you wish to play (Ex: Eight,Spades).")
-                user_move = str(input())
-                if user_move.lower() == "quit":
-                    break
-                print(input_sys.handle_game_input(game_in_play, user_move))
-                if input_sys.crazy_eights_game.game_state == "Game over.":
-                    print("Game over. Play again? y/n")
-                    if str(input()) != "y":
-                        break
-                    else:
-                        print(input_sys.handle_game_input(game_in_play, "reset"))
             elif game_input == "4":
                 print("Please enter your move (hit or stand)")
-                user_move = str(input())
-                if user_move.lower() == "quit":
-                    break
-                print(input_sys.handle_game_input(game_in_play, user_move))
-                if input_sys.blackjack_game.game_state == "Game over.":
-                    print("Game over. Play again? y/n")
-                    if str(input()) != "y":
-                        break
-                    else:
-                        print(input_sys.handle_game_input(game_in_play, "reset"))
             else:
+                print("Invalid selection")
                 break
+            user_move = str(input())
+            clear()
+            if user_move.lower() == "quit":
+                break
+            print(input_sys.handle_game_input(game_in_play, user_move) + "\n")
+            if input_sys.handle_game_input(game_in_play, "state") == "Game over.":
+                print("Game over. Play again? y/n")
+                if str(input()) != "y":
+                    break
+                else:
+                    print(input_sys.handle_game_input(game_in_play, "reset"))
+
+# define our clear function
+def clear():
+
+    if name == 'nt':
+        _ = system('cls')
+    else:
+        _ = system('clear')
 
 
 if __name__ == "__main__":
