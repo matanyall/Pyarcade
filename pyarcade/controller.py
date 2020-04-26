@@ -1,10 +1,11 @@
-from pyarcade.base import Base
-from pyarcade.user import User
-from pyarcade.gamedb import GameDB
-from typing import Optional
-import sqlalchemy
-from sqlalchemy.orm import sessionmaker
 import pickle
+from typing import Optional
+
+import sqlalchemy
+from pyarcade.base import Base
+from pyarcade.gamedb import GameDB
+from pyarcade.user import User
+from sqlalchemy.orm import sessionmaker
 
 
 # TODO: logically split the app. This is the model?
@@ -118,24 +119,53 @@ class Controller():
         return self.save_game(game_object, save_name, user_id.id)
 
     def save_game(self, game_object, save_name: str, user_id: int):
-        file_name = "data/" + save_name + "_" + str(user_id) + ".gs"
-        with open(file_name, 'wb') as file_descriptor:
-            pickle.dump(game_object, file_name)
+        # root = Path(".")
+        # file_name = save_name + "_" + str(user_id) + ".gs"
+        # path = root / 'pyarcade_extension/' / 'pyarcade' / 'data/' / file_name
+        # Path(path).touch()
+        # path_name_2 = "/home/matanya/Documents/SPRING2020/CMSC435/FinalPyarcadeExtension/pyarcade_extension/pyarcade/data/"
+        # path_name_2 = path_name_2 + file_name
+        # print(os.getcwd())
+        # path = Path(".")
+        # path = path / 'test_file.gs'
 
-        game = GameDB(player_id=user_id, save_name=save_name, save_game_path=file_name)
+        # open(path_name, 'wb') as file_descriptor:
+
+        # with path.open('wb') as file_descriptor:
+        #     pickle.dump(game_object, file_descriptor)
+        # print(path.cwd())
+
+        game_pickle = pickle.dumps(game_object)
+
+        game = GameDB(player_id=user_id, save_name=save_name, save=game_pickle)
         self.session.add(game)
         self.session.commit()
 
+    def load_game(self, save_name: str, username: int):
+        user_id = self.__get_user(username)
+        game = self.session.query(GameDB).filter(GameDB.player_id == user_id.id).filter(
+            GameDB.save_name == save_name).first()
+        result = pickle.loads(game.saved)
+        return result
+        # root = os.getcwd()
+        # file_name = save_name + "_" + str(user_id) + ".gs"
+        # path_name = root + "/data/" + file_name
+        # path_name_2 = "/home/matanya/Documents/SPRING2020/CMSC435/FinalPyarcadeExtension/pyarcade_extension/pyarcade/data/"
+        # path_name_2 = path_name_2 + file_name
+        # with open(path_name, 'rb') as game_save:
+        #     game_object = pickle.load(game_save)
+        # return game_object
 
-    def load_game(self, save_name: str, user_id: int):
-        file_name = "data/" + save_name + "_" + str(user_id) + ".gs"
-        with open(file_name, 'rb') as game_save:
-            game_object = pickle.load(game_save)
-        return game_object
-
-    def list_saves(self, user_id: str):
-        save_list = self.session.query(GameDB).filter(GameDB.player_id == user_id).all()
+    def list_saves(self, username: str):
+        user_id = self.__get_user(username)
+        save_list = self.session.query(GameDB).filter(GameDB.player_id == user_id.id).all()
         return save_list
+
+    def get_save(self, save_name: str, username: str):
+        user_id = self.__get_user(username)
+        save = self.session.query(GameDB).filter(GameDB.player_id == user_id.id).filter(
+            GameDB.save_name == save_name).first()
+        return save
 
     def delete_save(self, save_name: str, user_id: int):
         pass

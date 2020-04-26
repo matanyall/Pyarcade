@@ -1,3 +1,5 @@
+import pickle
+
 from pyarcade.games.mastermind import Mastermind
 from pyarcade.games.minesweeper import Minesweeper
 from pyarcade.games.card import Rank, Suit, Card
@@ -13,8 +15,7 @@ CRAZY_EIGHTS_PLAYER_NUM = 1
 
 class InputSystem:
 
-    def __init__(self, controller):
-        self.controller = controller
+    def __init__(self):
         self.mastermind_game = Mastermind()
         self.minesweeper_game = Minesweeper()
         self.crazy_eights_game = CrazyEights(CRAZY_EIGHTS_NUM_PLAYERS)
@@ -79,12 +80,29 @@ class InputSystem:
     def handle_minesweeper_input(self, location_input: str):
         if type(location_input) == str:
             two_comma_separated_digits_regex = r"^\d,\d$"
+            load_string_regex = r"^load: (.*)$"
             if re.search(two_comma_separated_digits_regex, location_input):
                 location_guess = location_input.split(',')
                 return self.minesweeper_game.make_move([int(location_guess[0]), int(location_guess[1])])
             elif location_input.lower() == "reset":
                 output = self.minesweeper_game.reset_game() + "\n"
                 return output + self.minesweeper_game.draw_board()
+
+            elif location_input.lower() == "save":
+                output = self.minesweeper_game
+                return output
+
+            elif re.search(load_string_regex, location_input):
+                location = re.search(load_string_regex, location_input)
+                file_name = location.group(0)
+                with open(file_name, 'rb') as game_save:
+                    game_object = pickle.load(game_save)
+                self.minesweeper_game = game_object
+
+                return self.minesweeper_game.draw_board()
+
+
+
             elif location_input.lower() == "clear":
                 return self.minesweeper_game.clear_game_history()
             elif location_input.lower() == "state":

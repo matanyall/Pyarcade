@@ -22,12 +22,22 @@ class User(db.Model):
     passwd = db.Column(db.String(255), unique=False, nullable=False)
 
 
+class GameDB(db.Model):
+    __tablename__ = 'GameDB'
+
+    id = db.Column(db.Integer, primary_key=True)
+    player_id = db.Column(db.Integer, primary_key=True)
+    save_name = db.Column(db.String(128), unique=True, nullable=False)
+    saved = db.Column(db.BLOB, unique=False, nullable=False)
+
+
 class UserListResource(Resource):
     """ A Resource is a collection of routes (think URLs) that map to these functions.
     For a REST API, we have GET, PUT, POST, PATCH, DELETE, etc. Here we just define
     functions that map to the REST API verbs, later we map this to a specific URL
     with api.add_resource
     """
+
     def get(self) -> List[dict]:
         """Responds to http://[domain or IP]:[port (default 5000)]/users
 
@@ -57,6 +67,7 @@ class UserResource(Resource):
     executed in the context of a specific user.
 
     """
+
     def get(self, user_id):
         """Responds to http://[domain or IP]:[port (default 5000)]/users/<user_id>
 
