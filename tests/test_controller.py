@@ -39,7 +39,7 @@ class ControllerTestCase(unittest.TestCase):
     def test_get_user_by_username(self):
         self.controller.register(self.username, self.passwd, self.confirm)
 
-        user = self.controller.__get_user(self.username)
+        user = self.controller.get_user(self.username)
         self.assertTrue(user)
         self.assertEqual(user.username, self.username)
         self.assertEqual(user.passwd, self.passwd)
@@ -47,13 +47,13 @@ class ControllerTestCase(unittest.TestCase):
     def test_get_user_by_username_and_password(self):
         self.controller.register(self.username, self.passwd, self.confirm)
 
-        user = self.controller.__get_user(self.username, self.passwd)
+        user = self.controller.get_user(self.username, self.passwd)
         self.assertTrue(user)
         self.assertEqual(user.username, self.username)
         self.assertEqual(user.passwd, self.passwd)
 
     def test_get_user_by_username_not_found(self):
-        user = self.controller.__get_user(self.username)
+        user = self.controller.get_user(self.username)
         self.assertFalse(user)
 
     def test_get_user_by_username_and_password_not_found(self):
@@ -61,13 +61,13 @@ class ControllerTestCase(unittest.TestCase):
 
         # Request an existing user, but with the wrong password.
         passwd_typo = self.passwd + __TYPO
-        user = self.controller.__get_user(self.username, passwd_typo)
+        user = self.controller.get_user(self.username, passwd_typo)
         self.assertFalse(user)
 
         # Request a nonexistant user, but with a password that another user is
         # using.
         nonexistant_user = self.user + __TYPO
-        user = self.controller.__get_user(nonexistant_user, self.passwd)
+        user = self.controller.get_user(nonexistant_user, self.passwd)
         self.assertFalse(user)
 
     def test_authenticate_success(self):
