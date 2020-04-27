@@ -1,0 +1,21 @@
+# 
+# requirements.txt
+# 
+
+# Requirements Without Version Specifiers
+cryptography
+PyMySQL
+SQLAlchemy
+Flask-SQLAlchemy
+Flask-RESTful
+flask_bootstrap
+flask_wtf
+wtforms
+flask_login
+flask
+pytest
+coverage
+tox
+# Requirements With Version Specifiers
+# See https://www.python.org/dev/peps/pep-0440/#version-specifiers.
+#django3

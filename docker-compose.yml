@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  db:
+    image: mariadb:10.4
+    restart: always
+    env_file:
+      - db.env
+
+  pyarcade:
+    build:
+      context: .
+    depends_on:
+      - db
+    environment:
+      - FLASK_APP=pyarcade/api:create_app()
+      - FLASK_ENV=production
+    ports:
+      - 5000:5000
+    command: wait-for-it.sh database:3306 -t 30 -- flask run --host=0.0.0.0

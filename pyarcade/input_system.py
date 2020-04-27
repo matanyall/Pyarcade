@@ -18,6 +18,10 @@ class InputSystem:
         self.minesweeper_game = Minesweeper()
         self.crazy_eights_game = CrazyEights(CRAZY_EIGHTS_NUM_PLAYERS)
         self.blackjack_game = BlackJack()
+        self.game_to_load = None
+
+    def set_game_to_load(self, game):
+        self.game_to_load = game
 
     def handle_game_input(self, game_name: str, user_input: str):
         if game_name.lower() == "mastermind":
@@ -35,12 +39,15 @@ class InputSystem:
                 self.crazy_eights_game = CrazyEights(CRAZY_EIGHTS_NUM_PLAYERS)
                 return "\nCrazy Eights\n\n" + self.crazy_eights_game.game_state + "\nTop Card: " \
                        + self.crazy_eights_game.show_top_card() + " \n\nPlayer Hand: \n" \
-                    + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM) + "\n"
+                       + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM) + "\n"
             return self.handle_crazy_eights_input(user_input)
         elif game_name.lower() == "blackjack":
             if user_input.lower() == "new game":
                 self.blackjack_game = BlackJack()
-                return "\n Blackjack\n"
+                return "\n Blackjack\n" + "\nHouse's revealed card: " \
+                       + str(self.blackjack_game.house_hand[0].value) + " \n\nPlayer Hand: \n" \
+                       + str(self.blackjack_game.user_hand[0].value) + ", " \
+                       + str(self.blackjack_game.user_hand[1].value) + "\n"
             return self.handle_blackjack_input(user_input)
         else:
             return "Invalid game provided."
@@ -59,6 +66,14 @@ class InputSystem:
                 return self.mastermind_game.reset()
             if guess_input.lower() == "help":
                 return self.mastermind_game.display_help()
+            if guess_input.lower() == "state":
+                return self.mastermind_game.game_state
+            if guess_input.lower() == "save":
+                output = self.mastermind_game
+                return output
+            if guess_input.lower() == "load":
+                self.mastermind_game = self.game_to_load
+                return self.mastermind_game.game_state
 
             guess = list(guess_input)
             guess_output = []
@@ -79,8 +94,19 @@ class InputSystem:
             elif location_input.lower() == "reset":
                 output = self.minesweeper_game.reset_game() + "\n"
                 return output + self.minesweeper_game.draw_board()
+
+            elif location_input.lower() == "save":
+                output = self.minesweeper_game
+                return output
+
+            elif location_input.lower() == "load":
+                self.minesweeper_game = self.game_to_load
+                return self.minesweeper_game.draw_board()
+
             elif location_input.lower() == "clear":
                 return self.minesweeper_game.clear_game_history()
+            elif location_input.lower() == "state":
+                return self.minesweeper_game.game_state
             elif location_input.lower() == "help":
                 return self.minesweeper_game.display_help()
 
@@ -106,30 +132,42 @@ class InputSystem:
             return CrazyEights.display_help()
         if card_input.lower() == "clear":
             return self.crazy_eights_game.clear()
+        if card_input.lower() == "state":
+            return self.crazy_eights_game.game_state
+        if card_input.lower() == "save":
+            output = self.crazy_eights_game
+            return output
+        if card_input.lower() == "load":
+            self.crazy_eights_game = self.game_to_load
+            return self.crazy_eights_game.game_state
         if card_input.lower() == "reset":
             output = self.crazy_eights_game.reset(CRAZY_EIGHTS_NUM_PLAYERS) + "\n" + self.crazy_eights_game.game_state
             return output + "\n\nTop Card: " + self.crazy_eights_game.show_top_card() + "\n\nPlayer Hand: \n" \
-                + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM)
+                   + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM)
         curr_state = self.crazy_eights_game.game_state
 
         if card_input == 'draw':
             self.crazy_eights_game.draw(CRAZY_EIGHTS_PLAYER_NUM)
-            return self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM)
+            return "\nTop Card: " + self.crazy_eights_game.show_top_card() + "\n\nPlayer Hand: \n" \
+                   + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM)
 
         card = self.handle_card(card_input)
 
         if card:
             not_str = 'not ' if not self.crazy_eights_game.play(CRAZY_EIGHTS_PLAYER_NUM, card) else ''
             game_output = 'card {} was '.format(str(card)) + not_str + 'played \nTop Card: ' \
-                   + self.crazy_eights_game.show_top_card() + "\n\nPlayer Hand: \n" \
-                   + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM)
+                          + self.crazy_eights_game.show_top_card() + "\n\nPlayer Hand: \n" \
+                          + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM)
             if curr_state != self.crazy_eights_game.game_state:
                 score = self.crazy_eights_game.players.get(CRAZY_EIGHTS_PLAYER_NUM).get_score()
                 return self.crazy_eights_game.game_state + "\nScore: " + str(score) + "\n" + game_output
             else:
                 return game_output
         else:
-            return "Invalid input. User should specify either to draw or which card to place (Ex: Eight,Spades)"
+            invalid_str = "Invalid input. User should specify either to draw or which card to place (Ex: Eight," \
+                          "Spades)\n "
+            return invalid_str + "\nTop Card: " + self.crazy_eights_game.show_top_card() + "\n\nPlayer Hand: \n" \
+                   + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM)
 
     def handle_blackjack_input(self, user_input: str) -> str:
 
@@ -139,6 +177,18 @@ class InputSystem:
             return self.blackjack_game.reset()
         if user_input.lower() == "clear":
             return self.blackjack_game.clear()
+        if user_input.lower() == "state":
+            return self.blackjack_game.game_state
+        if user_input.lower() == "save":
+            output = self.blackjack_game
+            return output
+
+        if user_input.lower() == "load":
+            self.blackjack_game = self.game_to_load
+            user_hand_sum = BlackJack.calculate_current_sum(self.blackjack_game.user_hand)
+            house_hand_sum = BlackJack.calculate_current_sum(self.blackjack_game.house_hand)
+            win_status = BlackJack.win_condition(user_hand_sum, house_hand_sum)
+            return BlackJack.display_state(user_hand_sum,house_hand_sum,win_status)
         if user_input.lower() == "hit" or user_input.lower() == "stand":
             return self.blackjack_game.start_game(user_input)
         else:
