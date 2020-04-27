@@ -17,6 +17,4 @@ services:
       - FLASK_ENV=production
     ports:
       - 5000:5000
-    # Set a high timeout to accomodate for various machines. Use the -s flag
-    # to prevent the command from running if the database polling times out.
     command: wait-for-it.sh database:3306 -t 30 -- flask run --host=0.0.0.0

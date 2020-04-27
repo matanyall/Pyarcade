@@ -11,7 +11,7 @@ class ControllerTestCase(unittest.TestCase):
         self.username = 'user1'
         self.passwd = 'password'
         # Set the password confirmation to match the password, by default.
-        self.confirm = passwd
+        self.confirm = self.passwd
 
     def test_sanitize(self):
         # TODO: implement sanitize.
@@ -39,7 +39,7 @@ class ControllerTestCase(unittest.TestCase):
     def test_get_user_by_username(self):
         self.controller.register(self.username, self.passwd, self.confirm)
 
-        user = self.controller.__get_user(username)
+        user = self.controller.__get_user(self.username)
         self.assertTrue(user)
         self.assertEqual(user.username, self.username)
         self.assertEqual(user.passwd, self.passwd)
