@@ -6,23 +6,17 @@ services:
     restart: always
     env_file:
       - db.env
-    # volumes:
-    #   - db-data:/var/lib/mysql
-    logging:
-      driver: none
 
-  app:
-    image: pyarcade:app
-    depends_on:
-      - db
+  pyarcade:
     build:
       context: .
-    # Wait for the database to spin up first if the app is started using Docker Compose.
-    command: wait-for-it.sh db:3306 -t 30 -s -- python3 ./pyarcade/start.py
-    logging:
-      driver: none
-
-# volumes:
-#   db-data:
-
-#networks:
+    depends_on:
+      - db
+    environment:
+      - FLASK_APP=pyarcade/api:create_app()
+      - FLASK_ENV=production
+    ports:
+      - 5000:5000
+    # Set a high timeout to accomodate for various machines. Use the -s flag
+    # to prevent the command from running if the database polling times out.
+    command: wait-for-it.sh database:3306 -t 120 -s -- flask run --host=0.0.0.0
