@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  db:
+    image: mariadb:10.4
+    restart: always
+    env_file:
+      - db.env
+    # volumes:
+    #   - db-data:/var/lib/mysql
+    logging:
+      driver: none
+
+  app:
+    image: pyarcade:app
+    depends_on:
+      - db
+    build:
+      context: .
+    # Wait for the database to spin up first if the app is started using Docker Compose.
+    command: wait-for-it.sh db:3306 -t 30 -s -- python3 ./pyarcade/start.py
+    logging:
+      driver: none
+
+# volumes:
+#   db-data:
+
+#networks:
