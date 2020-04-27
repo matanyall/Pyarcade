@@ -1,7 +1,5 @@
 version: '3.7'
 
-# To run api: docker-compose -f pyarcade_deploy.yml up
-
 services:
   db:
     image: mariadb:10.4
@@ -10,12 +8,15 @@ services:
       - db.env
 
   pyarcade:
-    image: pyarcade:app
+    build:
+      context: .
     depends_on:
       - db
     environment:
-      FLASK_APP: "pyarcade/api:create_app()"
-      FLASK_ENV: "production"
+      - FLASK_APP=pyarcade/api:create_app()
+      - FLASK_ENV=production
     ports:
       - 5000:5000
-    command: ["wait-for-it.sh", "database:3306", "-t", "20", "--", "flask", "run", "--host=0.0.0.0"]
+    # Set a high timeout to accomodate for various machines. Use the -s flag
+    # to prevent the command from running if the database polling times out.
+    command: wait-for-it.sh database:3306 -t 120 -s -- flask run --host=0.0.0.0

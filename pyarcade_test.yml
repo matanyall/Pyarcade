@@ -1,7 +1,5 @@
 version: '3.7'
 
-# To run tests: docker-compose -f pyarcade_test.yml up
-
 services:
   db:
     image: mariadb:10.4
@@ -9,10 +7,11 @@ services:
       - db.env
 
   pyarcade:
-    image: pyarcade:app
     depends_on:
       - db
+    build:
+      context: .
     environment:
-      FLASK_APP: "pyarcade/start"
-      FLASK_ENV: "development"
-    command: ["wait-for-it.sh", "database:3306", "-t", "20", "--", "python", "setup.py", "test"]
+      - FLASK_APP=pyarcade/start
+      - FLASK_ENV=development
+    command: wait-for-it.sh database:3306 -t 120 -s -- python setup.py test
