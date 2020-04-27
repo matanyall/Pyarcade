@@ -77,7 +77,7 @@ uncovers cells, all of the adjacent cells that do not contain mines will be reve
 (User input should be in the form of: #,#)
 
 ## Contributors
-### Jill (30%)
+### Jill (35%)
 - 
 
 ### Anders (35%)
