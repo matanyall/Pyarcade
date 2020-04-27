@@ -2,9 +2,6 @@ from pyarcade.controller import Controller
 import unittest
 
 
-__TYPO = 'f'
-
-
 class ControllerTestCase(unittest.TestCase):
     def setUp(self):
         self.controller = Controller()
@@ -12,6 +9,7 @@ class ControllerTestCase(unittest.TestCase):
         self.passwd = 'password'
         # Set the password confirmation to match the password, by default.
         self.confirm = self.passwd
+        self.__TYPO = 'f'
 
     def test_sanitize(self):
         # TODO: implement sanitize.
@@ -23,7 +21,7 @@ class ControllerTestCase(unittest.TestCase):
         self.assertTrue(status)
 
     def test_register_passwords_dont_match(self):
-        confirm_typo = self.passwd + __TYPO
+        confirm_typo = self.passwd + self.__TYPO
 
         status = self.controller.register(self.username, self.passwd,
                 confirm_typo)
@@ -60,13 +58,13 @@ class ControllerTestCase(unittest.TestCase):
         self.controller.register(self.username, self.passwd, self.confirm)
 
         # Request an existing user, but with the wrong password.
-        passwd_typo = self.passwd + __TYPO
+        passwd_typo = self.passwd + self.__TYPO
         user = self.controller.get_user(self.username, passwd_typo)
         self.assertFalse(user)
 
         # Request a nonexistant user, but with a password that another user is
         # using.
-        nonexistant_user = self.user + __TYPO
+        nonexistant_user = self.user + self.__TYPO
         user = self.controller.get_user(nonexistant_user, self.passwd)
         self.assertFalse(user)
 
