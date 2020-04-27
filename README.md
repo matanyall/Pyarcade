@@ -34,8 +34,7 @@ cd pyarcade_extension
   ```
   docker-compose up
   ```
-  2. Go to http://0.0.0.0/signup in your browser to make an account.
-  3. After signing up, go to http://0.0.0.0/login to sign into your account.
+  2. Go to http://0.0.0.0:5000/ in your browser
 - Command Line UI
   1. Start the app.
   ```
