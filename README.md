@@ -14,7 +14,7 @@
 
 ## Overview
 PyArcade is an arcade full of a variety of games. These games range from simple guessing games to strategical games. Currently,
-PyArcade is only playable through command line. Online version coming soon.
+PyArcade is only playable through command line. Online version is a work in progress. Currently, you are only able to create an account and login.
 
 ## Setup
 ### Required Software
@@ -77,7 +77,9 @@ uncovers cells, all of the adjacent cells that do not contain mines will be reve
 
 ## Contributors
 ### Jill (35%)
-- 
+- Cleaned up the terminal UI so that it clears between each game
+- Implemented a REST api
+- Implemented website for PyArcade that includes: Main menu, Login page, Signin page, Page of games
 
 ### Anders (35%)
 - Fix the database integration
