@@ -12,6 +12,7 @@ flask_bootstrap
 flask_wtf
 wtforms
 flask_login
+flask
 pytest
 coverage
 tox
