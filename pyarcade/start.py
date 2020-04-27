@@ -4,16 +4,18 @@ from os import system, name
 
 
 def run_pyarcade():
-    input_sys = InputSystem()
     controller = Controller()
+    input_sys = InputSystem()
     username_logged_in = None
 
     while True:
         clear()
         print('Welcome to PyArcade (Enter number)')
-        menu = '(1) Mastermind  (2) Minesweeper  (3) Crazy Eights  (4) Blackjack  (5) Create Account  (6) Login  (7) Exit'
+        menu = '(1) Mastermind  (2) Minesweeper  (3) Crazy Eights  (4) Blackjack  (5) Create Account  (6) Login  (7) ' \
+               'Exit '
         if username_logged_in:
-            menu = '(1) Mastermind  (2) Minesweeper  (3) Crazy Eights  (4) Blackjack  (5) Logout  (6) Exit'
+            menu = '(1) Mastermind  (2) Minesweeper  (3) Crazy Eights  (4) Blackjack  (5) Logout  (6) Exit  (7) Load ' \
+                   'Save '
         print(menu)
         game_input = input()
 
@@ -57,6 +59,13 @@ def run_pyarcade():
         if game_input == '7' and not username_logged_in:
             break
 
+        if game_input == '7' and username_logged_in:
+            saves = controller.list_saves(username_logged_in)
+            for save in saves:
+                print(save.save_name)
+            print("Enter any key to continue:")
+            input()
+
         game_in_play = ""
         if game_input == "1":
             game_in_play = "Mastermind"
@@ -74,6 +83,8 @@ def run_pyarcade():
                   "New Game (Start new game)\n"
                   "Reset    (Reset game)\n"
                   "Clear    (Clear game history)\n"
+                  "Save     (Save Game)\n"
+                  "Load     (Load Game)\n"
                   "Help     (Game Instructions)\n"
                   "Quit     (Leave game)\n"
                   "* The options above can be entered at any time during game play *\n")
@@ -92,7 +103,24 @@ def run_pyarcade():
             clear()
             if user_move.lower() == "quit":
                 break
-            print(input_sys.handle_game_input(game_in_play, user_move) + "\n")
+            if user_move.lower() == "save" and username_logged_in:
+                print("Enter save name: ")
+                save_name = str(input())
+                game_obj = input_sys.handle_game_input(game_in_play, user_move)
+                controller.save_game_with_username(game_obj, save_name, username_logged_in)
+                input_sys.handle_game_input(game_in_play, user_move)
+
+            elif user_move.lower() == "load" and username_logged_in:
+                saves = controller.list_saves(username_logged_in)
+                for save in saves:
+                    print(save.save_name)
+                print("Type name of save: ")
+                save_name = str(input())
+                game_save = controller.load_game(save_name, username_logged_in)
+                input_sys.set_game_to_load(game_save)
+                print(input_sys.handle_game_input(game_in_play, user_move))
+            else:
+                print(input_sys.handle_game_input(game_in_play, user_move) + "\n")
             if input_sys.handle_game_input(game_in_play, "state") == "Game over.":
                 print("Game over. Play again? y/n")
                 if str(input()) != "y":
@@ -100,9 +128,9 @@ def run_pyarcade():
                 else:
                     print(input_sys.handle_game_input(game_in_play, "reset"))
 
+
 # define our clear function
 def clear():
-
     if name == 'nt':
         _ = system('cls')
     else:

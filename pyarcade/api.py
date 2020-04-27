@@ -33,6 +33,15 @@ class User(UserMixin, db.Model):
     passwd = db.Column(db.String(255), unique=False, nullable=False)
 
 
+class GameDB(db.Model):
+    __tablename__ = 'GameDB'
+
+    id = db.Column(db.Integer, primary_key=True)
+    player_id = db.Column(db.Integer, primary_key=True)
+    save_name = db.Column(db.String(128), unique=True, nullable=False)
+    save = db.Column(db.BLOB, unique=False, nullable=False)
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -44,6 +53,7 @@ class UserListResource(Resource):
     functions that map to the REST API verbs, later we map this to a specific URL
     with api.add_resource
     """
+
     def get(self) -> List[dict]:
         """Responds to http://[domain or IP]:[port (default 5000)]/users
 
@@ -73,6 +83,7 @@ class UserResource(Resource):
     executed in the context of a specific user.
 
     """
+
     def get(self, user_id):
         """Responds to http://[domain or IP]:[port (default 5000)]/users/<user_id>
 
