@@ -77,7 +77,7 @@ uncovers cells, all of the adjacent cells that do not contain mines will be reve
 (User input should be in the form of: #,#)
 
 ## Contributors
-### Jill (%)
+### Jill (30%)
 - 
 
 ### Anders (35%)
@@ -92,7 +92,7 @@ uncovers cells, all of the adjacent cells that do not contain mines will be reve
   - Query database to insert and select users' usernames and passwords
   - Add controller tests
 
-### Andy(%)
+### Andy(0%)
 - 
 
 ### Matanya (30%)
