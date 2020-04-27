@@ -18,7 +18,7 @@ services:
     build:
       context: .
     # Wait for the database to spin up first if the app is started using Docker Compose.
-    command: wait-for-it.sh db:3306 -t 30 -s -- python3 ./pyarcade/start.py
+    command: wait-for-it.sh db:3306 -t 30 -- python3 ./pyarcade/start.py
     logging:
       driver: none
 
