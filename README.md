@@ -76,7 +76,7 @@ uncovers cells, all of the adjacent cells that do not contain mines will be reve
 ### Jill (%)
 - 
 
-### Anders (%)
+### Anders (40%)
 - Fix the database integration
   - Implement `wait-for-it.sh` script by cloning it onto the Docker machine
   in the Dockerfile
@@ -90,6 +90,13 @@ uncovers cells, all of the adjacent cells that do not contain mines will be reve
 ### Andy(%)
 - 
 
-### Matanya (%)
-- 
+### Matanya (30%)
+- Implemented storing and loading function for games in Pyarcade
+  - Implemented Pickling with Pickle to serialize games and store them
+  - Added ability to see loaded games.
+- Added automatic testing with Gitlab CI/CD and tox.
+  - Switched over testing framework.
+- Did general bug fixes and improvements
+- Updated documentation
+
 
