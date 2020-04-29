@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api, Resource
 from flask import Flask, render_template, redirect, url_for
@@ -8,7 +8,9 @@ from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Length
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from typing import List
+from pyarcade.input_system import InputSystem
 
+input_system = InputSystem()
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'd9eae96b0e36281c7de5759e5d1aa7740426000710b2db47'
@@ -138,9 +140,35 @@ class RegisterForm(FlaskForm):
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
 
 
+class GameForm(FlaskForm):
+    input = StringField()
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
+@app.route('/mastermind', methods=['GET', 'POST'])
+def mastermind():
+    form = GameForm()
+
+    user_input = "New Game"
+    if form.validate_on_submit():
+        user_input = form.input.data
+        output_lines = input_system.handle_game_input('mastermind', user_input).splitlines(False)
+        return render_template('mastermind.html', form=form, output_lines=output_lines)
+
+    if request.method == "POST":
+        game_option = request.form["option"]
+        if game_option == "Quit":
+            return render_template('dashboard.html', name=current_user.username)
+        else:
+            output_lines = input_system.handle_game_input('mastermind', game_option.lower()).splitlines(False)
+            return render_template('mastermind.html', form=form, output_lines=output_lines)
+
+    output_lines = input_system.handle_game_input('mastermind', user_input).splitlines(False)
+    return render_template('mastermind.html', form=form, output_lines=output_lines)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -154,7 +182,7 @@ def login():
                 login_user(user, remember=form.remember.data)
                 return redirect(url_for('dashboard'))
 
-        return '<h1>Invalid username or password</h1>'
+        flash('Login Unsuccessful. Please check username and password', 'danger')
 
     return render_template('login.html', form=form)
 
@@ -166,13 +194,15 @@ def signup():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user:
-            return '<h1>Username already in use, please try a different username.</h1>'
+            flash('Username already in use. Please choose another.', 'danger')
+            return render_template('signup.html', form=form)
 
         new_user = User(username=form.username.data, passwd=form.password.data)
         db.session.add(new_user)
         db.session.commit()
 
-        return '<h1>New user has been created!</h1>'
+        flash(f'Account created for {form.username.data}!', 'success')
+        return redirect(url_for('index'))
 
     return render_template('signup.html', form=form)
 
