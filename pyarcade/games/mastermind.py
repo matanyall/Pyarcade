@@ -97,6 +97,10 @@ class Mastermind:
         return "Game reset"
 
     @staticmethod
+    def display_game_name():
+        return "Mastermind"
+
+    @staticmethod
     def display_help():
         return "type a 4 digit number to guess a 4 digit secret number" \
                "Each turn the game will return how close your guess was " \
