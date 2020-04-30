@@ -196,6 +196,10 @@ class BlackJack:
         return decision
 
     @staticmethod
+    def display_game_name():
+        return "BlackJack"
+
+    @staticmethod
     def display_help():
         return "You are originally dealt two cards and one card from the houses hand will be flipped up." \
                 "You have the choice to either have another card dealt to you (hit) or to stick with " \
