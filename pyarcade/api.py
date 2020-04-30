@@ -9,6 +9,7 @@ from wtforms.validators import InputRequired, Length
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from typing import List
 from pyarcade.input_system import InputSystem
+import pickle
 
 input_system = InputSystem()
 app = Flask(__name__)
@@ -119,13 +120,15 @@ class UserResource(Resource):
 api.add_resource(UserListResource, '/users')
 api.add_resource(UserResource, '/users/<int:user_id>')
 
+
 class Game(db.Model):
     __tablename__ = 'GameDB'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     player_id = db.Column(db.Integer, primary_key=True)
     save_name = db.Column(db.String(128), unique=True, nullable=False)
     save = db.Column(db.BLOB, unique=False, nullable=False)
+
 
 class GameListResource(Resource):
     """ A Resource is a collection of routes (think URLs) that map to these functions.
@@ -222,6 +225,10 @@ class GameForm(FlaskForm):
     input = StringField()
 
 
+class SaveForm(FlaskForm):
+    save_name = StringField(validators=[InputRequired(), Length(min=2, max=15)])
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -232,6 +239,10 @@ def mastermind():
     form = GameForm()
 
     user_input = "New Game"
+    if input_system.get_current_game():
+        input_system.game_to_load = input_system.current_game
+        user_input = "Continue"
+
     if request.method == "POST":
         if form.validate_on_submit():
             user_input = form.input.data
@@ -240,13 +251,40 @@ def mastermind():
         else:
             game_option = request.form["option"]
             if game_option == "Quit":
+                input_system.set_current_game(None)
                 return redirect(url_for('dashboard'))
+            elif game_option == "Save":
+                return redirect(url_for('save'))
             else:
                 output_lines = input_system.handle_game_input('mastermind', game_option.lower()).splitlines(False)
                 return render_template('mastermind.html', form=form, output_lines=output_lines)
 
     output_lines = input_system.handle_game_input('mastermind', user_input).splitlines(False)
     return render_template('mastermind.html', form=form, output_lines=output_lines)
+
+
+@app.route('/save', methods=['GET', 'POST'])
+def save():
+    form = SaveForm()
+
+    if form.validate_on_submit():
+        game = Game.query.filter_by(save_name=form.save_name.data).first()
+        if game and game.player_id == current_user.id:
+            flash('Save name already exists. Please choose another', 'danger')
+            return render_template('save.html', form=form)
+
+        current_game = input_system.get_current_game()
+        game_pickle = pickle.dumps(current_game)
+        new_save = Game(player_id=current_user.id, save_name=form.save_name.data,
+                        save=game_pickle)
+
+        db.session.add(new_save)
+        db.session.commit()
+
+        flash(f'{form.save_name.data} successfully saved!', 'success')
+        return redirect(url_for(current_game.display_game_name().lower()))
+
+    return render_template('save.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
