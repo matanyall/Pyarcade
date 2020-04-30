@@ -263,6 +263,34 @@ def mastermind():
     return render_template('mastermind.html', form=form, output_lines=output_lines)
 
 
+@app.route('/crazy_eights', methods=['GET', 'POST'])
+def crazy_eights():
+    form = GameForm()
+
+    user_input = "New Game"
+    if input_system.get_current_game():
+        input_system.game_to_load = input_system.current_game
+        user_input = "Continue"
+    if request.method == "POST":
+        if form.validate_on_submit():
+            user_input = form.input.data
+            output_lines = input_system.handle_game_input('Crazy Eights', user_input).splitlines(False)
+            return render_template('crazy_eights.html', form=form, output_lines=output_lines)
+        else:
+            game_option = request.form["option"]
+            if game_option == "Quit":
+                input_system.set_current_game(None)
+                return redirect(url_for('dashboard'))
+            elif game_option == "Save":
+                return redirect(url_for('save'))
+            else:
+                output_lines = input_system.handle_game_input('Crazy Eights', game_option.lower()).splitlines(False)
+                return render_template('crazy_eights.html', form=form, output_lines=output_lines)
+
+    output_lines = input_system.handle_game_input('Crazy Eights', user_input).splitlines(False)
+    return render_template('crazy_eights.html', form=form, output_lines=output_lines)
+
+
 @app.route('/save', methods=['GET', 'POST'])
 def save():
     form = SaveForm()
