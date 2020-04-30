@@ -68,10 +68,10 @@ class InputSystem:
                        + str(self.blackjack_game.user_hand[0].value) + ", " \
                        + str(self.blackjack_game.user_hand[1].value) + "\n"
             elif user_input.lower() == "continue":
-                return "\n Blackjack\n" + "\nHouse's revealed card: " \
-                   + str(self.blackjack_game.house_hand[0].value) + " \n\nPlayer Hand: \n" \
-                   + str(self.blackjack_game.user_hand[0].value) + ", " \
-                   + str(self.blackjack_game.user_hand[1].value) + "\n"
+                user_hand_sum = self.blackjack_game.calculate_current_sum(self.blackjack_game.user_hand)
+                house_hand_sum = self.blackjack_game.calculate_current_sum(self.blackjack_game.house_hand)
+                win_status = self.blackjack_game.win_condition(user_hand_sum, house_hand_sum)
+                return self.blackjack_game.display_state(user_hand_sum, house_hand_sum, win_status)
             return self.handle_blackjack_input(user_input)
         else:
             return "Invalid game provided."
