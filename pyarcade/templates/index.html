@@ -30,9 +30,20 @@ PyArcade
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-
     <div class="container">
-
+      <div class="col-md-8">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+      </div>
+    </div>
+    <div class="container">
       <div class="starter-template">
         <h1>Welcome to PyArcade</h1>
       </div>

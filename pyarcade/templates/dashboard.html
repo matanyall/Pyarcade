@@ -23,8 +23,6 @@ Dashboard
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Profile</a></li>
             <li><a href="{{ url_for('logout') }}">Log Out</a></li>
           </ul>
         </div>
@@ -35,7 +33,9 @@ Dashboard
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+            <li class="active"><a href="{{ url_for('dashboard') }}">Dashboard<span class="sr-only">(current)</span></a></li>
+             <li><a href="#">Saved Games<span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Scores<span class="sr-only">(current)</span></a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -43,20 +43,17 @@ Dashboard
           <p>This site is still under construction. Thank you for your patience!</p>
           <div class="row placeholders">
             <div class="col-xs-6 col-sm-3 placeholder">
-              <h4><a href="#">Mastermind</a></h4>
-              <span class="text-muted">Coming soon</span>
+              <h4><a href="{{ url_for('mastermind') }}">Mastermind</a></h4>
             </div>
             <div class="col-xs-6 col-sm-3 placeholder">
               <h4><a href="#">Minesweeper</a></h4>
               <span class="text-muted">Coming soon</span>
             </div>
             <div class="col-xs-6 col-sm-3 placeholder">
-              <h4><a href="#">Crazy Eights</a></h4>
-              <span class="text-muted">Coming soon</span>
+              <h4><a href="{{ url_for('crazy_eights') }}">Crazy Eights</a></h4>
             </div>
             <div class="col-xs-6 col-sm-3 placeholder">
-              <h4><a href="#">BlackJack</a></h4>
-              <span class="text-muted">Coming soon</span>
+              <h4><a href="{{ url_for('blackjack') }}">BlackJack</a></h4>
             </div>
           </div>
         </div>
