@@ -57,3 +57,6 @@ class Card:
 
     def get_suit(self) -> Suit:
         return self.SUIT
+
+    def is_face_card(self) -> bool:
+        return self.RANK > Rank.TEN
