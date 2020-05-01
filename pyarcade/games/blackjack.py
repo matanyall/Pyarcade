@@ -1,68 +1,35 @@
-import random
+from pyarcade.games.card import Rank
+from pyarcade.games.deck import Deck
 
 
-class Deck:
-    """
-    deck class that holds cards, built and shuffled on init
-    """
-
-    def __init__(self):
-        self.cards = []
-        self.__build_deck()
-        self.__shuffle()
-
-    def __build_deck(self):
-        suits = ["Spades", "Clubs", "Hearts", "Diamond"]
-        for suit in suits:
-            for val in range(1, 14):
-                self.cards.append(Card(suit, val))
-
-    def __shuffle(self):
-        random.shuffle(self.cards)
-
-
-class Card:
-    """
-    simple card class with 52 cards of 4 suits
-    """
-
-    def __init__(self, suit: str, value: int):
-        self.suit = suit
-        self.value = value
-
-
+# Count aces as 11 for now.
 class Blackjack:
-    """
-    Main class that handles setup of game and progression turn by turn
+    """Represent a game of blackjack, controlling game flow.
     """
     def __init__(self):
-        self.deck = Deck()
         self.user_hand = []
         self.house_hand = []
         self.game_state = "New Game"
         self.setup()
-
-    def draw(self) -> Card:
-        return self.deck.cards.pop(0)
 
     def setup(self):
         """
         sets up the game for player by drawing two cards for the player and the house
         """
         self.deck = Deck()
-        self.user_hand.append(self.draw())
-        self.house_hand.append(self.draw())
-        self.user_hand.append(self.draw())
-        self.house_hand.append(self.draw())
+        self.deck.shuffle()
+        self.user_hand.append(self.deck.draw())
+        self.house_hand.append(self.deck.draw())
+        self.user_hand.append(self.deck.draw())
+        self.house_hand.append(self.deck.draw())
 
     def hit(self, hand: list):
-        hand.append(self.draw())
+        hand.append(self.deck.draw())
 
     def clear(self):
         """
         clears deck and hands for clean slate
         """
-        self.deck.cards.clear()
         self.house_hand.clear()
         self.user_hand.clear()
         self.game_state = "New Game"
@@ -81,12 +48,12 @@ class Blackjack:
         """
         curr_sum = 0
         for card in hand:
-            if card.value == 14:
+            if card.get_rank() == Rank.ACE:
                 curr_sum += 11
-            elif 10 < card.value < 14:
+            elif card.is_face_card():
                 curr_sum += 10
             else:
-                curr_sum += card.value
+                curr_sum += card.get_rank().value
 
         return curr_sum
 
@@ -108,19 +75,15 @@ class Blackjack:
         checks if the user has won or lost, this is used when the player stands and the game is ending
         """
         if user_sum > 21 and house_sum > 21:
-            self.clear()
             return self.tie()
 
         if user_sum > 21:
-            self.clear()
             return self.bust()
 
         if house_sum > 21:
-            self.clear()
             return self.win()
 
         if user_sum > house_sum:
-            self.clear()
             return self.win()
 
         else:
