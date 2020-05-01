@@ -2,7 +2,7 @@ from pyarcade.games.mastermind import Mastermind
 from pyarcade.games.minesweeper import Minesweeper
 from pyarcade.games.card import Rank, Suit, Card
 from pyarcade.games.crazy_eights import CrazyEights
-from pyarcade.games.BlackJack import BlackJack
+from pyarcade.games.blackjack import Blackjack
 import re
 
 MASTERMIND_WIDTH = 4
@@ -17,7 +17,7 @@ class InputSystem:
         self.mastermind_game = Mastermind()
         self.minesweeper_game = Minesweeper()
         self.crazy_eights_game = CrazyEights(CRAZY_EIGHTS_NUM_PLAYERS)
-        self.blackjack_game = BlackJack()
+        self.blackjack_game = Blackjack()
         self.game_to_load = None
         self.current_game = None
 
@@ -61,7 +61,7 @@ class InputSystem:
             return self.handle_crazy_eights_input(user_input)
         elif game_name.lower() == "blackjack":
             if user_input.lower() == "new game":
-                self.blackjack_game = BlackJack()
+                self.blackjack_game = Blackjack()
                 self.current_game = self.blackjack_game
                 return "\n Blackjack\n" + "\nHouse's revealed card: " \
                        + str(self.blackjack_game.house_hand[0].value) + " \n\nPlayer Hand: \n" \
@@ -196,7 +196,7 @@ class InputSystem:
     def handle_blackjack_input(self, user_input: str) -> str:
 
         if user_input.lower() == "help":
-            return BlackJack.display_help()
+            return Blackjack.display_help()
         if user_input.lower() == "reset":
             return self.blackjack_game.reset()
         if user_input.lower() == "clear":
@@ -209,10 +209,10 @@ class InputSystem:
 
         if user_input.lower() == "load":
             self.blackjack_game = self.game_to_load
-            user_hand_sum = BlackJack.calculate_current_sum(self.blackjack_game.user_hand)
-            house_hand_sum = BlackJack.calculate_current_sum(self.blackjack_game.house_hand)
-            win_status = BlackJack.win_condition(user_hand_sum, house_hand_sum)
-            return BlackJack.display_state(user_hand_sum,house_hand_sum,win_status)
+            user_hand_sum = Blackjack.calculate_current_sum(self.blackjack_game.user_hand)
+            house_hand_sum = Blackjack.calculate_current_sum(self.blackjack_game.house_hand)
+            win_status = Blackjack.win_condition(user_hand_sum, house_hand_sum)
+            return Blackjack.display_state(user_hand_sum,house_hand_sum,win_status)
         if user_input.lower() == "hit" or user_input.lower() == "stand":
             return self.blackjack_game.start_game(user_input)
         else:
