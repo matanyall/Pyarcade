@@ -14,4 +14,4 @@ services:
     environment:
       - FLASK_APP=pyarcade/start
       - FLASK_ENV=development
-    command: wait-for-it.sh database:3306 -t 30 -- python setup.py test
+    command: wait-for-it.sh db:3306 -t 30 -s -- python setup.py test

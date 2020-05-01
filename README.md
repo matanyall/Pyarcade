@@ -22,22 +22,25 @@ PyArcade is only playable through command line. Online version coming soon.
 - Docker
 
 ### Steps
-1. Clone the repository.  
+1. Clone the repository and navigate to the repository root.  
 ```
 git clone http://cmsc435.garrettvanhoy.com/cmsc435_group/pyarcade_extension.git
-```
-2. Navigate to the repository root and run the app.
-```
 cd pyarcade_extension
-docker-compose run --rm app
 ```
-## Running the login page
-1. Start pyarcade with the pyarcade-deploy.yml
-```
-docker-compose -f pyarcade-deploy.yml up
-```
-2. Go to http://0.0.0.0/signup in your browser to make an account.
-3. After signing up, go to http://0.0.0.0/login to sign into your account.
+2. Run the app.
+##### Running the App
+- Browser UI
+  1. Start the app.
+  ```
+  docker-compose up
+  ```
+  2. Go to http://0.0.0.0:5000/ in your browser
+- Command Line UI
+  1. Start the app.
+  ```
+  docker-compose -f pyarcade-cmdline.yml run --rm app
+  ```
+
 ### Notes
 - **DEVELOPERS:**  
 If changes are made to the code base, `docker-compose run` does not pick up on
@@ -73,10 +76,10 @@ uncovers cells, all of the adjacent cells that do not contain mines will be reve
 (User input should be in the form of: #,#)
 
 ## Contributors
-### Jill (%)
+### Jill (35%)
 - 
 
-### Anders (40%)
+### Anders (35%)
 - Fix the database integration
   - Implement `wait-for-it.sh` script by cloning it onto the Docker machine
   in the Dockerfile
@@ -86,8 +89,9 @@ uncovers cells, all of the adjacent cells that do not contain mines will be reve
 - Add user accounts
   - Add UI / input handling for create account, login, and logout
   - Query database to insert and select users' usernames and passwords
+  - Add controller tests
 
-### Andy(%)
+### Andy(0%)
 - 
 
 ### Matanya (30%)

@@ -19,6 +19,13 @@ class InputSystem:
         self.crazy_eights_game = CrazyEights(CRAZY_EIGHTS_NUM_PLAYERS)
         self.blackjack_game = BlackJack()
         self.game_to_load = None
+        self.current_game = None
+
+    def get_current_game(self):
+        return self.current_game
+
+    def set_current_game(self, game):
+        self.current_game = game
 
     def set_game_to_load(self, game):
         self.game_to_load = game
@@ -27,16 +34,27 @@ class InputSystem:
         if game_name.lower() == "mastermind":
             if user_input.lower() == "new game":
                 self.mastermind_game = Mastermind()
+                self.current_game = self.mastermind_game
+                return "\nMastermind\n"
+            elif user_input.lower() == "continue":
                 return "\nMastermind\n"
             return self.handle_mastermind_input(user_input)
         elif game_name.lower() == "minesweeper":
             if user_input.lower() == "new game":
                 self.minesweeper_game = Minesweeper()
+                self.current_game = self.minesweeper_game
+                return "\nMinesweeper\n\n" + self.minesweeper_game.draw_board() + "\n"
+            elif user_input.lower() == "continue":
                 return "\nMinesweeper\n\n" + self.minesweeper_game.draw_board() + "\n"
             return self.handle_minesweeper_input(user_input)
         elif game_name.lower() == "crazy eights":
             if user_input.lower() == "new game":
                 self.crazy_eights_game = CrazyEights(CRAZY_EIGHTS_NUM_PLAYERS)
+                self.current_game = self.crazy_eights_game
+                return "\nCrazy Eights\n\n" + self.crazy_eights_game.game_state + "\nTop Card: " \
+                       + self.crazy_eights_game.show_top_card() + " \n\nPlayer Hand: \n" \
+                       + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM) + "\n"
+            elif user_input.lower() == "continue":
                 return "\nCrazy Eights\n\n" + self.crazy_eights_game.game_state + "\nTop Card: " \
                        + self.crazy_eights_game.show_top_card() + " \n\nPlayer Hand: \n" \
                        + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM) + "\n"
@@ -44,10 +62,16 @@ class InputSystem:
         elif game_name.lower() == "blackjack":
             if user_input.lower() == "new game":
                 self.blackjack_game = BlackJack()
+                self.current_game = self.blackjack_game
                 return "\n Blackjack\n" + "\nHouse's revealed card: " \
                        + str(self.blackjack_game.house_hand[0].value) + " \n\nPlayer Hand: \n" \
                        + str(self.blackjack_game.user_hand[0].value) + ", " \
                        + str(self.blackjack_game.user_hand[1].value) + "\n"
+            elif user_input.lower() == "continue":
+                user_hand_sum = self.blackjack_game.calculate_current_sum(self.blackjack_game.user_hand)
+                house_hand_sum = self.blackjack_game.calculate_current_sum(self.blackjack_game.house_hand)
+                win_status = self.blackjack_game.win_condition(user_hand_sum, house_hand_sum)
+                return self.blackjack_game.display_state(user_hand_sum, house_hand_sum, win_status)
             return self.handle_blackjack_input(user_input)
         else:
             return "Invalid game provided."

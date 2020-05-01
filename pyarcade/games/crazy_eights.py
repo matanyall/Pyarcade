@@ -331,6 +331,10 @@ class CrazyEights:
         return "History cleared"
 
     @staticmethod
+    def display_game_name():
+        return "crazy_eights"
+
+    @staticmethod
     def display_help():
         return " Play a card that matches either the suit or value of the top card. Input is taken as value,suit i.e" \
                "seven,hearts to play the seven of hearts." \
