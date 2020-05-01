@@ -9,8 +9,6 @@ from sqlalchemy.orm import sessionmaker
 
 
 # TODO: logically split the app. This is the model?
-
-
 class Controller():
     """[summary]
     """
@@ -24,10 +22,20 @@ class Controller():
         self.session = Session()
         Base.metadata.create_all(self.engine)
 
+    def begin_nested(self) -> None:
+        """Issue a new SAVEPOINT for rollbacks.
+        """
+        self.session.begin_nested()
+
+    def rollback(self) -> None:
+        """Roll back the session to the last SAVEPOINT.
+        """
+        self.session.rollback()
+
     #
     # HELPERS
     #
-    def __sanitize(self, ip: str) -> str:
+    def _sanitize(self, ip: str) -> str:
         """Guard against dangerous user input.
 
         Args:
@@ -52,11 +60,11 @@ class Controller():
         Returns:
             bool: whether the user was logged in successfully
         """
-        safe_username = self.__sanitize(username)
-        safe_passwd = self.__sanitize(passwd)
+        safe_username = self._sanitize(username)
+        safe_passwd = self._sanitize(passwd)
 
         # Query the database for a user that has the username and password.
-        user = self.get_user(safe_username, safe_passwd)
+        user = self._get_user(safe_username, safe_passwd)
 
         # Return whether the login was successful.
         return bool(user)
@@ -75,10 +83,10 @@ class Controller():
         Returns:
             bool: whether the user was registered successfully
         """
-        safe_username = self.__sanitize(username)
-        safe_passwd = self.__sanitize(passwd)
+        safe_username = self._sanitize(username)
+        safe_passwd = self._sanitize(passwd)
 
-        if safe_passwd != confirm or self.get_user(safe_username):
+        if safe_passwd != confirm or self._get_user(safe_username):
             return False
 
         user = User(username=safe_username, passwd=safe_passwd)
@@ -86,7 +94,7 @@ class Controller():
         self.session.commit()
         return True
 
-    def get_user(self, username: str, passwd: Optional[str] = None) -> User:
+    def _get_user(self, username: str, passwd: Optional[str] = None) -> User:
         """Get a registered user.
 
         Args:
@@ -97,25 +105,33 @@ class Controller():
         Returns:
             User: user data for the user with username
         """
-        safe_username = self.__sanitize(username)
+        safe_username = self._sanitize(username)
         if passwd:
-            safe_passwd = self.__sanitize(passwd)
+            safe_passwd = self._sanitize(passwd)
 
         user = None
         if passwd:
-            user = self.session.query(User) \
-                .filter(User.username == safe_username) \
-                .filter(User.passwd == safe_passwd) \
-                .first()
+            user = self.session.query(User)\
+                    .filter(User.username == safe_username)\
+                    .filter(User.passwd == safe_passwd)\
+                    .first()
         else:
             # Note that usernames should be unique.
-            user = self.session.query(User) \
-                .filter(User.username == safe_username) \
-                .first()
+            user = self.session.query(User)\
+                    .filter(User.username == safe_username)\
+                    .first()
         return user
 
+    def delete_user(self, username: str) -> None:
+        """Delete a user from the Users table.
+
+        Args:
+            username (str): username of user to be deleted
+        """
+        pass
+
     def save_game_with_username(self, game_object, save_name, username):
-        user_id = self.get_user(username)
+        user_id = self._get_user(username)
         return self.save_game(game_object, save_name, user_id.id)
 
     def save_game(self, game_object, save_name: str, user_id: int):
@@ -125,19 +141,19 @@ class Controller():
         self.session.commit()
 
     def load_game(self, save_name: str, username: int):
-        user_id = self.get_user(username)
+        user_id = self._get_user(username)
         game = self.session.query(GameDB).filter(GameDB.player_id == user_id.id).filter(
             GameDB.save_name == save_name).first()
         result = pickle.loads(game.save)
         return result
 
     def list_saves(self, username: str):
-        user_id = self.get_user(username)
+        user_id = self._get_user(username)
         save_list = self.session.query(GameDB).filter(GameDB.player_id == user_id.id).all()
         return save_list
 
     def get_save(self, save_name: str, username: str):
-        user_id = self.get_user(username)
+        user_id = self._get_user(username)
         save = self.session.query(GameDB).filter(GameDB.player_id == user_id.id).filter(
             GameDB.save_name == save_name).first()
         return save
