@@ -14,7 +14,9 @@ services:
       - db
     environment:
       - FLASK_APP=pyarcade/api:create_app()
-      - FLASK_ENV=production
+      - FLASK_ENV=development
     ports:
       - 5000:5000
-    command: wait-for-it.sh database:3306 -t 30 -- flask run --host=0.0.0.0
+    # Use a long timeout to accomodate various machines. Use the strict option
+    # so that the command is not run if the polling fails.
+    command: wait-for-it.sh db:3306 -t 60 -s -- flask run --host=0.0.0.0
