@@ -1,10 +1,10 @@
-from pyarcade.controller import Controller
+from pyarcade.model import Model
 from pyarcade.input_system import InputSystem
 from os import system, name
 
 
 def run_pyarcade():
-    controller = Controller()
+    model = Model()
     input_sys = InputSystem()
     username_logged_in = None
 
@@ -29,14 +29,14 @@ def run_pyarcade():
             passwd = input()
             print('Confirm password:')
             confirm = input()
-            register_status = controller.register(username, passwd, confirm)
+            register_status = model.register(username, passwd, confirm)
 
             clear()
             if not register_status:
                 print('Failed to create account.')
             else:
                 print('Account created.')
-                controller.authenticate(username, passwd)
+                model.authenticate(username, passwd)
                 username_logged_in = username
             continue
         if game_input == '6' and username_logged_in:
@@ -46,7 +46,7 @@ def run_pyarcade():
             username = input()
             print('Password:')
             passwd = input()
-            auth_status = controller.authenticate(username, passwd)
+            auth_status = model.authenticate(username, passwd)
 
             clear()
 
@@ -60,7 +60,7 @@ def run_pyarcade():
             break
 
         if game_input == '7' and username_logged_in:
-            saves = controller.list_saves(username_logged_in)
+            saves = model.list_saves(username_logged_in)
             for save in saves:
                 print(save.save_name)
             print("Enter any key to continue:")
@@ -107,16 +107,16 @@ def run_pyarcade():
                 print("Enter save name: ")
                 save_name = str(input())
                 game_obj = input_sys.handle_game_input(game_in_play, user_move)
-                controller.save_game_with_username(game_obj, save_name, username_logged_in)
+                model.save_game_with_username(game_obj, save_name, username_logged_in)
                 input_sys.handle_game_input(game_in_play, user_move)
 
             elif user_move.lower() == "load" and username_logged_in:
-                saves = controller.list_saves(username_logged_in)
+                saves = model.list_saves(username_logged_in)
                 for save in saves:
                     print(save.save_name)
                 print("Type name of save: ")
                 save_name = str(input())
-                game_save = controller.load_game(save_name, username_logged_in)
+                game_save = model.load_game(save_name, username_logged_in)
                 input_sys.set_game_to_load(game_save)
                 print(input_sys.handle_game_input(game_in_play, user_move))
             else:
