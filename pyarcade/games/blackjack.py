@@ -134,14 +134,14 @@ class Blackjack:
             self.hit(self.user)
             user_sum = self.calculate_current_sum(self.user)
             win_status = self.check_if_bust(user_sum, house_sum)
-        
+
         # user stands
         elif decision == "stand":
             # dealer must hit under 17
             while house_sum < 17:
                 self.hit(self.house)
                 house_sum = self.calculate_current_sum(self.house)
-            
+
             win_status = self.win_condition()
 
         elif decision == "help" :
