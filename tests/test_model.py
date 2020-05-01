@@ -1,4 +1,4 @@
-from pyarcade.controller import Controller
+from pyarcade.model import Model
 import unittest
 
 
@@ -9,80 +9,80 @@ _CONFIRM = _PASSWORD
 _TYPO = 'f'
 
 
-class ControllerTestCase(unittest.TestCase):
+class ModelTestCase(unittest.TestCase):
     def setUp(self):
-        self.controller = Controller()
+        self.model = Model()
         # Issue a SAVEPOINT so the database can be rolled back between tests.
-        self.controller.begin_nested()
+        self.model.begin_nested()
 
     def tearDown(self):
         # Roll back the database.
-        self.controller.rollback()
+        self.model.rollback()
 
     def test_sanitize(self):
         # TODO: implement sanitize.
         pass
 
-    def test_register_success(self):
-        status = self.controller.register(_USER1, _PASSWORD, _CONFIRM)
+    def test_add_user_success(self):
+        status = self.model.add_user(_USER1, _PASSWORD, _CONFIRM)
         self.assertTrue(status)
 
-    def test_register_passwords_dont_match(self):
+    def test_add_user_passwords_dont_match(self):
         confirm_typo = _PASSWORD + _TYPO
 
-        status = self.controller.register(_USER1, _PASSWORD, confirm_typo)
+        status = self.model.add_user(_USER1, _PASSWORD, confirm_typo)
         self.assertFalse(status)
 
-    def test_register_username_already_taken(self):
-        self.controller.register(_USER1, _PASSWORD, _CONFIRM)
+    def test_add_user_username_already_taken(self):
+        self.model.add_user(_USER1, _PASSWORD, _CONFIRM)
 
-        status = self.controller.register(_USER1, _PASSWORD, _CONFIRM)
+        status = self.model.add_user(_USER1, _PASSWORD, _CONFIRM)
         self.assertFalse(status)
 
     def test_get_user_by_username(self):
-        self.controller.register(_USER1, _PASSWORD, _CONFIRM)
+        self.model.add_user(_USER1, _PASSWORD, _CONFIRM)
 
-        user = self.controller._get_user(_USER1)
+        user = self.model._get_user(_USER1)
         self.assertTrue(user)
         self.assertEqual(user.username, _USER1)
         self.assertEqual(user.passwd, _PASSWORD)
 
     def test_get_user_by_username_and_password(self):
-        self.controller.register(_USER1, _PASSWORD, _CONFIRM)
+        self.model.add_user(_USER1, _PASSWORD, _CONFIRM)
 
-        user = self.controller._get_user(_USER1, _PASSWORD)
+        user = self.model._get_user(_USER1, _PASSWORD)
         self.assertTrue(user)
         self.assertEqual(user.username, _USER1)
         self.assertEqual(user.passwd, _PASSWORD)
 
     def test_get_user_by_username_not_found(self):
-        user = self.controller._get_user(_USER1)
+        user = self.model._get_user(_USER1)
         self.assertFalse(user)
 
     def test_get_user_by_username_and_password_not_found(self):
-        self.controller.register(_USER1, _PASSWORD, _CONFIRM)
+        self.model.add_user(_USER1, _PASSWORD, _CONFIRM)
 
         # Request an existing user, but with the wrong password.
         passwd_typo = _PASSWORD + _TYPO
-        user = self.controller._get_user(_USER1, passwd_typo)
+        user = self.model._get_user(_USER1, passwd_typo)
         self.assertFalse(user)
 
         # Request a nonexistant user, but with a password that another user is
         # using.
         nonexistant_user = _USER1 + _TYPO
-        user = self.controller._get_user(nonexistant_user, _PASSWORD)
+        user = self.model._get_user(nonexistant_user, _PASSWORD)
         self.assertFalse(user)
 
-    def test_authenticate_success(self):
-        self.controller.register(_USER1, _PASSWORD, _CONFIRM)
+    def test_authenticate_user_success(self):
+        self.model.add_user(_USER1, _PASSWORD, _CONFIRM)
 
-        status = self.controller.authenticate(_USER1, _PASSWORD)
+        status = self.model.authenticate_user(_USER1, _PASSWORD)
         self.assertTrue(status)
 
-    def test_authenticate_failure(self):
+    def test_authenticate_user_failure(self):
         # Do not worry about special cases, as they are tested in
-        # test_get_user_* and authenticate is essentially a wrapper.
-        status = self.controller.authenticate(_USER1, _PASSWORD)
+        # test_get_user_* and authenticate_user is essentially a wrapper.
+        status = self.model.authenticate_user(_USER1, _PASSWORD)
         self.assertFalse(status)
 
     def test_stress_1(self):
@@ -95,13 +95,13 @@ class ControllerTestCase(unittest.TestCase):
         p2 = _PASSWORD
         p3 = '1234'
 
-        self.controller.register(u1, p1, p1)
-        self.controller.register(u2, p2, p2)
-        self.controller.register(u3, p3, p3)
+        self.model.add_user(u1, p1, p1)
+        self.model.add_user(u2, p2, p2)
+        self.model.add_user(u3, p3, p3)
 
-        status = self.controller.authenticate(u2, p2)
+        status = self.model.authenticate_user(u2, p2)
         self.assertTrue(status)
 
-        status = self.controller.authenticate(u3, p1)
+        status = self.model.authenticate_user(u3, p1)
         self.assertFalse(status)
 
