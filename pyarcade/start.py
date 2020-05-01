@@ -107,7 +107,7 @@ def run_pyarcade():
                 print("Enter save name: ")
                 save_name = str(input())
                 game_obj = input_sys.handle_game_input(game_in_play, user_move)
-                model.save_game_with_username(game_obj, save_name, username_logged_in)
+                model.save_game_by_username(game_obj, save_name, username_logged_in)
                 input_sys.handle_game_input(game_in_play, user_move)
 
             elif user_move.lower() == "load" and username_logged_in:

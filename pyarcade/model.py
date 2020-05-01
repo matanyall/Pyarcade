@@ -119,15 +119,15 @@ class Model():
         """
         pass
 
-    def save_game_with_username(self, game_object, save_name, username):
-        user_id = self._get_user(username)
-        return self.save_game(game_object, save_name, user_id.id)
-
     def save_game(self, game_object, save_name: str, user_id: int):
         game_pickle = pickle.dumps(game_object)
         game = GameDB(player_id=user_id, save_name=save_name, save=game_pickle)
         self.session.add(game)
         self.session.commit()
+
+    def save_game_by_username(self, game_object, save_name, username):
+        user_id = self._get_user(username)
+        return self.save_game(game_object, save_name, user_id.id)
 
     def load_game(self, save_name: str, username: int):
         user_id = self._get_user(username)
