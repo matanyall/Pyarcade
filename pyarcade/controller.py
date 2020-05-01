@@ -35,7 +35,7 @@ class Controller():
     #
     # HELPERS
     #
-    def __sanitize(self, ip: str) -> str:
+    def _sanitize(self, ip: str) -> str:
         """Guard against dangerous user input.
 
         Args:
@@ -60,11 +60,11 @@ class Controller():
         Returns:
             bool: whether the user was logged in successfully
         """
-        safe_username = self.__sanitize(username)
-        safe_passwd = self.__sanitize(passwd)
+        safe_username = self._sanitize(username)
+        safe_passwd = self._sanitize(passwd)
 
         # Query the database for a user that has the username and password.
-        user = self.get_user(safe_username, safe_passwd)
+        user = self._get_user(safe_username, safe_passwd)
 
         # Return whether the login was successful.
         return bool(user)
@@ -83,10 +83,10 @@ class Controller():
         Returns:
             bool: whether the user was registered successfully
         """
-        safe_username = self.__sanitize(username)
-        safe_passwd = self.__sanitize(passwd)
+        safe_username = self._sanitize(username)
+        safe_passwd = self._sanitize(passwd)
 
-        if safe_passwd != confirm or self.get_user(safe_username):
+        if safe_passwd != confirm or self._get_user(safe_username):
             return False
 
         user = User(username=safe_username, passwd=safe_passwd)
@@ -94,7 +94,7 @@ class Controller():
         self.session.commit()
         return True
 
-    def get_user(self, username: str, passwd: Optional[str] = None) -> User:
+    def _get_user(self, username: str, passwd: Optional[str] = None) -> User:
         """Get a registered user.
 
         Args:
@@ -105,9 +105,9 @@ class Controller():
         Returns:
             User: user data for the user with username
         """
-        safe_username = self.__sanitize(username)
+        safe_username = self._sanitize(username)
         if passwd:
-            safe_passwd = self.__sanitize(passwd)
+            safe_passwd = self._sanitize(passwd)
 
         user = None
         if passwd:
@@ -131,7 +131,7 @@ class Controller():
         pass
 
     def save_game_with_username(self, game_object, save_name, username):
-        user_id = self.get_user(username)
+        user_id = self._get_user(username)
         return self.save_game(game_object, save_name, user_id.id)
 
     def save_game(self, game_object, save_name: str, user_id: int):
@@ -141,19 +141,19 @@ class Controller():
         self.session.commit()
 
     def load_game(self, save_name: str, username: int):
-        user_id = self.get_user(username)
+        user_id = self._get_user(username)
         game = self.session.query(GameDB).filter(GameDB.player_id == user_id.id).filter(
             GameDB.save_name == save_name).first()
         result = pickle.loads(game.save)
         return result
 
     def list_saves(self, username: str):
-        user_id = self.get_user(username)
+        user_id = self._get_user(username)
         save_list = self.session.query(GameDB).filter(GameDB.player_id == user_id.id).all()
         return save_list
 
     def get_save(self, save_name: str, username: str):
-        user_id = self.get_user(username)
+        user_id = self._get_user(username)
         save = self.session.query(GameDB).filter(GameDB.player_id == user_id.id).filter(
             GameDB.save_name == save_name).first()
         return save

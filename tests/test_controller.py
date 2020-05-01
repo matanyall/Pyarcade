@@ -2,17 +2,21 @@ from pyarcade.controller import Controller
 import unittest
 
 
+_USER1 = 'user1'
+_PASSWORD = 'password'
+# Set the password confirmation to match the password, by default.
+_CONFIRM = _PASSWORD
+_TYPO = 'f'
+
+
 class ControllerTestCase(unittest.TestCase):
     def setUp(self):
         self.controller = Controller()
+        # Issue a SAVEPOINT so the database can be rolled back between tests.
         self.controller.begin_nested()
-        self.username = 'user1'
-        self.passwd = 'password'
-        # Set the password confirmation to match the password, by default.
-        self.confirm = self.passwd
-        self.__TYPO = 'f'
 
     def tearDown(self):
+        # Roll back the database.
         self.controller.rollback()
 
     def test_sanitize(self):
@@ -20,78 +24,75 @@ class ControllerTestCase(unittest.TestCase):
         pass
 
     def test_register_success(self):
-        status = self.controller.register(self.username, self.passwd,
-                self.confirm)
+        status = self.controller.register(_USER1, _PASSWORD, _CONFIRM)
         self.assertTrue(status)
 
     def test_register_passwords_dont_match(self):
-        confirm_typo = self.passwd + self.__TYPO
+        confirm_typo = _PASSWORD + _TYPO
 
-        status = self.controller.register(self.username, self.passwd,
-                confirm_typo)
+        status = self.controller.register(_USER1, _PASSWORD, confirm_typo)
         self.assertFalse(status)
 
     def test_register_username_already_taken(self):
-        self.controller.register(self.username, self.passwd, self.confirm)
+        self.controller.register(_USER1, _PASSWORD, _CONFIRM)
 
-        status = self.controller.register(self.username, self.passwd,
-                self.confirm)
+        status = self.controller.register(_USER1, _PASSWORD, _CONFIRM)
         self.assertFalse(status)
 
     def test_get_user_by_username(self):
-        self.controller.register(self.username, self.passwd, self.confirm)
+        self.controller.register(_USER1, _PASSWORD, _CONFIRM)
 
-        user = self.controller.get_user(self.username)
+        user = self.controller._get_user(_USER1)
         self.assertTrue(user)
-        self.assertEqual(user.username, self.username)
-        self.assertEqual(user.passwd, self.passwd)
+        self.assertEqual(user.username, _USER1)
+        self.assertEqual(user.passwd, _PASSWORD)
 
     def test_get_user_by_username_and_password(self):
-        self.controller.register(self.username, self.passwd, self.confirm)
+        self.controller.register(_USER1, _PASSWORD, _CONFIRM)
 
-        user = self.controller.get_user(self.username, self.passwd)
+        user = self.controller._get_user(_USER1, _PASSWORD)
         self.assertTrue(user)
-        self.assertEqual(user.username, self.username)
-        self.assertEqual(user.passwd, self.passwd)
+        self.assertEqual(user.username, _USER1)
+        self.assertEqual(user.passwd, _PASSWORD)
 
     def test_get_user_by_username_not_found(self):
-        user = self.controller.get_user(self.username)
+        user = self.controller._get_user(_USER1)
         self.assertFalse(user)
 
     def test_get_user_by_username_and_password_not_found(self):
-        self.controller.register(self.username, self.passwd, self.confirm)
+        self.controller.register(_USER1, _PASSWORD, _CONFIRM)
 
         # Request an existing user, but with the wrong password.
-        passwd_typo = self.passwd + self.__TYPO
-        user = self.controller.get_user(self.username, passwd_typo)
+        passwd_typo = _PASSWORD + _TYPO
+        user = self.controller._get_user(_USER1, passwd_typo)
         self.assertFalse(user)
 
         # Request a nonexistant user, but with a password that another user is
         # using.
-        nonexistant_user = self.username + self.__TYPO
-        user = self.controller.get_user(nonexistant_user, self.passwd)
+        nonexistant_user = _USER1 + _TYPO
+        user = self.controller._get_user(nonexistant_user, _PASSWORD)
         self.assertFalse(user)
 
     def test_authenticate_success(self):
-        self.controller.register(self.username, self.passwd, self.confirm)
+        self.controller.register(_USER1, _PASSWORD, _CONFIRM)
 
-        status = self.controller.authenticate(self.username, self.passwd)
+        status = self.controller.authenticate(_USER1, _PASSWORD)
         self.assertTrue(status)
 
     def test_authenticate_failure(self):
         # Do not worry about special cases, as they are tested in
         # test_get_user_* and authenticate is essentially a wrapper.
-        status = self.controller.authenticate(self.username, self.passwd)
+        status = self.controller.authenticate(_USER1, _PASSWORD)
         self.assertFalse(status)
 
     def test_stress_1(self):
         # Perform several registrations/insertions, followed by many
         # authentications/lookups.
-        u1 = self.username
+        u1 = _USER1
         u2 = 'user2'
         u3 = 'bob'
-        p1 = self.passwd
-        p2 = self.passwd
+        p1 = _PASSWORD
+        p2 = _PASSWORD
         p3 = '1234'
 
         self.controller.register(u1, p1, p1)
