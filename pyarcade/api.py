@@ -256,6 +256,9 @@ def mastermind():
                 return redirect(url_for('dashboard'))
             elif game_option == "Save":
                 return redirect(url_for('save'))
+            elif game_option == "Help":
+                flash(input_system.handle_game_input('mastermind', game_option.lower()), 'info')
+                return redirect(url_for('mastermind'))
             else:
                 output_lines = input_system.handle_game_input('mastermind', game_option.lower()).splitlines(False)
                 return render_template('mastermind.html', form=form, output_lines=output_lines)
@@ -341,6 +344,9 @@ def crazy_eights():
                 return redirect(url_for('dashboard'))
             elif game_option == "Save":
                 return redirect(url_for('save'))
+            elif game_option == "Help":
+                flash(input_system.handle_game_input('Crazy Eights', game_option.lower()), 'info')
+                return redirect(url_for('crazy_eights'))
             else:
                 output_lines = input_system.handle_game_input('Crazy Eights', game_option.lower()).splitlines(False)
                 return render_template('crazy_eights.html', form=form, output_lines=output_lines)
@@ -369,6 +375,9 @@ def blackjack():
                 return redirect(url_for('dashboard'))
             elif game_option == "Save":
                 return redirect(url_for('save'))
+            elif game_option == "Help":
+                flash(input_system.handle_game_input('blackjack', game_option.lower()), 'info')
+                return redirect(url_for('blackjack'))
             else:
                 output_lines = input_system.handle_game_input('blackjack', game_option.lower()).splitlines(False)
                 return render_template('blackjack.html', form=form, output_lines=output_lines)
