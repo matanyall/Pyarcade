@@ -31,7 +31,7 @@ class Card:
         self.value = value
 
 
-class BlackJack:
+class Blackjack:
     """
     Main class that handles setup of game and progression turn by turn
     """
