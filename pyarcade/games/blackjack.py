@@ -1,53 +1,56 @@
 from pyarcade.games.card import Rank
 from pyarcade.games.deck import Deck
+from pyarcade.games.player import Player
 
 
-# Count aces as 11 for now.
+# Count all aces as 11 for now.
+# TODO: Implement user choosing ace value to be 1 or 11.
 class Blackjack:
     """Represent a game of blackjack, controlling game flow.
     """
     def __init__(self):
-        self.user_hand = []
-        self.house_hand = []
+        self.user = Player()
+        self.house = Player()
         self.game_state = "New Game"
         self.setup()
 
-    def setup(self):
-        """
-        sets up the game for player by drawing two cards for the player and the house
+    def setup(self) -> None:
+        """Set up the game by dealing the player and the house two cards each.
         """
         self.deck = Deck()
         self.deck.shuffle()
-        self.user_hand.append(self.deck.draw())
-        self.house_hand.append(self.deck.draw())
-        self.user_hand.append(self.deck.draw())
-        self.house_hand.append(self.deck.draw())
+        self.user.add_to_hand(self.deck.draw())
+        self.house.add_to_hand(self.deck.draw())
+        self.user.add_to_hand(self.deck.draw())
+        self.house.add_to_hand(self.deck.draw())
 
-    def hit(self, hand: list):
-        hand.append(self.deck.draw())
+    def hit(self, player: Player) -> None:
+        """Deal a card to a player.
 
-    def clear(self):
+        Args:
+            player (Player): player who gets card
         """
-        clears deck and hands for clean slate
-        """
-        self.house_hand.clear()
-        self.user_hand.clear()
-        self.game_state = "New Game"
-        return "History cleared"
+        player.add_to_hand(self.deck.draw())
 
-    def reset(self):
+    def reset(self) -> None:
         self.clear()
         self.setup()
         return "Game reset"
 
-    # calculates sum of cards in hand
-    @staticmethod
-    def calculate_current_sum(hand: list) -> int:
+    def clear(self) -> None:
+        """Reset the game by clearing all player hands.
         """
-        calculates the total of the users hand
+        self.house.clear_hand()
+        self.user.clear_hand()
+        self.game_state = "New Game"
+        return "History cleared"
+
+    @staticmethod
+    def calculate_current_sum(player: Player) -> int:
+        """Calculate the sum of the card values in a player's hand.
         """
         curr_sum = 0
-        for card in hand:
+        for card in player.get_cards():
             if card.get_rank() == Rank.ACE:
                 curr_sum += 11
             elif card.is_face_card():
@@ -70,10 +73,15 @@ class Blackjack:
         return "TIE"
 
     # defines win conditions given both user sum and hand sum
-    def win_condition(self, user_sum: int, house_sum: int) -> str:
+    def win_condition(self) -> str:
+        """Check if the user has won or lost when the game is ending.
+
+        Returns:
+            str: result of the game
         """
-        checks if the user has won or lost, this is used when the player stands and the game is ending
-        """
+        user_sum = self.calculate_current_sum(self.user)
+        house_sum = self.calculate_current_sum(self.house)
+
         if user_sum > 21 and house_sum > 21:
             return self.tie()
 
@@ -106,31 +114,35 @@ class Blackjack:
             return self.win()
 
         return ""
-    # one turn of blackjack
-    def next_state(self, user_hand: list, house_hand: list, decision: str) -> str:
 
-        """
-        goes through one turn of blackjack based on input hit or stand
+    def next_state(self, decision: str) -> str:
+        """Play out one turn of blackjack given the user decision to hit or
+        stand.
+
+        Args:
+            decision (str): user decision to hit or stand
+
+        Returns:
+            str: next game state
         """
         win_status = ""
-        house_sum = self.calculate_current_sum(house_hand)
-        user_sum = self.calculate_current_sum(user_hand)
+        house_sum = self.calculate_current_sum(self.house)
+        user_sum = self.calculate_current_sum(self.user)
 
         # user hits
         if decision == "hit":
-            self.hit(user_hand)
-            user_sum = self.calculate_current_sum(user_hand)
+            self.hit(self.user)
+            user_sum = self.calculate_current_sum(self.user)
             win_status = self.check_if_bust(user_sum, house_sum)
         
         # user stands
         elif decision == "stand":
-
             # dealer must hit under 17
             while house_sum < 17:
-                self.hit(house_hand)
-                house_sum = self.calculate_current_sum(house_hand)
+                self.hit(self.house)
+                house_sum = self.calculate_current_sum(self.house)
             
-            win_status = self.win_condition(user_sum, house_sum)
+            win_status = self.win_condition()
 
         elif decision == "help" :
             return "Welcome to blackjack. Please type in your next move." \
@@ -140,22 +152,28 @@ class Blackjack:
             return "QUIT"
 
         # return the decision
-        return self.display_state(user_sum, house_sum, win_status)
+        return self.display_state(win_status)
 
-    def display_state(self, user_hand_sum: int, house_hand_sum: int, win_status: str):
+    def display_state(self, win_status: str) -> None:
+        """[summary]
+
+        Args:
+            win_status (str): [description]
+        """
+        user_hand_sum = self.calculate_current_sum(self.user)
+        house_hand_sum = self.calculate_current_sum(self.house)
+
         # strings to display
-
         user_hand_str = "CURRENT HAND: " + str(user_hand_sum)
         house_hand_str = "HOUSE HAND: " + str(house_hand_sum)
 
         return user_hand_str + "\n" + house_hand_str + "\n" + win_status
 
     def start_game(self, decision: str):
-
         #self.setup()
         result = ["BUST", "WIN BABY", "TIE", "QUIT"]
         if decision not in result:
-            decision = self.next_state(self.user_hand, self.house_hand, decision)
+            decision = self.next_state(decision)
         return decision
 
     @staticmethod
