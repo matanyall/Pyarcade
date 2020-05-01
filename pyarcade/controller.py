@@ -9,8 +9,6 @@ from sqlalchemy.orm import sessionmaker
 
 
 # TODO: logically split the app. This is the model?
-
-
 class Controller():
     """[summary]
     """
@@ -23,6 +21,16 @@ class Controller():
         Session = sessionmaker(bind=self.engine)
         self.session = Session()
         Base.metadata.create_all(self.engine)
+
+    def begin_nested(self) -> None:
+        """Issue a new SAVEPOINT for rollbacks.
+        """
+        self.session.begin_nested()
+
+    def rollback(self) -> None:
+        """Roll back the session to the last SAVEPOINT.
+        """
+        self.session.rollback()
 
     #
     # HELPERS
@@ -103,16 +111,24 @@ class Controller():
 
         user = None
         if passwd:
-            user = self.session.query(User) \
-                .filter(User.username == safe_username) \
-                .filter(User.passwd == safe_passwd) \
-                .first()
+            user = self.session.query(User)\
+                    .filter(User.username == safe_username)\
+                    .filter(User.passwd == safe_passwd)\
+                    .first()
         else:
             # Note that usernames should be unique.
-            user = self.session.query(User) \
-                .filter(User.username == safe_username) \
-                .first()
+            user = self.session.query(User)\
+                    .filter(User.username == safe_username)\
+                    .first()
         return user
+
+    def delete_user(self, username: str) -> None:
+        """Delete a user from the Users table.
+
+        Args:
+            username (str): username of user to be deleted
+        """
+        pass
 
     def save_game_with_username(self, game_object, save_name, username):
         user_id = self.get_user(username)

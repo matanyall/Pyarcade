@@ -5,11 +5,15 @@ import unittest
 class ControllerTestCase(unittest.TestCase):
     def setUp(self):
         self.controller = Controller()
+        self.controller.begin_nested()
         self.username = 'user1'
         self.passwd = 'password'
         # Set the password confirmation to match the password, by default.
         self.confirm = self.passwd
         self.__TYPO = 'f'
+
+    def tearDown(self):
+        self.controller.rollback()
 
     def test_sanitize(self):
         # TODO: implement sanitize.
@@ -64,7 +68,7 @@ class ControllerTestCase(unittest.TestCase):
 
         # Request a nonexistant user, but with a password that another user is
         # using.
-        nonexistant_user = self.user + self.__TYPO
+        nonexistant_user = self.username + self.__TYPO
         user = self.controller.get_user(nonexistant_user, self.passwd)
         self.assertFalse(user)
 
