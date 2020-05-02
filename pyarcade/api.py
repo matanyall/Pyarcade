@@ -218,8 +218,9 @@ class LoginForm(FlaskForm):
 
 
 class RegisterForm(FlaskForm):
-    username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
-    password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
+    username = StringField('Username:', validators=[InputRequired(), Length(min=4, max=15)])
+    password = PasswordField('Password:', validators=[InputRequired(), Length(min=8, max=80)])
+    # confirm = PasswordField('Confirm Password:', validators=[InputRequired(), Length(min=8, max=80)])
 
 
 class GameForm(FlaskForm):
@@ -235,7 +236,18 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/blackjack', methods=['GET', 'POST'])
+@app.route('/crazy_eights', methods=['GET', 'POST'])
 @app.route('/mastermind', methods=['GET', 'POST'])
+@app.route('/minesweeper', methods=['GET', 'POST'])
+def render_game_menu():
+    """Render a custom game menu for all games.
+    """
+    # ip_sys.get_current_game().get.name()
+    return render_template('skeleton.html', game_name = 'crazy_eights')
+
+
+@app.route('/mastermind/play', methods=['GET', 'POST'])
 def mastermind():
     form = GameForm()
 
@@ -264,7 +276,7 @@ def mastermind():
     return render_template('mastermind.html', form=form, output_lines=output_lines)
 
 
-@app.route('/crazy_eights', methods=['GET', 'POST'])
+@app.route('/crazy_eights/play', methods=['GET', 'POST'])
 def crazy_eights():
     form = GameForm()
 
@@ -292,7 +304,7 @@ def crazy_eights():
     return render_template('crazy_eights.html', form=form, output_lines=output_lines)
 
 
-@app.route('/blackjack', methods=['GET', 'POST'])
+@app.route('/blackjack/play', methods=['GET', 'POST'])
 def blackjack():
     form = GameForm()
 

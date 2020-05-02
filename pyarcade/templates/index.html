@@ -5,48 +5,53 @@ PyArcade
 {% endblock %}
 
 {% block styles %}
-{{super()}}
-<link rel="stylesheet" href="{{url_for('.static', filename='starter-template.css')}}">
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('.static', filename='index.css')}}">
 {% endblock %}
 
-{% block content %}
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">PyArcade</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="{{ url_for('login') }}">Login</a></li>
-            <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
-    <div class="container">
-      <div class="col-md-8">
-          {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-              {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">
-                  {{ message }}
-                </div>
-              {% endfor %}
-            {% endif %}
-          {% endwith %}
-      </div>
-    </div>
-    <div class="container">
-      <div class="starter-template">
-        <h1>Welcome to PyArcade</h1>
-      </div>
+{% block body %}
 
-    </div><!-- /.container -->
+<!-- Display the navbar. -->
+<div id="navbar" class="container">
+  {% block navbar %}
+  <nav class="navbar navbar-fixed-top navbar-inverse">
+    <a class="navbar-brand" href="/">PyArcade</a>
+    <ul class="nav navbar-nav">
+      <!-- Menu options that should be displayed to all users. -->
+      <li class="active"><a href="/">Home</a></li>
+      {% block navbar_elts %}
+      <!-- Menu options for logged out users. Menu options for logged in users
+      go in dashboard.html. -->
+      <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+      <li><a href="{{ url_for('login') }}">Log In</a></li>
+      {% endblock %}
+    </ul>
+  </nav>
+  {% endblock %}
+</div>
+
+<!-- Show alert messages above the current content. -->
+<div id="alert" class="container">
+  {% block alert %}
+  <div class="col-md-8">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+  </div>
+  {% endblock %}
+</div>
+
+<!-- Contain the page content. -->
+<div id="content" class="container">
+  {% block content %}
+  <h1>Welcome to PyArcade</h1>
+  {% endblock %}
+</div>
+
 {% endblock %}

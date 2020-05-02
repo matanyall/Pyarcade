@@ -1,0 +1,14 @@
+{% extends "dashboard.html" %}
+
+{% block title %}
+{{ game_name }}
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('.static', filename='game.css')}}">
+{% endblock %}
+
+{% block content %}
+<h2>hello, world</h2>
+{% endblock %}
