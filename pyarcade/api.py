@@ -213,9 +213,9 @@ api.add_resource(GameResource, '/games/<int:game_id>')
 
 
 class LoginForm(FlaskForm):
-    username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
-    password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
-    remember = BooleanField('remember me')
+    username = StringField('Username:', validators=[InputRequired(), Length(min=4, max=15)])
+    password = PasswordField('Password:', validators=[InputRequired(), Length(min=8, max=80)])
+    remember = BooleanField('Remember Me')
 
 
 class RegisterForm(FlaskForm):
@@ -235,6 +235,8 @@ class SaveForm(FlaskForm):
 
 @app.route('/')
 def index():
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
     return render_template('index.html')
 
 
@@ -387,9 +389,10 @@ def signup():
         new_user = User(username=form.username.data, passwd=form.password.data)
         db.session.add(new_user)
         db.session.commit()
+        login_user(new_user)
 
         flash(f'Account created for {form.username.data}!', 'success')
-        return redirect(url_for('index'))
+        return redirect(url_for('dashboard'))
 
     return render_template('signup.html', form=form)
 
