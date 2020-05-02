@@ -5,8 +5,9 @@ from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField
-from wtforms.validators import InputRequired, Length
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from wtforms.validators import InputRequired, Length, EqualTo
+from flask_login import LoginManager, UserMixin, login_user, login_required,\
+        logout_user, current_user
 from typing import List
 from pyarcade.input_system import InputSystem
 import pickle
@@ -220,7 +221,8 @@ class LoginForm(FlaskForm):
 class RegisterForm(FlaskForm):
     username = StringField('Username:', validators=[InputRequired(), Length(min=4, max=15)])
     password = PasswordField('Password:', validators=[InputRequired(), Length(min=8, max=80)])
-    # confirm = PasswordField('Confirm Password:', validators=[InputRequired(), Length(min=8, max=80)])
+    confirm = PasswordField('Confirm Password:', validators=[
+            InputRequired(), EqualTo('password', message='Passwords must match')])
 
 
 class GameForm(FlaskForm):
