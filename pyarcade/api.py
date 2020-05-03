@@ -28,6 +28,10 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 
+api.add_resource(UserListResource, '/users')
+api.add_resource(UserResource, '/users/<int:user_id>')
+
+
 class User(UserMixin, db.Model):
     """ A SQLAlchemy Model used to store information about a user. This only
     needs to have a collection of class variables that are of type db.Column.
@@ -37,6 +41,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(128), unique=True, nullable=False)
     passwd = db.Column(db.String(255), unique=False, nullable=False)
+    high_scores = db.relationship('HighScore', backref='user', lazy=True)
 
 
 @login_manager.user_loader
@@ -120,14 +125,15 @@ class UserResource(Resource):
         return '', 204
 
 
-api.add_resource(UserListResource, '/users')
-api.add_resource(UserResource, '/users/<int:user_id>')
+api.add_resource(GameListResource, '/games')
+api.add_resource(GameResource, '/games/<int:game_id>')
 
 
 class Game(db.Model):
     __tablename__ = 'GameDB'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    high_scores = db.relationship('HighScore', backref='game', lazy=True)
     player_id = db.Column(db.Integer, primary_key=True)
     save_name = db.Column(db.String(128), unique=True, nullable=False)
     save = db.Column(db.BLOB, unique=False, nullable=False)
@@ -209,8 +215,110 @@ class GameResource(Resource):
         return '', 204
 
 
-api.add_resource(GameListResource, '/games')
-api.add_resource(GameResource, '/games/<int:game_id>')
+# General high score requests can be made at /high_scores.
+api.add_resource(HighScoreListResource, '/high_scores')
+# Specific high score requests can be made using a high score ID.
+api.add_resource(HighScoreResource, '/high_scores/<int:high_score_id>')
+
+
+class HighScore(db.Model):
+    __tablename__ = 'HighScore'
+
+    id = db.Column(db.Integer, primary_key=True)
+    game_id = db.Column(db.Integer, db.ForeignKey('game.id'), nullable=False)
+    score = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+
+class HighScoreListResource(Resource):
+    """Respond to REST API requests GET and POST at the generic URL /high_scores.
+    """
+
+    def get(self) -> List[dict]:
+        """Get all high scores.
+
+        Returns:
+            List[dict]: all high scores
+        """
+        return [{
+                "id": high_score.id,
+                "game_id": high_score.game_id,
+                "score": high_score.score,
+                "user_id": high_score.user_id
+                } for high_score in HighScore.query.all()]
+
+    def post(self) -> dict:
+        """Add a high score.
+
+        Returns:
+            dict: high score that is created
+        """
+        new_high_score = HighScore(
+                game_id=request.json["game_id"],
+                score=request.json["score"],
+                user_id=request.json["user_id"
+                ])
+        db.session.add(new_high_score)
+        db.session.commit()
+        return {"high_score": request.json["score"]}
+
+
+class HighScoreResource(Resource):
+    """Respond to REST API requests GET, PATCH, and DELETE at the specific URL
+    /high_scores/<int:high_score_id>.
+    """
+
+    def get(self, high_score_id: int) -> dict:
+        """Get a high score specified by high_score_id.
+
+        Args:
+            high_score_id (int): ID of the high score to get
+
+        Returns:
+            dict: information associated with the specified high score
+        """
+        high_score = HighScore.query.get_or_404(high_score_id)
+        return {
+                "game_id": high_score.game_id,
+                "score": high_score.score,
+                "user_id": high_score.user_id
+                }
+
+    def patch(self, high_score_id: int) -> dict:
+        """Update an existing high score.
+
+        Args:
+            high_score_id (int): ID of the high score to update
+
+        Returns:
+           dict: information associated with the updated high score
+        """
+        high_score = HighScore.query.get_or_404(high_score_id)
+        high_score.score = request.json['score']
+        db.session.commit()
+        return {
+                "game_id": high_score.game_id,
+                "score": high_score.score,
+                "user_id": high_score.user_id
+                }
+
+    def delete(self, high_score_id: int) -> dict:
+        """Delete an existing high score.
+
+        Args:
+            high_score_id (int): ID of the high score to delete
+
+        Returns:
+           dict: information associated with the deleted high score
+        """
+        high_score = HighScore.query.get_or_404(high_score_id)
+        db.session.delete(high_score)
+        db.session.commit()
+        return {
+                "game_id": high_score.game_id,
+                "score": high_score.score,
+                "user_id": high_score.user_id
+                }, 204
 
 
 class LoginForm(FlaskForm):
@@ -351,6 +459,19 @@ def blackjack():
 
     output_lines = input_system.handle_game_input('blackjack', user_input).splitlines(False)
     return render_template('blackjack.html', form=form, output_lines=output_lines)
+
+
+# TODO: Add global and user high score filters.
+@app.route('/game/<game>/high_scores')
+def high_scores(game):
+    """Display the high scores for a game.
+
+    Args:
+        game (str): game to display high scores for
+    """
+    safe_game = escape(game)
+
+    return render_template('high_scores.html')
 
 
 @app.route('/save', methods=['GET', 'POST'])
