@@ -8,6 +8,7 @@ from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Length, EqualTo
 from flask_login import LoginManager, UserMixin, login_user, login_required,\
         logout_user, current_user
+from markupsafe import escape
 from typing import List
 from pyarcade.input_system import InputSystem
 import pickle
@@ -240,18 +241,34 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/blackjack', methods=['GET', 'POST'])
-@app.route('/crazy_eights', methods=['GET', 'POST'])
-@app.route('/mastermind', methods=['GET', 'POST'])
-@app.route('/minesweeper', methods=['GET', 'POST'])
-def render_game_menu():
-    """Render a custom game menu for all games.
+@app.route('/game')
+def game():
+    """Serve as a placeholder to display the game selection menu.
     """
-    # ip_sys.get_current_game().get.name()
-    return render_template('skeleton.html', game_name = 'crazy_eights')
+    return redirect(url_for('dashboard'))
 
 
-@app.route('/mastermind/play', methods=['GET', 'POST'])
+# Note that /games is already mapped to issue HTTP responses so we can't use
+# /games/* here.
+@app.route('/game/<game>')
+def game_menu(game):
+    """Render a custom game menu for all games.
+
+    Args:
+        game (str): URL extension for the game to display the menu of
+    """
+    safe_game = escape(game)
+
+    # Redirect users to the game selection menu.
+    if safe_game not in input_system.get_supported_games():
+        return redirect(url_for('dashboard'))
+    # TODO: Implement ip_sys.get_current_game().get_name() to pass instead of
+    # safe_game for first arg?
+    return render_template('game_menu.html', game_name=safe_game,
+            game_play_route='/game/{}/play'.format(safe_game))
+
+
+@app.route('/game/mastermind/play', methods=['GET', 'POST'])
 def mastermind():
     form = GameForm()
 
@@ -280,7 +297,7 @@ def mastermind():
     return render_template('mastermind.html', form=form, output_lines=output_lines)
 
 
-@app.route('/crazy_eights/play', methods=['GET', 'POST'])
+@app.route('/game/crazy_eights/play', methods=['GET', 'POST'])
 def crazy_eights():
     form = GameForm()
 
@@ -308,7 +325,7 @@ def crazy_eights():
     return render_template('crazy_eights.html', form=form, output_lines=output_lines)
 
 
-@app.route('/blackjack/play', methods=['GET', 'POST'])
+@app.route('/game/blackjack/play', methods=['GET', 'POST'])
 def blackjack():
     form = GameForm()
 

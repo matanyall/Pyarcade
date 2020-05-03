@@ -10,5 +10,12 @@
 {% endblock %}
 
 {% block content %}
-<h2>hello, world</h2>
+<!-- Game navigation menu. -->
+<h1>{{ game_name }}</h1>
+<ul class="nav flex-column bg-light">
+  <li class="nav-item"><a class="nav-link" href="{{ game_play_route }}">New Game</a></li>
+  <li class="nav-item"><a class="nav-link" href="#">Load Save</a></li>
+  <li class="nav-item"><a class="nav-link" href="#">High Scores</a></li>
+  <li class="nav-item"><a class="nav-link" href="#">Clear History</a></li>
+</ul>
 {% endblock %}

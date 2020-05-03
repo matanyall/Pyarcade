@@ -5,8 +5,11 @@ from pyarcade.games.crazy_eights import CrazyEights
 from pyarcade.games.blackjack import Blackjack
 import re
 
-MASTERMIND_WIDTH = 4
 
+_SUPPORTED_GAMES = ['blackjack', 'crazy_eights', 'mastermind', 'minesweeper']
+
+
+MASTERMIND_WIDTH = 4
 CRAZY_EIGHTS_NUM_PLAYERS = 4
 CRAZY_EIGHTS_PLAYER_NUM = 1
 
@@ -20,6 +23,9 @@ class InputSystem:
         self.blackjack_game = Blackjack()
         self.game_to_load = None
         self.current_game = None
+
+    def get_supported_games(self):
+        return _SUPPORTED_GAMES
 
     def get_current_game(self):
         return self.current_game
