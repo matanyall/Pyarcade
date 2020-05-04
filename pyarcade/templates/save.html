@@ -1,4 +1,4 @@
-{% extends "bootstrap/base.html" %}
+{% extends "dashboard.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}
@@ -6,32 +6,15 @@ Save Game
 {% endblock %}
 
 {% block styles %}
-{{super()}}
-<link rel="stylesheet" href="{{url_for('.static', filename='signin.css')}}">
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('.static', filename='login.css') }}">
 {% endblock %}
 
 {% block content %}
-<div class="container">
-      <div class="col-md-8">
-          {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-              {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">
-                  {{ message }}
-                </div>
-              {% endfor %}
-            {% endif %}
-          {% endwith %}
-      </div>
-</div>
-<div class="container">
-
-  <form class="form-save" method="POST" action="/save">
-    <h2 class="form-save-heading">Save Name</h2>
-    {{ form.hidden_tag() }}
-    {{ wtf.form_field(form.save_name) }}
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
-  </form>
-
-</div> <!-- /container -->
+<form class="form-save" method="POST" action="{{ url_for('save') }}">
+  <h2 class="form-save-heading">Save Name</h2>
+  {{ form.hidden_tag() }}
+  {{ wtf.form_field(form.save_name) }}
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
+</form>
 {% endblock %}
