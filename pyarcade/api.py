@@ -8,7 +8,6 @@ from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Length, EqualTo
 from flask_login import LoginManager, UserMixin, login_user, login_required,\
         logout_user, current_user
-from markupsafe import escape
 from typing import List
 from pyarcade.input_system import InputSystem
 import pickle
@@ -26,10 +25,6 @@ api = Api(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
-
-
-api.add_resource(UserListResource, '/users')
-api.add_resource(UserResource, '/users/<int:user_id>')
 
 
 class User(UserMixin, db.Model):
@@ -125,15 +120,14 @@ class UserResource(Resource):
         return '', 204
 
 
-api.add_resource(GameListResource, '/games')
-api.add_resource(GameResource, '/games/<int:game_id>')
+api.add_resource(UserListResource, '/users')
+api.add_resource(UserResource, '/users/<int:user_id>')
 
 
 class Game(db.Model):
-    __tablename__ = 'GameDB'
+    __tablename__ = 'Games'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    high_scores = db.relationship('HighScore', backref='game', lazy=True)
     player_id = db.Column(db.Integer, primary_key=True)
     save_name = db.Column(db.String(128), unique=True, nullable=False)
     save = db.Column(db.BLOB, unique=False, nullable=False)
@@ -215,19 +209,17 @@ class GameResource(Resource):
         return '', 204
 
 
-# General high score requests can be made at /high_scores.
-api.add_resource(HighScoreListResource, '/high_scores')
-# Specific high score requests can be made using a high score ID.
-api.add_resource(HighScoreResource, '/high_scores/<int:high_score_id>')
+api.add_resource(GameListResource, '/games')
+api.add_resource(GameResource, '/games/<int:game_id>')
 
 
 class HighScore(db.Model):
-    __tablename__ = 'HighScore'
+    __tablename__ = 'HighScores'
 
     id = db.Column(db.Integer, primary_key=True)
-    game_id = db.Column(db.Integer, db.ForeignKey('game.id'), nullable=False)
+    game_name = db.Column(db.String(32), nullable=False)
     score = db.Column(db.Integer, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'), nullable=False)
 
 
 class HighScoreListResource(Resource):
@@ -242,7 +234,7 @@ class HighScoreListResource(Resource):
         """
         return [{
                 "id": high_score.id,
-                "game_id": high_score.game_id,
+                "game_name": high_score.game_name,
                 "score": high_score.score,
                 "user_id": high_score.user_id
                 } for high_score in HighScore.query.all()]
@@ -254,13 +246,18 @@ class HighScoreListResource(Resource):
             dict: high score that is created
         """
         new_high_score = HighScore(
-                game_id=request.json["game_id"],
+                game_name=request.json["game_name"],
                 score=request.json["score"],
                 user_id=request.json["user_id"
                 ])
         db.session.add(new_high_score)
         db.session.commit()
-        return {"high_score": request.json["score"]}
+        return {
+                "id": new_high_score.id,
+                "game_name": new_high_score.game_name,
+                "score": new_high_score.score,
+                "user_id": new_high_score.user_id
+                }
 
 
 class HighScoreResource(Resource):
@@ -279,7 +276,7 @@ class HighScoreResource(Resource):
         """
         high_score = HighScore.query.get_or_404(high_score_id)
         return {
-                "game_id": high_score.game_id,
+                "game_name": high_score.game_name,
                 "score": high_score.score,
                 "user_id": high_score.user_id
                 }
@@ -297,7 +294,7 @@ class HighScoreResource(Resource):
         high_score.score = request.json['score']
         db.session.commit()
         return {
-                "game_id": high_score.game_id,
+                "game_name": high_score.game_name,
                 "score": high_score.score,
                 "user_id": high_score.user_id
                 }
@@ -315,10 +312,16 @@ class HighScoreResource(Resource):
         db.session.delete(high_score)
         db.session.commit()
         return {
-                "game_id": high_score.game_id,
+                "game_name": high_score.game_name,
                 "score": high_score.score,
                 "user_id": high_score.user_id
                 }, 204
+
+
+# General high score requests can be made at /high_scores.
+api.add_resource(HighScoreListResource, '/high_scores')
+# Specific high score requests can be made using a high score ID.
+api.add_resource(HighScoreResource, '/high_scores/<int:high_score_id>')
 
 
 class LoginForm(FlaskForm):
@@ -365,15 +368,13 @@ def game_menu(game):
     Args:
         game (str): URL extension for the game to display the menu of
     """
-    safe_game = escape(game)
-
     # Redirect users to the game selection menu.
-    if safe_game not in input_system.get_supported_games():
+    if game not in input_system.get_supported_games():
         return redirect(url_for('dashboard'))
     # TODO: Implement ip_sys.get_current_game().get_name() to pass instead of
     # safe_game for first arg?
-    return render_template('game_menu.html', game_name=safe_game,
-            game_play_route='/game/{}/play'.format(safe_game))
+    return render_template('game_menu.html', game_name=game,
+            game_play_route='/game/{}/play'.format(game))
 
 
 @app.route('/game/mastermind/play', methods=['GET', 'POST'])
@@ -469,9 +470,10 @@ def high_scores(game):
     Args:
         game (str): game to display high scores for
     """
-    safe_game = escape(game)
-
-    return render_template('high_scores.html')
+    # Display the global high scores for now.
+    scores = HighScore.query.filter_by(game_name=game).limit(10).all()
+    return render_template('high_scores.html', game_name=game,
+            high_scores=scores)
 
 
 @app.route('/save', methods=['GET', 'POST'])
