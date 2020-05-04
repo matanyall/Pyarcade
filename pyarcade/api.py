@@ -352,6 +352,8 @@ def index():
     return render_template('index.html')
 
 
+# Note that /games is already mapped to issue HTTP responses so we can't use
+# /games/* here.
 @app.route('/game')
 def game():
     """Serve as a placeholder to display the game selection menu.
@@ -359,8 +361,6 @@ def game():
     return redirect(url_for('dashboard'))
 
 
-# Note that /games is already mapped to issue HTTP responses so we can't use
-# /games/* here.
 @app.route('/game/<game>')
 def game_menu(game):
     """Render a custom game menu for all games.
@@ -377,8 +377,8 @@ def game_menu(game):
             game_play_route='/game/{}/play'.format(game))
 
 
-@app.route('/game/mastermind/play', methods=['GET', 'POST'])
-def mastermind():
+@app.route('/game/<game>/play', methods=['GET', 'POST'])
+def play(game):
     form = GameForm()
 
     user_input = "New Game"
@@ -389,8 +389,9 @@ def mastermind():
     if request.method == "POST":
         if form.validate_on_submit():
             user_input = form.input.data
-            output_lines = input_system.handle_game_input('mastermind', user_input).splitlines(False)
-            return render_template('mastermind.html', form=form, output_lines=output_lines)
+            # TODO: Bug: game = 'crazy_eights' instead of 'Crazy Eights'
+            output_lines = input_system.handle_game_input(game, user_input).splitlines(False)
+            return render_template('{}.html'.format(game), form=form, output_lines=output_lines)
         else:
             game_option = request.form["option"]
             if game_option == "Quit":
@@ -399,67 +400,11 @@ def mastermind():
             elif game_option == "Save":
                 return redirect(url_for('save'))
             else:
-                output_lines = input_system.handle_game_input('mastermind', game_option.lower()).splitlines(False)
-                return render_template('mastermind.html', form=form, output_lines=output_lines)
+                output_lines = input_system.handle_game_input(game, game_option.lower()).splitlines(False)
+                return render_template('{}.html'.format(game), form=form, output_lines=output_lines)
 
-    output_lines = input_system.handle_game_input('mastermind', user_input).splitlines(False)
-    return render_template('mastermind.html', form=form, output_lines=output_lines)
-
-
-@app.route('/game/crazy_eights/play', methods=['GET', 'POST'])
-def crazy_eights():
-    form = GameForm()
-
-    user_input = "New Game"
-    if input_system.get_current_game():
-        input_system.game_to_load = input_system.current_game
-        user_input = "Continue"
-    if request.method == "POST":
-        if form.validate_on_submit():
-            user_input = form.input.data
-            output_lines = input_system.handle_game_input('Crazy Eights', user_input).splitlines(False)
-            return render_template('crazy_eights.html', form=form, output_lines=output_lines)
-        else:
-            game_option = request.form["option"]
-            if game_option == "Quit":
-                input_system.set_current_game(None)
-                return redirect(url_for('dashboard'))
-            elif game_option == "Save":
-                return redirect(url_for('save'))
-            else:
-                output_lines = input_system.handle_game_input('Crazy Eights', game_option.lower()).splitlines(False)
-                return render_template('crazy_eights.html', form=form, output_lines=output_lines)
-
-    output_lines = input_system.handle_game_input('Crazy Eights', user_input).splitlines(False)
-    return render_template('crazy_eights.html', form=form, output_lines=output_lines)
-
-
-@app.route('/game/blackjack/play', methods=['GET', 'POST'])
-def blackjack():
-    form = GameForm()
-
-    user_input = "New Game"
-    if input_system.get_current_game():
-        input_system.game_to_load = input_system.current_game
-        user_input = "Continue"
-    if request.method == "POST":
-        if form.validate_on_submit():
-            user_input = form.input.data
-            output_lines = input_system.handle_game_input('blackjack', user_input).splitlines(False)
-            return render_template('blackjack.html', form=form, output_lines=output_lines)
-        else:
-            game_option = request.form["option"]
-            if game_option == "Quit":
-                input_system.set_current_game(None)
-                return redirect(url_for('dashboard'))
-            elif game_option == "Save":
-                return redirect(url_for('save'))
-            else:
-                output_lines = input_system.handle_game_input('blackjack', game_option.lower()).splitlines(False)
-                return render_template('blackjack.html', form=form, output_lines=output_lines)
-
-    output_lines = input_system.handle_game_input('blackjack', user_input).splitlines(False)
-    return render_template('blackjack.html', form=form, output_lines=output_lines)
+    output_lines = input_system.handle_game_input(game, user_input).splitlines(False)
+    return render_template('{}.html'.format(game), form=form, output_lines=output_lines)
 
 
 # TODO: Add global and user high score filters.
