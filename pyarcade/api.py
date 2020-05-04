@@ -470,7 +470,7 @@ def high_scores(game):
     Args:
         game (str): game to display high scores for
     """
-    # Display the global high scores for now.
+    # Display the global high scores for now. Only display the top 10.
     scores = HighScore.query.filter_by(game_name=game).limit(10).all()
     return render_template('high_scores.html', game_name=game,
             high_scores=scores)
