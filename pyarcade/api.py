@@ -398,7 +398,7 @@ def play(game):
                 input_system.set_current_game(None)
                 return redirect(url_for('dashboard'))
             elif game_option == "Save":
-                return redirect(url_for('save'))
+                return redirect(url_for('save', game=game))
             else:
                 output_lines = input_system.handle_game_input(game, game_option.lower()).splitlines(False)
                 return render_template('{}.html'.format(game), form=form, output_lines=output_lines)
@@ -421,13 +421,13 @@ def high_scores(game):
             high_scores=scores)
 
 
-@app.route('/save', methods=['GET', 'POST'])
-def save():
+@app.route('/game/<game>/save', methods=['GET', 'POST'])
+def save(game):
     form = SaveForm()
 
     if form.validate_on_submit():
-        game = Game.query.filter_by(save_name=form.save_name.data).first()
-        if game and game.player_id == current_user.id:
+        save = Game.query.filter_by(save_name=form.save_name.data).first()
+        if save and game.player_id == current_user.id:
             flash('Save name already exists. Please choose another', 'danger')
             return render_template('save.html', form=form)
 
@@ -440,9 +440,9 @@ def save():
         db.session.commit()
 
         flash(f'{form.save_name.data} successfully saved!', 'success')
-        return redirect(url_for(current_game.display_game_name().lower()))
+        return redirect(url_for('play', game=game))
 
-    return render_template('save.html', form=form)
+    return render_template('save.html', game_name=game, form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
