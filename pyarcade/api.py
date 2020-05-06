@@ -39,6 +39,8 @@ class User(UserMixin, db.Model):
 
 @login_manager.user_loader
 def load_user(user_id):
+    """
+    """
     return User.query.get(int(user_id))
 
 
@@ -123,6 +125,8 @@ api.add_resource(UserResource, '/users/<int:user_id>')
 
 
 class Game(db.Model):
+    """ A SQLAlchemy Model used to store information about a Game and its state
+    """
     __tablename__ = 'GameDB'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -212,6 +216,8 @@ api.add_resource(GameResource, '/games/<int:game_id>')
 
 
 class LoginForm(FlaskForm):
+    """
+    """
     username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
     remember = BooleanField('remember me')

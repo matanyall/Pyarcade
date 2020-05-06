@@ -4,6 +4,9 @@ from os import system, name
 
 
 def run_pyarcade():
+    """Method used to start the pyarcade. Logic of navigating the pyarcade and starting selected games as well
+    as output of choices are encapsulated in this method
+    """
     model = Model()
     input_sys = InputSystem()
     username_logged_in = None

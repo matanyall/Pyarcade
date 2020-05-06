@@ -12,6 +12,8 @@ CRAZY_EIGHTS_PLAYER_NUM = 1
 
 
 class InputSystem:
+    """Class that handles input for all games 
+    """
 
     def __init__(self):
         self.mastermind_game = Mastermind()
@@ -22,15 +24,42 @@ class InputSystem:
         self.current_game = None
 
     def get_current_game(self):
+        """getter for current game
+
+        Returns:
+            game: return current game which could be any of the games in pyarcade 
+        """
         return self.current_game
 
     def set_current_game(self, game):
+        """setter for current game
+
+        Args:
+            game: is the game that you are setting current game to could be 
+                    any type of game within pyarcade
+        """
         self.current_game = game
 
     def set_game_to_load(self, game):
+        """setter for game to load
+
+        Args:
+            game: is the game that you are setting game to load to could be 
+                    any type of game within pyarcade
+        """
         self.game_to_load = game
 
     def handle_game_input(self, game_name: str, user_input: str):
+        """Handles input given game name and user input and returns the correct output based on which
+        game and option is selected
+
+        Args:
+            game_name (str): name of the game to check input against
+            user_input (str): user input representing which choice from main menu options is chosen
+        
+        Returns:
+            
+        """
         if game_name.lower() == "mastermind":
             if user_input.lower() == "new game":
                 self.mastermind_game = Mastermind()

@@ -1,0 +1,82 @@
+pyarcade package
+================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    pyarcade.games
+
+Submodules
+----------
+
+pyarcade.api module
+-------------------
+
+.. automodule:: pyarcade.api
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyarcade.base module
+--------------------
+
+.. automodule:: pyarcade.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyarcade.gamedb module
+----------------------
+
+.. automodule:: pyarcade.gamedb
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyarcade.input\_system module
+-----------------------------
+
+.. automodule:: pyarcade.input_system
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyarcade.model module
+---------------------
+
+.. automodule:: pyarcade.model
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyarcade.start module
+---------------------
+
+.. automodule:: pyarcade.start
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pyarcade.user module
+--------------------
+
+.. automodule:: pyarcade.user
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: pyarcade
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+.. automodule:: api
+    :members:
+    :undoc-members:
+    :show-inheritance:
