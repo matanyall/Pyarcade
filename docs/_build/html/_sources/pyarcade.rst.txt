@@ -16,7 +16,7 @@ pyarcade.api module
 
 .. automodule:: pyarcade.api
     :members:
-    :undoc-members:
+    
     :show-inheritance:
 
 pyarcade.base module
@@ -24,7 +24,7 @@ pyarcade.base module
 
 .. automodule:: pyarcade.base
     :members:
-    :undoc-members:
+    
     :show-inheritance:
 
 pyarcade.gamedb module
@@ -32,7 +32,7 @@ pyarcade.gamedb module
 
 .. automodule:: pyarcade.gamedb
     :members:
-    :undoc-members:
+    
     :show-inheritance:
 
 pyarcade.input\_system module
@@ -40,7 +40,7 @@ pyarcade.input\_system module
 
 .. automodule:: pyarcade.input_system
     :members:
-    :undoc-members:
+    
     :show-inheritance:
 
 pyarcade.model module
@@ -48,7 +48,7 @@ pyarcade.model module
 
 .. automodule:: pyarcade.model
     :members:
-    :undoc-members:
+    
     :show-inheritance:
 
 pyarcade.start module
@@ -56,7 +56,7 @@ pyarcade.start module
 
 .. automodule:: pyarcade.start
     :members:
-    :undoc-members:
+    
     :show-inheritance:
 
 pyarcade.user module
@@ -64,7 +64,7 @@ pyarcade.user module
 
 .. automodule:: pyarcade.user
     :members:
-    :undoc-members:
+    
     :show-inheritance:
 
 
@@ -73,6 +73,6 @@ Module contents
 
 .. automodule:: pyarcade
     :members:
-    :undoc-members:
+    
     :show-inheritance:
 

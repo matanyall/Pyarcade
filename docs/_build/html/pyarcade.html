@@ -196,58 +196,29 @@
 </div>
 <div class="section" id="module-pyarcade.api">
 <span id="pyarcade-api-module"></span><h2>pyarcade.api module<a class="headerlink" href="#module-pyarcade.api" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">show-inheritance</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
 <dl class="py class">
 <dt id="pyarcade.api.Game">
 <em class="property">class </em><code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">Game</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#Game"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.Game" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.ext.declarative.api.Model</span></code></p>
-<p>A SQLAlchemy Model used to store information about a Game and its state</p>
-<dl class="py attribute">
-<dt id="pyarcade.api.Game.id">
-<code class="sig-name descname">id</code><a class="headerlink" href="#pyarcade.api.Game.id" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="pyarcade.api.Game.player_id">
-<code class="sig-name descname">player_id</code><a class="headerlink" href="#pyarcade.api.Game.player_id" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="pyarcade.api.Game.save">
-<code class="sig-name descname">save</code><a class="headerlink" href="#pyarcade.api.Game.save" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="pyarcade.api.Game.save_name">
-<code class="sig-name descname">save_name</code><a class="headerlink" href="#pyarcade.api.Game.save_name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dd><p>A SQLAlchemy Model used to store information about a Game and its state</p>
 </dd></dl>
 
 <dl class="py class">
 <dt id="pyarcade.api.GameForm">
 <em class="property">class </em><code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">GameForm</code><span class="sig-paren">(</span><em class="sig-param">formdata=&lt;object object&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#GameForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.GameForm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_wtf.form.FlaskForm</span></code></p>
-<p>Represents a form to record the input from the user on pyarcade website</p>
-<dl class="py attribute">
-<dt id="pyarcade.api.GameForm.input">
-<code class="sig-name descname">input</code><em class="property"> = &lt;UnboundField(StringField, (), {})&gt;</em><a class="headerlink" href="#pyarcade.api.GameForm.input" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dd><p>Represents a form to record the input from the user on pyarcade website</p>
 </dd></dl>
 
 <dl class="py class">
 <dt id="pyarcade.api.GameListResource">
 <em class="property">class </em><code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">GameListResource</code><a class="reference internal" href="_modules/pyarcade/api.html#GameListResource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.GameListResource" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful.Resource</span></code></p>
-<p>A Resource is a collection of routes (think URLs) that map to these functions.
+<dd><p>A Resource is a collection of routes (think URLs) that map to these functions.
 For a REST API, we have GET, PUT, POST, PATCH, DELETE, etc. Here we just define
 functions that map to the REST API verbs, later we map this to a specific URL
 with api.add_resource</p>
-<dl class="py attribute">
-<dt id="pyarcade.api.GameListResource.endpoint">
-<code class="sig-name descname">endpoint</code><em class="property"> = 'gamelistresource'</em><a class="headerlink" href="#pyarcade.api.GameListResource.endpoint" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt id="pyarcade.api.GameListResource.get">
 <code class="sig-name descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>dict<span class="p">]</span><a class="reference internal" href="_modules/pyarcade/api.html#GameListResource.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.GameListResource.get" title="Permalink to this definition">¶</a></dt>
@@ -258,16 +229,6 @@ with api.add_resource</p>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py method">
-<dt id="pyarcade.api.GameListResource.mediatypes">
-<code class="sig-name descname">mediatypes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyarcade.api.GameListResource.mediatypes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="pyarcade.api.GameListResource.methods">
-<code class="sig-name descname">methods</code><em class="property"> = {'GET', 'POST'}</em><a class="headerlink" href="#pyarcade.api.GameListResource.methods" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="py method">
 <dt id="pyarcade.api.GameListResource.post">
@@ -286,8 +247,7 @@ with api.add_resource</p>
 <dl class="py class">
 <dt id="pyarcade.api.GameResource">
 <em class="property">class </em><code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">GameResource</code><a class="reference internal" href="_modules/pyarcade/api.html#GameResource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.GameResource" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful.Resource</span></code></p>
-<p>GameResource is slightly different from GameListResource as these functions will only respond
+<dd><p>GameResource is slightly different from GameListResource as these functions will only respond
 to Responds to <a class="reference external" href="http://[domain">http://[domain</a> or IP]:[port (default 5000)]/games/&lt;game_id&gt; so these are always
 executed in the context of a specific game.</p>
 <dl class="py method">
@@ -302,11 +262,6 @@ executed in the context of a specific game.</p>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt id="pyarcade.api.GameResource.endpoint">
-<code class="sig-name descname">endpoint</code><em class="property"> = 'gameresource'</em><a class="headerlink" href="#pyarcade.api.GameResource.endpoint" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt id="pyarcade.api.GameResource.get">
 <code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">game_id</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#GameResource.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.GameResource.get" title="Permalink to this definition">¶</a></dt>
@@ -317,16 +272,6 @@ executed in the context of a specific game.</p>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py method">
-<dt id="pyarcade.api.GameResource.mediatypes">
-<code class="sig-name descname">mediatypes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyarcade.api.GameResource.mediatypes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="pyarcade.api.GameResource.methods">
-<code class="sig-name descname">methods</code><em class="property"> = {'DELETE', 'GET', 'PATCH'}</em><a class="headerlink" href="#pyarcade.api.GameResource.methods" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="py method">
 <dt id="pyarcade.api.GameResource.patch">
@@ -345,111 +290,58 @@ executed in the context of a specific game.</p>
 <dl class="py class">
 <dt id="pyarcade.api.LoginForm">
 <em class="property">class </em><code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">LoginForm</code><span class="sig-paren">(</span><em class="sig-param">formdata=&lt;object object&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#LoginForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.LoginForm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_wtf.form.FlaskForm</span></code></p>
-<p>Represents a login form that is used to login a user</p>
-<dl class="py attribute">
-<dt id="pyarcade.api.LoginForm.password">
-<code class="sig-name descname">password</code><em class="property"> = &lt;UnboundField(PasswordField, ('password',), {'validators': [&lt;wtforms.validators.InputRequired object&gt;, &lt;wtforms.validators.Length object&gt;]})&gt;</em><a class="headerlink" href="#pyarcade.api.LoginForm.password" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="pyarcade.api.LoginForm.remember">
-<code class="sig-name descname">remember</code><em class="property"> = &lt;UnboundField(BooleanField, ('remember me',), {})&gt;</em><a class="headerlink" href="#pyarcade.api.LoginForm.remember" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="pyarcade.api.LoginForm.username">
-<code class="sig-name descname">username</code><em class="property"> = &lt;UnboundField(StringField, ('username',), {'validators': [&lt;wtforms.validators.InputRequired object&gt;, &lt;wtforms.validators.Length object&gt;]})&gt;</em><a class="headerlink" href="#pyarcade.api.LoginForm.username" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dd><p>Represents a login form that is used to login a user</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>username</strong> (<em>str</em>) – username field of user</p></li>
+<li><p><strong>Password</strong> (<em>str</em>) – password field of user</p></li>
+<li><p><strong>remember</strong> (<em>bool</em>) – boolean field checked to remember user</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
 <dt id="pyarcade.api.RegisterForm">
 <em class="property">class </em><code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">RegisterForm</code><span class="sig-paren">(</span><em class="sig-param">formdata=&lt;object object&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#RegisterForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.RegisterForm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_wtf.form.FlaskForm</span></code></p>
-<p>Represents a form that allows a user to register for a pyaracade account</p>
-<dl class="py attribute">
-<dt id="pyarcade.api.RegisterForm.password">
-<code class="sig-name descname">password</code><em class="property"> = &lt;UnboundField(PasswordField, ('password',), {'validators': [&lt;wtforms.validators.InputRequired object&gt;, &lt;wtforms.validators.Length object&gt;]})&gt;</em><a class="headerlink" href="#pyarcade.api.RegisterForm.password" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="pyarcade.api.RegisterForm.username">
-<code class="sig-name descname">username</code><em class="property"> = &lt;UnboundField(StringField, ('username',), {'validators': [&lt;wtforms.validators.InputRequired object&gt;, &lt;wtforms.validators.Length object&gt;]})&gt;</em><a class="headerlink" href="#pyarcade.api.RegisterForm.username" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dd><p>Represents a form that allows a user to register for a pyaracade account</p>
 </dd></dl>
 
 <dl class="py class">
 <dt id="pyarcade.api.SaveForm">
 <em class="property">class </em><code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">SaveForm</code><span class="sig-paren">(</span><em class="sig-param">formdata=&lt;object object&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#SaveForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.SaveForm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_wtf.form.FlaskForm</span></code></p>
-<p>Represents a form to record the save name</p>
-<dl class="py attribute">
-<dt id="pyarcade.api.SaveForm.save_name">
-<code class="sig-name descname">save_name</code><em class="property"> = &lt;UnboundField(StringField, (), {'validators': [&lt;wtforms.validators.InputRequired object&gt;, &lt;wtforms.validators.Length object&gt;]})&gt;</em><a class="headerlink" href="#pyarcade.api.SaveForm.save_name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dd><p>Represents a form to record the save name</p>
 </dd></dl>
 
 <dl class="py class">
 <dt id="pyarcade.api.User">
 <em class="property">class </em><code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">User</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#User"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.User" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_login.mixins.UserMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.ext.declarative.api.Model</span></code></p>
-<p>A SQLAlchemy Model used to store information about a user. This only
+<dd><p>A SQLAlchemy Model used to store information about a user. This only
 needs to have a collection of class variables that are of type db.Column.</p>
-<dl class="py attribute">
-<dt id="pyarcade.api.User.id">
-<code class="sig-name descname">id</code><a class="headerlink" href="#pyarcade.api.User.id" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="pyarcade.api.User.passwd">
-<code class="sig-name descname">passwd</code><a class="headerlink" href="#pyarcade.api.User.passwd" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="pyarcade.api.User.username">
-<code class="sig-name descname">username</code><a class="headerlink" href="#pyarcade.api.User.username" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
 <dt id="pyarcade.api.UserListResource">
 <em class="property">class </em><code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">UserListResource</code><a class="reference internal" href="_modules/pyarcade/api.html#UserListResource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.UserListResource" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful.Resource</span></code></p>
-<p>A Resource is a collection of routes (think URLs) that map to these functions.
+<dd><p>A Resource is a collection of routes (think URLs) that map to these functions.
 For a REST API, we have GET, PUT, POST, PATCH, DELETE, etc. Here we just define
 functions that map to the REST API verbs, later we map this to a specific URL
 with api.add_resource</p>
-<dl class="py attribute">
-<dt id="pyarcade.api.UserListResource.endpoint">
-<code class="sig-name descname">endpoint</code><em class="property"> = 'userlistresource'</em><a class="headerlink" href="#pyarcade.api.UserListResource.endpoint" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt id="pyarcade.api.UserListResource.get">
 <code class="sig-name descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>dict<span class="p">]</span><a class="reference internal" href="_modules/pyarcade/api.html#UserListResource.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.UserListResource.get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Responds to <a class="reference external" href="http://[domain">http://[domain</a> or IP]:[port (default 5000)]/users</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>List of dictionaries describing all users in the database. We should only include some information if
+<dd class="field-odd"><p>a list of dictionaries describing all users in the database. We should only include some information if
 passwords or other personal information is involved.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List</p>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py method">
-<dt id="pyarcade.api.UserListResource.mediatypes">
-<code class="sig-name descname">mediatypes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyarcade.api.UserListResource.mediatypes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="pyarcade.api.UserListResource.methods">
-<code class="sig-name descname">methods</code><em class="property"> = {'GET', 'POST'}</em><a class="headerlink" href="#pyarcade.api.UserListResource.methods" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="py method">
 <dt id="pyarcade.api.UserListResource.post">
@@ -468,8 +360,7 @@ passwords or other personal information is involved.</p>
 <dl class="py class">
 <dt id="pyarcade.api.UserResource">
 <em class="property">class </em><code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">UserResource</code><a class="reference internal" href="_modules/pyarcade/api.html#UserResource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.UserResource" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful.Resource</span></code></p>
-<p>UserResource is slightly different from UserListResource as these functions will only respond
+<dd><p>UserResource is slightly different from UserListResource as these functions will only respond
 to Responds to <a class="reference external" href="http://[domain">http://[domain</a> or IP]:[port (default 5000)]/users/&lt;user_id&gt; so these are always
 executed in the context of a specific user.</p>
 <dl class="py method">
@@ -484,11 +375,6 @@ executed in the context of a specific user.</p>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt id="pyarcade.api.UserResource.endpoint">
-<code class="sig-name descname">endpoint</code><em class="property"> = 'userresource'</em><a class="headerlink" href="#pyarcade.api.UserResource.endpoint" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt id="pyarcade.api.UserResource.get">
 <code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_id</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#UserResource.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.UserResource.get" title="Permalink to this definition">¶</a></dt>
@@ -499,16 +385,6 @@ executed in the context of a specific user.</p>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py method">
-<dt id="pyarcade.api.UserResource.mediatypes">
-<code class="sig-name descname">mediatypes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyarcade.api.UserResource.mediatypes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="pyarcade.api.UserResource.methods">
-<code class="sig-name descname">methods</code><em class="property"> = {'DELETE', 'GET', 'PATCH'}</em><a class="headerlink" href="#pyarcade.api.UserResource.methods" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="py method">
 <dt id="pyarcade.api.UserResource.patch">
@@ -525,16 +401,6 @@ executed in the context of a specific user.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="pyarcade.api.blackjack">
-<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">blackjack</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#blackjack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.blackjack" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="pyarcade.api.crazy_eights">
-<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">crazy_eights</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#crazy_eights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.crazy_eights" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
 <dt id="pyarcade.api.create_app">
 <code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">create_app</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#create_app"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.create_app" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is used as a factory function for creating the entire application instance
@@ -543,62 +409,24 @@ application instance ONLY using this function for very good reasons, but this
 is good enough to use for now.</p>
 </dd></dl>
 
-<dl class="py function">
-<dt id="pyarcade.api.dashboard">
-<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">dashboard</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#dashboard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.dashboard" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="pyarcade.api.index">
-<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">index</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.index" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="pyarcade.api.load_user">
-<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">load_user</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_id</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#load_user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.load_user" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="pyarcade.api.login">
-<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">login</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#login"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.login" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="pyarcade.api.logout">
-<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">logout</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#logout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.logout" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="pyarcade.api.mastermind">
-<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">mastermind</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#mastermind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.mastermind" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="pyarcade.api.minesweeper">
-<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">minesweeper</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#minesweeper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.minesweeper" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="pyarcade.api.save">
-<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.save" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="pyarcade.api.signup">
-<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">signup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#signup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.signup" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </div>
 <div class="section" id="module-pyarcade.base">
 <span id="pyarcade-base-module"></span><h2>pyarcade.base module<a class="headerlink" href="#module-pyarcade.base" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">show-inheritance</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
 </div>
 <div class="section" id="module-pyarcade.gamedb">
 <span id="pyarcade-gamedb-module"></span><h2>pyarcade.gamedb module<a class="headerlink" href="#module-pyarcade.gamedb" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">show-inheritance</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
 <dl class="py class">
 <dt id="pyarcade.gamedb.GameDB">
 <em class="property">class </em><code class="sig-prename descclassname">pyarcade.gamedb.</code><code class="sig-name descname">GameDB</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/gamedb.html#GameDB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.gamedb.GameDB" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.ext.declarative.api.Base</span></code></p>
-<p>game class that represents the model to create a game resource. Primarily represents a game and its
+<dd><p>game class that represents the model to create a game resource. Primarily represents a game and its
 save state</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -610,36 +438,19 @@ save state</p>
 </ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt id="pyarcade.gamedb.GameDB.id">
-<code class="sig-name descname">id</code><a class="headerlink" href="#pyarcade.gamedb.GameDB.id" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="pyarcade.gamedb.GameDB.player_id">
-<code class="sig-name descname">player_id</code><a class="headerlink" href="#pyarcade.gamedb.GameDB.player_id" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="pyarcade.gamedb.GameDB.save">
-<code class="sig-name descname">save</code><a class="headerlink" href="#pyarcade.gamedb.GameDB.save" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="pyarcade.gamedb.GameDB.save_name">
-<code class="sig-name descname">save_name</code><a class="headerlink" href="#pyarcade.gamedb.GameDB.save_name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 </div>
 <div class="section" id="module-pyarcade.input_system">
 <span id="pyarcade-input-system-module"></span><h2>pyarcade.input_system module<a class="headerlink" href="#module-pyarcade.input_system" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">show-inheritance</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
 <dl class="py class">
 <dt id="pyarcade.input_system.InputSystem">
 <em class="property">class </em><code class="sig-prename descclassname">pyarcade.input_system.</code><code class="sig-name descname">InputSystem</code><a class="reference internal" href="_modules/pyarcade/input_system.html#InputSystem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.input_system.InputSystem" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Class that handles input for all games</p>
+<dd><p>Class that handles input for all games</p>
 <dl class="py method">
 <dt id="pyarcade.input_system.InputSystem.get_current_game">
 <code class="sig-name descname">get_current_game</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/input_system.html#InputSystem.get_current_game"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.input_system.InputSystem.get_current_game" title="Permalink to this definition">¶</a></dt>
@@ -793,11 +604,14 @@ any type of game within pyarcade</p>
 </div>
 <div class="section" id="module-pyarcade.model">
 <span id="pyarcade-model-module"></span><h2>pyarcade.model module<a class="headerlink" href="#module-pyarcade.model" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">show-inheritance</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
 <dl class="py class">
 <dt id="pyarcade.model.Model">
 <em class="property">class </em><code class="sig-prename descclassname">pyarcade.model.</code><code class="sig-name descname">Model</code><a class="reference internal" href="_modules/pyarcade/model.html#Model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.model.Model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Class to create the database and interact with it</p>
+<dd><p>Class to create the database and interact with it</p>
 <dl class="py method">
 <dt id="pyarcade.model.Model.add_user">
 <code class="sig-name descname">add_user</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">username</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">passwd</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">confirm</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/pyarcade/model.html#Model.add_user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.model.Model.add_user" title="Permalink to this definition">¶</a></dt>
@@ -974,11 +788,10 @@ any type of game within pyarcade</p>
 </div>
 <div class="section" id="module-pyarcade.start">
 <span id="pyarcade-start-module"></span><h2>pyarcade.start module<a class="headerlink" href="#module-pyarcade.start" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
-<dt id="pyarcade.start.clear">
-<code class="sig-prename descclassname">pyarcade.start.</code><code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/start.html#clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.start.clear" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dl class="field-list simple">
+<dt class="field-odd">show-inheritance</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
 <dl class="py function">
 <dt id="pyarcade.start.run_pyarcade">
 <code class="sig-prename descclassname">pyarcade.start.</code><code class="sig-name descname">run_pyarcade</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/start.html#run_pyarcade"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.start.run_pyarcade" title="Permalink to this definition">¶</a></dt>
@@ -989,11 +802,14 @@ as output of choices are encapsulated in this method</p>
 </div>
 <div class="section" id="module-pyarcade.user">
 <span id="pyarcade-user-module"></span><h2>pyarcade.user module<a class="headerlink" href="#module-pyarcade.user" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">show-inheritance</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
 <dl class="py class">
 <dt id="pyarcade.user.User">
 <em class="property">class </em><code class="sig-prename descclassname">pyarcade.user.</code><code class="sig-name descname">User</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/user.html#User"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.user.User" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.ext.declarative.api.Base</span></code></p>
-<p>user class that represents the model to create users</p>
+<dd><p>user class that represents the model to create users</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1003,26 +819,15 @@ as output of choices are encapsulated in this method</p>
 </ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt id="pyarcade.user.User.id">
-<code class="sig-name descname">id</code><a class="headerlink" href="#pyarcade.user.User.id" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="pyarcade.user.User.passwd">
-<code class="sig-name descname">passwd</code><a class="headerlink" href="#pyarcade.user.User.passwd" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="pyarcade.user.User.username">
-<code class="sig-name descname">username</code><a class="headerlink" href="#pyarcade.user.User.username" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 </div>
 <div class="section" id="module-pyarcade">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyarcade" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">show-inheritance</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
 </div>
 </div>
 

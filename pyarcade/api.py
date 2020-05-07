@@ -54,7 +54,7 @@ class UserListResource(Resource):
         """Responds to http://[domain or IP]:[port (default 5000)]/users
 
         Returns:
-            List of dictionaries describing all users in the database. We should only include some information if
+            List: a list of dictionaries describing all users in the database. We should only include some information if
             passwords or other personal information is involved.
         """
         return [{"username": user.username, "id": user.id} for user in User.query.all()]
@@ -216,7 +216,13 @@ api.add_resource(GameResource, '/games/<int:game_id>')
 
 class LoginForm(FlaskForm):
     """Represents a login form that is used to login a user
+
+    Args: 
+        username (str): username field of user 
+        Password (str): password field of user 
+        remember (bool): boolean field checked to remember user
     """
+    
     username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
     remember = BooleanField('remember me')

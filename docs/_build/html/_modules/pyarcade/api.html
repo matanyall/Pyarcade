@@ -200,7 +200,7 @@
         <span class="sd">&quot;&quot;&quot;Responds to http://[domain or IP]:[port (default 5000)]/users</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            List of dictionaries describing all users in the database. We should only include some information if</span>
+<span class="sd">            List: a list of dictionaries describing all users in the database. We should only include some information if</span>
 <span class="sd">            passwords or other personal information is involved.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[{</span><span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">}</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()]</span></div>
@@ -362,7 +362,13 @@
 
 <div class="viewcode-block" id="LoginForm"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.LoginForm">[docs]</a><span class="k">class</span> <span class="nc">LoginForm</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Represents a login form that is used to login a user</span>
+
+<span class="sd">    Args: </span>
+<span class="sd">        username (str): username field of user </span>
+<span class="sd">        Password (str): password field of user </span>
+<span class="sd">        remember (bool): boolean field checked to remember user</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    
     <span class="n">username</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="n">Length</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">15</span><span class="p">)])</span>
     <span class="n">password</span> <span class="o">=</span> <span class="n">PasswordField</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="n">Length</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">80</span><span class="p">)])</span>
     <span class="n">remember</span> <span class="o">=</span> <span class="n">BooleanField</span><span class="p">(</span><span class="s1">&#39;remember me&#39;</span><span class="p">)</span></div>
