@@ -197,7 +197,7 @@
 
 <div class="viewcode-block" id="InputSystem.handle_game_input"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.input_system.InputSystem.handle_game_input">[docs]</a>    <span class="k">def</span> <span class="nf">handle_game_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user_input</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Handles input given game name (mastermind, minesweeper, crazy eights, blackjack, etc) and user input and returns the correct output based on which</span>
-<span class="sd">        game and option is selected</span>
+<span class="sd">        game and the option that is selected. </span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            game_name (str): name of the game to check input against</span>
@@ -253,7 +253,8 @@
 
 <div class="viewcode-block" id="InputSystem.handle_mastermind_input"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.input_system.InputSystem.handle_mastermind_input">[docs]</a>    <span class="k">def</span> <span class="nf">handle_mastermind_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">guess_input</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Accesses the mastermind game and runs mastermind logic based on user input and returns result for</span>
-<span class="sd">        start.py to print out</span>
+<span class="sd">        start.py to print out.This function acts as a handler that calls the functions associated with the mastermind to allow the player to progress in the game or execute game specific menu options</span>
+<span class="sd">        chosen and then returns the output.</span>
 <span class="sd">            </span>
 <span class="sd">        Args:</span>
 <span class="sd">            guess_input (str): input that decides which menu option to take or guess to evaluate</span>
@@ -288,7 +289,8 @@
 
 <div class="viewcode-block" id="InputSystem.handle_minesweeper_input"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.input_system.InputSystem.handle_minesweeper_input">[docs]</a>    <span class="k">def</span> <span class="nf">handle_minesweeper_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location_input</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Accesses the minesweeper game and runs minesweeper logic based on user input and returns result for</span>
-<span class="sd">        start.py to print out</span>
+<span class="sd">        start.py to print out.This function acts as a handler that calls the functions associated with minesweeper to allow the player to progress in the game or execute game specific menu options</span>
+<span class="sd">        chosen and then returns the output.</span>
 <span class="sd">            </span>
 <span class="sd">        Args:</span>
 <span class="sd">            location_input (str): location of desired move represented as a string or menu option depending on format</span>
@@ -397,9 +399,9 @@
                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">show_player_hand</span><span class="p">(</span><span class="n">CRAZY_EIGHTS_PLAYER_NUM</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="InputSystem.handle_blackjack_input"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.input_system.InputSystem.handle_blackjack_input">[docs]</a>    <span class="k">def</span> <span class="nf">handle_blackjack_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_input</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Handles input varying from menu options such as reset, clear, save to game options such as </span>
-<span class="sd">        hit or stand. This Accesses the blackjack game and runs blackjack logic based on user input and returns result for</span>
-<span class="sd">        start.py to print out. </span>
+        <span class="sd">&quot;&quot;&quot; This Accesses the blackjack game and runs blackjack logic based on user input and returns result for</span>
+<span class="sd">        start.py to print out. This function acts as a handler that calls the functions associated with blackjack to allow the player to progress in the game or execute game specific menu options</span>
+<span class="sd">        chosen and then returns the output.</span>
 <span class="sd">            </span>
 <span class="sd">        Args:</span>
 <span class="sd">            user_input: input from user varying from menu options to game options such as hit or stand</span>

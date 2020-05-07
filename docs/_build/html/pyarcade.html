@@ -204,12 +204,27 @@
 <dt id="pyarcade.api.Game">
 <em class="property">class </em><code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">Game</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#Game"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.Game" title="Permalink to this definition">¶</a></dt>
 <dd><p>A SQLAlchemy Model used to store information about a Game and its state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>int</em>) – id of game save</p></li>
+<li><p><strong>player_id</strong> (<em>int</em>) – id of player associated with save</p></li>
+<li><p><strong>save_name</strong> (<em>str</em>) – name of game save</p></li>
+<li><p><strong>save</strong> (<em>BLOB</em>) – save object</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
 <dt id="pyarcade.api.GameForm">
 <em class="property">class </em><code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">GameForm</code><span class="sig-paren">(</span><em class="sig-param">formdata=&lt;object object&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#GameForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.GameForm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Represents a form to record the input from the user on pyarcade website</p>
+<dd><p>Represents a form to store fields required to record the input from the user on pyarcade website</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input</strong> (<em>str</em>) – game menu option field</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
@@ -290,7 +305,7 @@ executed in the context of a specific game.</p>
 <dl class="py class">
 <dt id="pyarcade.api.LoginForm">
 <em class="property">class </em><code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">LoginForm</code><span class="sig-paren">(</span><em class="sig-param">formdata=&lt;object object&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#LoginForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.LoginForm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Represents a login form that is used to login a user</p>
+<dd><p>Represents a login form that is used to send the fields a User fills out to authenticate via REST</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -305,13 +320,26 @@ executed in the context of a specific game.</p>
 <dl class="py class">
 <dt id="pyarcade.api.RegisterForm">
 <em class="property">class </em><code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">RegisterForm</code><span class="sig-paren">(</span><em class="sig-param">formdata=&lt;object object&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#RegisterForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.RegisterForm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Represents a form that allows a user to register for a pyaracade account</p>
+<dd><p>Represents a form that allows a user to store fields required to register for a pyaracade account via REST</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>username</strong> (<em>str</em>) – username field of user being registered</p></li>
+<li><p><strong>password</strong> (<em>str</em>) – password field of user being registered</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
 <dt id="pyarcade.api.SaveForm">
 <em class="property">class </em><code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">SaveForm</code><span class="sig-paren">(</span><em class="sig-param">formdata=&lt;object object&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#SaveForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.SaveForm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Represents a form to record the save name</p>
+<dd><p>Represents a form to store fields required to record the save name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>save_name</strong> (<em>str</em>) – name of save</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
@@ -401,12 +429,72 @@ executed in the context of a specific user.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt id="pyarcade.api.blackjack">
+<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">blackjack</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#blackjack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.blackjack" title="Permalink to this definition">¶</a></dt>
+<dd><p>routes to blackjack, displays blackjack ui and allows user to interact and play blackjack</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyarcade.api.crazy_eights">
+<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">crazy_eights</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#crazy_eights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.crazy_eights" title="Permalink to this definition">¶</a></dt>
+<dd><p>routes to /crazy_eights. Displays crazy eights ui and allows user to interact and play crazy eights</p>
+</dd></dl>
+
+<dl class="py function">
 <dt id="pyarcade.api.create_app">
 <code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">create_app</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#create_app"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.create_app" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is used as a factory function for creating the entire application instance
 when the application is first run. Best practices for FLASK is to allow creating an
 application instance ONLY using this function for very good reasons, but this
 is good enough to use for now.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyarcade.api.dashboard">
+<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">dashboard</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#dashboard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.dashboard" title="Permalink to this definition">¶</a></dt>
+<dd><p>routes to /dashboard displays user dashboard</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyarcade.api.index">
+<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">index</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>default route. Displays home page</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyarcade.api.login">
+<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">login</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#login"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.login" title="Permalink to this definition">¶</a></dt>
+<dd><p>routes to /login , displays login page and allows a user to login.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyarcade.api.logout">
+<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">logout</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#logout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.logout" title="Permalink to this definition">¶</a></dt>
+<dd><p>routes to /logout. Logs out the user</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyarcade.api.mastermind">
+<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">mastermind</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#mastermind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.mastermind" title="Permalink to this definition">¶</a></dt>
+<dd><p>routes to /mastermind. Displays mastermind ui and allows user to interact and play mastermind</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyarcade.api.minesweeper">
+<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">minesweeper</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#minesweeper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.minesweeper" title="Permalink to this definition">¶</a></dt>
+<dd><p>routes to /minesweeper. Displays minesweeper ui and allows user to interact and play minesweeper</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyarcade.api.save">
+<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>routes to /save displays save form and allows user to save game to database</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyarcade.api.signup">
+<code class="sig-prename descclassname">pyarcade.api.</code><code class="sig-name descname">signup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/api.html#signup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.api.signup" title="Permalink to this definition">¶</a></dt>
+<dd><p>routes to /signup displays signup page and allows user to sign up for pyarcade</p>
 </dd></dl>
 
 </div>
@@ -468,9 +556,9 @@ save state</p>
 <dl class="py method">
 <dt id="pyarcade.input_system.InputSystem.handle_blackjack_input">
 <code class="sig-name descname">handle_blackjack_input</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_input</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/pyarcade/input_system.html#InputSystem.handle_blackjack_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.input_system.InputSystem.handle_blackjack_input" title="Permalink to this definition">¶</a></dt>
-<dd><p>Handles input varying from menu options such as reset, clear, save to game options such as
-hit or stand. This Accesses the blackjack game and runs blackjack logic based on user input and returns result for
-start.py to print out.</p>
+<dd><p>This Accesses the blackjack game and runs blackjack logic based on user input and returns result for
+start.py to print out. This function acts as a handler that calls the functions associated with blackjack to allow the player to progress in the game or execute game specific menu options
+chosen and then returns the output.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>user_input</strong> – input from user varying from menu options to game options such as hit or stand</p>
@@ -527,7 +615,7 @@ None</p>
 <dt id="pyarcade.input_system.InputSystem.handle_game_input">
 <code class="sig-name descname">handle_game_input</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">game_name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">user_input</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/input_system.html#InputSystem.handle_game_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.input_system.InputSystem.handle_game_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handles input given game name (mastermind, minesweeper, crazy eights, blackjack, etc) and user input and returns the correct output based on which
-game and option is selected</p>
+game and the option that is selected.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -543,7 +631,8 @@ game and option is selected</p>
 <dt id="pyarcade.input_system.InputSystem.handle_mastermind_input">
 <code class="sig-name descname">handle_mastermind_input</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">guess_input</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/input_system.html#InputSystem.handle_mastermind_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.input_system.InputSystem.handle_mastermind_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accesses the mastermind game and runs mastermind logic based on user input and returns result for
-start.py to print out</p>
+start.py to print out.This function acts as a handler that calls the functions associated with the mastermind to allow the player to progress in the game or execute game specific menu options
+chosen and then returns the output.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>guess_input</strong> (<em>str</em>) – input that decides which menu option to take or guess to evaluate</p>
@@ -561,7 +650,8 @@ start.py to print out</p>
 <dt id="pyarcade.input_system.InputSystem.handle_minesweeper_input">
 <code class="sig-name descname">handle_minesweeper_input</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">location_input</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/input_system.html#InputSystem.handle_minesweeper_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.input_system.InputSystem.handle_minesweeper_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accesses the minesweeper game and runs minesweeper logic based on user input and returns result for
-start.py to print out</p>
+start.py to print out.This function acts as a handler that calls the functions associated with minesweeper to allow the player to progress in the game or execute game specific menu options
+chosen and then returns the output.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>location_input</strong> (<em>str</em>) – location of desired move represented as a string or menu option depending on format</p>
@@ -797,6 +887,14 @@ any type of game within pyarcade</p>
 <code class="sig-prename descclassname">pyarcade.start.</code><code class="sig-name descname">run_pyarcade</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/start.html#run_pyarcade"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.start.run_pyarcade" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method used to start the pyarcade. Logic of navigating the pyarcade and starting selected games as well
 as output of choices are encapsulated in this method</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>output of current state of pyarcade ex: menus, game outputs, etc</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>String</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>

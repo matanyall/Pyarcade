@@ -183,10 +183,10 @@
     <span class="n">passwd</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="load_user"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.load_user">[docs]</a><span class="nd">@login_manager</span><span class="o">.</span><span class="n">user_loader</span>
+<span class="nd">@login_manager</span><span class="o">.</span><span class="n">user_loader</span>
 <span class="k">def</span> <span class="nf">load_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">):</span>
 
-    <span class="k">return</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">user_id</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">user_id</span><span class="p">))</span>
 
 
 <div class="viewcode-block" id="UserListResource"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.UserListResource">[docs]</a><span class="k">class</span> <span class="nc">UserListResource</span><span class="p">(</span><span class="n">Resource</span><span class="p">):</span>
@@ -271,6 +271,12 @@
 
 <div class="viewcode-block" id="Game"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.Game">[docs]</a><span class="k">class</span> <span class="nc">Game</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; A SQLAlchemy Model used to store information about a Game and its state</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        id (int): id of game save</span>
+<span class="sd">        player_id (int): id of player associated with save</span>
+<span class="sd">        save_name (str): name of game save</span>
+<span class="sd">        save (BLOB): save object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;GameDB&#39;</span>
 
@@ -361,45 +367,59 @@
 
 
 <div class="viewcode-block" id="LoginForm"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.LoginForm">[docs]</a><span class="k">class</span> <span class="nc">LoginForm</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Represents a login form that is used to login a user</span>
+    <span class="sd">&quot;&quot;&quot;Represents a login form that is used to send the fields a User fills out to authenticate via REST</span>
 
 <span class="sd">    Args: </span>
 <span class="sd">        username (str): username field of user </span>
 <span class="sd">        Password (str): password field of user </span>
 <span class="sd">        remember (bool): boolean field checked to remember user</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
+
     <span class="n">username</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="n">Length</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">15</span><span class="p">)])</span>
     <span class="n">password</span> <span class="o">=</span> <span class="n">PasswordField</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="n">Length</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">80</span><span class="p">)])</span>
     <span class="n">remember</span> <span class="o">=</span> <span class="n">BooleanField</span><span class="p">(</span><span class="s1">&#39;remember me&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="RegisterForm"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.RegisterForm">[docs]</a><span class="k">class</span> <span class="nc">RegisterForm</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Represents a form that allows a user to register for a pyaracade account</span>
+    <span class="sd">&quot;&quot;&quot;Represents a form that allows a user to store fields required to register for a pyaracade account via REST </span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        username (str): username field of user being registered</span>
+<span class="sd">        password (str): password field of user being registered</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">username</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="n">Length</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">15</span><span class="p">)])</span>
     <span class="n">password</span> <span class="o">=</span> <span class="n">PasswordField</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="n">Length</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">80</span><span class="p">)])</span></div>
 
 
 <div class="viewcode-block" id="GameForm"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.GameForm">[docs]</a><span class="k">class</span> <span class="nc">GameForm</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Represents a form to record the input from the user on pyarcade website</span>
+    <span class="sd">&quot;&quot;&quot;Represents a form to store fields required to record the input from the user on pyarcade website</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        input(str): game menu option field</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">input</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="SaveForm"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.SaveForm">[docs]</a><span class="k">class</span> <span class="nc">SaveForm</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Represents a form to record the save name </span>
+    <span class="sd">&quot;&quot;&quot;Represents a form to store fields required to record the save name </span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        save_name (str): name of save </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">save_name</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="n">Length</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">15</span><span class="p">)])</span></div>
 
 
 <div class="viewcode-block" id="index"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.index">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;default route. Displays home page </span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;index.html&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="mastermind"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.mastermind">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/mastermind&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">mastermind</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;routes to /mastermind. Displays mastermind ui and allows user to interact and play mastermind</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">form</span> <span class="o">=</span> <span class="n">GameForm</span><span class="p">()</span>
 
     <span class="n">user_input</span> <span class="o">=</span> <span class="s2">&quot;New Game&quot;</span>
@@ -432,6 +452,8 @@
 
 <div class="viewcode-block" id="minesweeper"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.minesweeper">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/minesweeper&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">minesweeper</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;routes to /minesweeper. Displays minesweeper ui and allows user to interact and play minesweeper</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">form</span> <span class="o">=</span> <span class="n">GameForm</span><span class="p">()</span>
 
     <span class="n">user_input</span> <span class="o">=</span> <span class="s2">&quot;New Game&quot;</span>
@@ -489,6 +511,8 @@
 
 <div class="viewcode-block" id="crazy_eights"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.crazy_eights">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/crazy_eights&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">crazy_eights</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;routes to /crazy_eights. Displays crazy eights ui and allows user to interact and play crazy eights </span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">form</span> <span class="o">=</span> <span class="n">GameForm</span><span class="p">()</span>
 
     <span class="n">user_input</span> <span class="o">=</span> <span class="s2">&quot;New Game&quot;</span>
@@ -520,6 +544,8 @@
 
 <div class="viewcode-block" id="blackjack"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.blackjack">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/blackjack&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">blackjack</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;routes to blackjack, displays blackjack ui and allows user to interact and play blackjack</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">form</span> <span class="o">=</span> <span class="n">GameForm</span><span class="p">()</span>
 
     <span class="n">user_input</span> <span class="o">=</span> <span class="s2">&quot;New Game&quot;</span>
@@ -551,6 +577,8 @@
 
 <div class="viewcode-block" id="save"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.save">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/save&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">save</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;routes to /save displays save form and allows user to save game to database</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">form</span> <span class="o">=</span> <span class="n">SaveForm</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
@@ -575,6 +603,8 @@
 
 <div class="viewcode-block" id="login"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.login">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/login&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">login</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;routes to /login , displays login page and allows a user to login.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">form</span> <span class="o">=</span> <span class="n">LoginForm</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
@@ -591,6 +621,8 @@
 
 <div class="viewcode-block" id="signup"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.signup">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/signup&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">signup</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;routes to /signup displays signup page and allows user to sign up for pyarcade</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">form</span> <span class="o">=</span> <span class="n">RegisterForm</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
@@ -612,12 +644,16 @@
 <div class="viewcode-block" id="dashboard"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.dashboard">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/dashboard&#39;</span><span class="p">)</span>
 <span class="nd">@login_required</span>
 <span class="k">def</span> <span class="nf">dashboard</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; routes to /dashboard displays user dashboard</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;dashboard.html&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">current_user</span><span class="o">.</span><span class="n">username</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="logout"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.logout">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/logout&#39;</span><span class="p">)</span>
 <span class="nd">@login_required</span>
 <span class="k">def</span> <span class="nf">logout</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;routes to /logout. Logs out the user </span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">logout_user</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">))</span></div>
 
