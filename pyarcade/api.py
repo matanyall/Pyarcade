@@ -39,8 +39,7 @@ class User(UserMixin, db.Model):
 
 @login_manager.user_loader
 def load_user(user_id):
-    """
-    """
+
     return User.query.get(int(user_id))
 
 
@@ -216,7 +215,7 @@ api.add_resource(GameResource, '/games/<int:game_id>')
 
 
 class LoginForm(FlaskForm):
-    """
+    """Represents a login form that is used to login a user
     """
     username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
@@ -224,15 +223,21 @@ class LoginForm(FlaskForm):
 
 
 class RegisterForm(FlaskForm):
+    """Represents a form that allows a user to register for a pyaracade account
+    """
     username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
 
 
 class GameForm(FlaskForm):
+    """Represents a form to record the input from the user on pyarcade website
+    """
     input = StringField()
 
 
 class SaveForm(FlaskForm):
+    """Represents a form to record the save name 
+    """
     save_name = StringField(validators=[InputRequired(), Length(min=2, max=15)])
 
 

@@ -50,7 +50,7 @@ class InputSystem:
         self.game_to_load = game
 
     def handle_game_input(self, game_name: str, user_input: str):
-        """Handles input given game name and user input and returns the correct output based on which
+        """Handles input given game name (mastermind, minesweeper, crazy eights, blackjack, etc) and user input and returns the correct output based on which
         game and option is selected
 
         Args:
@@ -106,9 +106,11 @@ class InputSystem:
             return "Invalid game provided."
 
     def handle_mastermind_input(self, guess_input):
-        """
-        Takes:
-            string str that we ensure follows appropriate form
+        """ Accesses the mastermind game and runs mastermind logic based on user input and returns result for
+        start.py to print out
+            
+        Args:
+            guess_input (str): input that decides which menu option to take or guess to evaluate
         Returns:
             hidden_sequence List[int]: A sequence of integers to be guessed by the player.
         """
@@ -139,6 +141,14 @@ class InputSystem:
         return "Invalid input. Input should be of the form \"####\""
 
     def handle_minesweeper_input(self, location_input: str):
+        """ Accesses the minesweeper game and runs minesweeper logic based on user input and returns result for
+        start.py to print out
+            
+        Args:
+            location_input (str): location of desired move represented as a string or menu option depending on format
+        Returns:
+            board_str (str): a string representation of the minesweeper board 
+        """
         if type(location_input) == str:
             two_comma_separated_digits_regex = r"^\d,\d$"
             if re.search(two_comma_separated_digits_regex, location_input):
@@ -167,6 +177,15 @@ class InputSystem:
 
     @staticmethod
     def handle_card(user_card: str):
+        """ Finds a corresponding card based on user input and returns that card of type card. If none exist
+        it returns None
+        Args: 
+            user_card (str): string representation of Users card played
+
+        Return:
+            Card: card with rank and suit specified
+            None
+        """
         user_card = user_card.split(",")
         if len(user_card) != 2:
             return None
@@ -181,6 +200,15 @@ class InputSystem:
         return None
 
     def handle_crazy_eights_input(self, card_input: str) -> str:
+        """Handles input varying from game menu options such as help, save, clear and game options such as draw
+         Accesses the crazy eights game and runs crazy eights logic based on user input and returns result for
+        start.py to print out
+            
+        Args:
+            card_input (str): 
+        Returns:
+            String: returns what the last card played was in the form of a string 
+        """
         if card_input.lower() == "help":
             return CrazyEights.display_help()
         if card_input.lower() == "clear":
@@ -223,6 +251,16 @@ class InputSystem:
                    + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM)
 
     def handle_blackjack_input(self, user_input: str) -> str:
+        """Handles input varying from menu options such as reset, clear, save to game options such as 
+        hit or stand. This Accesses the blackjack game and runs blackjack logic based on user input and returns result for
+        start.py to print out. 
+            
+        Args:
+            user_input: input from user varying from menu options to game options such as hit or stand
+        
+        Returns:
+            String: returns current state of user and house hands 
+        """
 
         if user_input.lower() == "help":
             return Blackjack.display_help()

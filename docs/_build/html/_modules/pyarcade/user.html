@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>tests.test_ordered_enum &mdash; pyarcade  documentation</title>
+  <title>pyarcade.user &mdash; pyarcade  documentation</title>
   
 
   
@@ -128,7 +128,7 @@
         
           <li><a href="../index.html">Module code</a> &raquo;</li>
         
-      <li>tests.test_ordered_enum</li>
+      <li>pyarcade.user</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -143,30 +143,29 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for tests.test_ordered_enum</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyarcade.games.ordered_enum</span> <span class="k">import</span> <span class="n">OrderedEnum</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">unique</span>
-<span class="kn">import</span> <span class="nn">unittest</span>
+  <h1>Source code for pyarcade.user</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pyarcade.base</span> <span class="k">import</span> <span class="n">Base</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="k">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span>
 
 
-<div class="viewcode-block" id="Grade"><a class="viewcode-back" href="../../tests.html#tests.test_ordered_enum.Grade">[docs]</a><span class="nd">@unique</span>
-<span class="k">class</span> <span class="nc">Grade</span><span class="p">(</span><span class="n">OrderedEnum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;https://docs.python.org/3/library/enum.html#orderedenum</span>
+<div class="viewcode-block" id="User"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.user.User">[docs]</a><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; user class that represents the model to create users </span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        id (int) : the primary key that uniquely identifies a user</span>
+<span class="sd">        username (str): username associated with the user </span>
+<span class="sd">        passwd (str): password associated with user</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">A</span> <span class="o">=</span> <span class="mi">5</span>
-    <span class="n">B</span> <span class="o">=</span> <span class="mi">4</span>
-    <span class="n">C</span> <span class="o">=</span> <span class="mi">3</span>
-    <span class="n">D</span> <span class="o">=</span> <span class="mi">2</span>
-    <span class="n">F</span> <span class="o">=</span> <span class="mi">1</span></div>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;Users&#39;</span>
 
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">30</span><span class="p">))</span>
+    <span class="c1"># TODO: fix the security!</span>
+    <span class="n">passwd</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">))</span>
 
-<div class="viewcode-block" id="OrderedEnumTestCase"><a class="viewcode-back" href="../../tests.html#tests.test_ordered_enum.OrderedEnumTestCase">[docs]</a><span class="k">class</span> <span class="nc">OrderedEnumTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-<div class="viewcode-block" id="OrderedEnumTestCase.test_ordered_enum"><a class="viewcode-back" href="../../tests.html#tests.test_ordered_enum.OrderedEnumTestCase.test_ordered_enum">[docs]</a>    <span class="k">def</span> <span class="nf">test_ordered_enum</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">Grade</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="n">Grade</span><span class="o">.</span><span class="n">F</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertGreater</span><span class="p">(</span><span class="n">Grade</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">Grade</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertGreaterEqual</span><span class="p">(</span><span class="n">Grade</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">Grade</span><span class="o">.</span><span class="n">C</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">Grade</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">Grade</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertLessEqual</span><span class="p">(</span><span class="n">Grade</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="n">Grade</span><span class="o">.</span><span class="n">D</span><span class="p">)</span></div></div>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;&lt;User(id=</span><span class="si">{0}</span><span class="s1">, username=&quot;</span><span class="si">{1}</span><span class="s1">&quot;, password=&quot;</span><span class="si">{2}</span><span class="s1">&quot;)&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                                                                       <span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">passwd</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

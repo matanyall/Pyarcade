@@ -82,6 +82,10 @@ class Mastermind:
 
     # Clears current and total game history
     def clear(self):
+        """ Clears current and total game history
+        Return:
+            String: History cleared
+        """
         self.current_history.clear()
         global total_history
         total_history.clear()
@@ -91,6 +95,10 @@ class Mastermind:
 
     # Resets current game history
     def reset(self):
+        """resets current game history
+        Return:
+            String: Game reset
+        """
         self.current_history.clear()
         self.hidden_sequence = self.generate_hidden_sequence()
         self.game_state = "New game."
@@ -98,10 +106,23 @@ class Mastermind:
 
     @staticmethod
     def display_game_name():
+        """displays game name
+
+        Return: 
+            string: Mastermind
+        """
         return "Mastermind"
 
     @staticmethod
     def display_help():
+        """displays the help instructions
+        Return:
+            String: type a 4 digit number to guess a 4 digit secret number" 
+               "Each turn the game will return how close your guess was " 
+               "bulls are numbers that are the correct value in the correct position" 
+               "cows are numbers that are the correct value but not in the correct position"
+
+        """
         return "type a 4 digit number to guess a 4 digit secret number" \
                "Each turn the game will return how close your guess was " \
                "bulls are numbers that are the correct value in the correct position" \

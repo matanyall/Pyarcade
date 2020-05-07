@@ -76,7 +76,3 @@ Module contents
     :undoc-members:
     :show-inheritance:
 
-.. automodule:: api
-    :members:
-    :undoc-members:
-    :show-inheritance:

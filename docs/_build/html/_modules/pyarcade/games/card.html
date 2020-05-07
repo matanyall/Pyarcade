@@ -144,8 +144,8 @@
            <div itemprop="articleBody">
             
   <h1>Source code for pyarcade.games.card</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyarcade.games.ordered_enum</span> <span class="kn">import</span> <span class="n">OrderedEnum</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">unique</span>
+<span></span><span class="kn">from</span> <span class="nn">pyarcade.games.ordered_enum</span> <span class="k">import</span> <span class="n">OrderedEnum</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">unique</span>
 
 
 <div class="viewcode-block" id="Suit"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.card.Suit">[docs]</a><span class="nd">@unique</span>
@@ -185,16 +185,16 @@
 <span class="sd">        rank (Rank): playing card rank</span>
 <span class="sd">        suit (Suit): playing card suit</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rank</span><span class="p">:</span> <span class="n">Rank</span><span class="p">,</span> <span class="n">suit</span><span class="p">:</span> <span class="n">Suit</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rank</span><span class="p">:</span> <span class="n">Rank</span><span class="p">,</span> <span class="n">suit</span><span class="p">:</span> <span class="n">Suit</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">RANK</span> <span class="o">=</span> <span class="n">rank</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SUIT</span> <span class="o">=</span> <span class="n">suit</span>
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Card</span><span class="p">)</span> <span class="ow">and</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span> <span class="ow">and</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">get_suit</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">get_suit</span><span class="p">())</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39; of &#39;</span> <span class="o">+</span>\
             <span class="bp">self</span><span class="o">.</span><span class="n">get_suit</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 

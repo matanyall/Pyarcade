@@ -181,7 +181,15 @@ class Model():
         return save_list
 
     def get_save(self, save_name: str, username: str):
-        """ returns 
+        """ returns save object
+        
+        Args:
+            save_name (str) : name associated with save
+            username (str): used to query database for save list
+            
+        
+        Returns:
+            BLOB: save object 
         """
         user_id = self._get_user(username)
         save = self.session.query(GameDB).filter(GameDB.player_id == user_id.id).filter(
@@ -189,7 +197,7 @@ class Model():
         return save
 
     def delete_save(self, save_name: str, user_id: int):
-        """deletes a save
+        """deletes a save 
         
         Args:
             save_name (str): name of the save

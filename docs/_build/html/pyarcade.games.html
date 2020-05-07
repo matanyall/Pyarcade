@@ -89,13 +89,13 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pyarcade.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyarcade.html#pyarcade-api-module">pyarcade.api module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyarcade.html#pyarcade-base-module">pyarcade.base module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyarcade.html#pyarcade-gamedb-module">pyarcade.gamedb module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyarcade.html#pyarcade-input-system-module">pyarcade.input_system module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyarcade.html#pyarcade-model-module">pyarcade.model module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyarcade.html#pyarcade-start-module">pyarcade.start module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyarcade.html#pyarcade-user-module">pyarcade.user module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarcade.html#module-pyarcade.api">pyarcade.api module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarcade.html#module-pyarcade.base">pyarcade.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarcade.html#module-pyarcade.gamedb">pyarcade.gamedb module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarcade.html#module-pyarcade.input_system">pyarcade.input_system module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarcade.html#module-pyarcade.model">pyarcade.model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarcade.html#module-pyarcade.start">pyarcade.start module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarcade.html#module-pyarcade.user">pyarcade.user module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarcade.html#module-pyarcade">Module contents</a></li>
 </ul>
 </li>
@@ -176,8 +176,130 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="pyarcade-games-blackjack-module">
-<h2>pyarcade.games.blackjack module<a class="headerlink" href="#pyarcade-games-blackjack-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pyarcade.games.blackjack">
+<span id="pyarcade-games-blackjack-module"></span><h2>pyarcade.games.blackjack module<a class="headerlink" href="#module-pyarcade.games.blackjack" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyarcade.games.blackjack.Blackjack">
+<em class="property">class </em><code class="sig-prename descclassname">pyarcade.games.blackjack.</code><code class="sig-name descname">Blackjack</code><a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represent a game of blackjack, controlling game flow.</p>
+<dl class="py method">
+<dt id="pyarcade.games.blackjack.Blackjack.bust">
+<code class="sig-name descname">bust</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack.bust"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack.bust" title="Permalink to this definition">¶</a></dt>
+<dd><p>updates game state and returns loss string</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.blackjack.Blackjack.calculate_current_sum">
+<em class="property">static </em><code class="sig-name descname">calculate_current_sum</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">player</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pyarcade.games.player.Player" title="pyarcade.games.player.Player">pyarcade.games.player.Player</a></span></em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack.calculate_current_sum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack.calculate_current_sum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the sum of the card values in a player’s hand.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.blackjack.Blackjack.check_if_bust">
+<code class="sig-name descname">check_if_bust</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_sum</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">house_sum</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack.check_if_bust"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack.check_if_bust" title="Permalink to this definition">¶</a></dt>
+<dd><p>checks if after a turn the user has busted or not. Used when input is hit</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.blackjack.Blackjack.clear">
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the game by clearing all player hands.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.blackjack.Blackjack.display_game_name">
+<em class="property">static </em><code class="sig-name descname">display_game_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack.display_game_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack.display_game_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.blackjack.Blackjack.display_help">
+<em class="property">static </em><code class="sig-name descname">display_help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack.display_help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack.display_help" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.blackjack.Blackjack.display_state">
+<code class="sig-name descname">display_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">win_status</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack.display_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack.display_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>[summary]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>win_status</strong> (<em>str</em>) – [description]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.blackjack.Blackjack.hit">
+<code class="sig-name descname">hit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">player</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pyarcade.games.player.Player" title="pyarcade.games.player.Player">pyarcade.games.player.Player</a></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack.hit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack.hit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deal a card to a player.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>player</strong> (<a class="reference internal" href="#pyarcade.games.player.Player" title="pyarcade.games.player.Player"><em>Player</em></a>) – player who gets card</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.blackjack.Blackjack.next_state">
+<code class="sig-name descname">next_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">decision</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack.next_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack.next_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Play out one turn of blackjack given the user decision to hit or
+stand.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>decision</strong> (<em>str</em>) – user decision to hit or stand</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>next game state</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.blackjack.Blackjack.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack.reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.blackjack.Blackjack.setup">
+<code class="sig-name descname">setup</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack.setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack.setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set up the game by dealing the player and the house two cards each.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.blackjack.Blackjack.start_game">
+<code class="sig-name descname">start_game</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">decision</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack.start_game"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack.start_game" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.blackjack.Blackjack.tie">
+<code class="sig-name descname">tie</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack.tie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack.tie" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.blackjack.Blackjack.win">
+<code class="sig-name descname">win</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack.win"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack.win" title="Permalink to this definition">¶</a></dt>
+<dd><p>updates game state and returns win string</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.blackjack.Blackjack.win_condition">
+<code class="sig-name descname">win_condition</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack.win_condition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack.win_condition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the user has won or lost when the game is ending.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>result of the game</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-pyarcade.games.card">
 <span id="pyarcade-games-card-module"></span><h2>pyarcade.games.card module<a class="headerlink" href="#module-pyarcade.games.card" title="Permalink to this headline">¶</a></h2>
@@ -312,11 +434,359 @@ one. Jokers are not included.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="pyarcade-games-crazy-eights-module">
-<h2>pyarcade.games.crazy_eights module<a class="headerlink" href="#pyarcade-games-crazy-eights-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pyarcade.games.crazy_eights">
+<span id="pyarcade-games-crazy-eights-module"></span><h2>pyarcade.games.crazy_eights module<a class="headerlink" href="#module-pyarcade.games.crazy_eights" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyarcade.games.crazy_eights.CrazyEights">
+<em class="property">class </em><code class="sig-prename descclassname">pyarcade.games.crazy_eights.</code><code class="sig-name descname">CrazyEights</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_players</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/games/crazy_eights.html#CrazyEights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.crazy_eights.CrazyEights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represent a crazy eights game.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>num_players</strong> (<em>int</em>) – number of players from [2, 7].</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="pyarcade.games.crazy_eights.CrazyEights.clear">
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/pyarcade/games/crazy_eights.html#CrazyEights.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.crazy_eights.CrazyEights.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the current game and clear all game history.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>game after being cleared</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyarcade.games.crazy_eights.CrazyEights" title="pyarcade.games.crazy_eights.CrazyEights">CrazyEights</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.crazy_eights.CrazyEights.deal">
+<code class="sig-name descname">deal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_cards</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">- 1</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyarcade.games.crazy_eights.CrazyEights" title="pyarcade.games.crazy_eights.CrazyEights">pyarcade.games.crazy_eights.CrazyEights</a><a class="reference internal" href="_modules/pyarcade/games/crazy_eights.html#CrazyEights.deal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.crazy_eights.CrazyEights.deal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deal the cards in the deck out to the players.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_cards</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – number of cards to deal each</p></li>
+<li><p><strong>If less than zero</strong><strong> or </strong><strong>greater than the deck size</strong><strong>, </strong><strong>deal out</strong> (<em>player.</em>) – </p></li>
+<li><p><strong>the cards in the deck. Defaults to -1</strong> (<em>all</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>game after the cards have been dealt</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyarcade.games.crazy_eights.CrazyEights" title="pyarcade.games.crazy_eights.CrazyEights">CrazyEights</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.crazy_eights.CrazyEights.display_game_name">
+<em class="property">static </em><code class="sig-name descname">display_game_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/games/crazy_eights.html#CrazyEights.display_game_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.crazy_eights.CrazyEights.display_game_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.crazy_eights.CrazyEights.display_help">
+<em class="property">static </em><code class="sig-name descname">display_help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/games/crazy_eights.html#CrazyEights.display_help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.crazy_eights.CrazyEights.display_help" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.crazy_eights.CrazyEights.draw">
+<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">player_num</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyarcade.games.crazy_eights.CrazyEights" title="pyarcade.games.crazy_eights.CrazyEights">pyarcade.games.crazy_eights.CrazyEights</a><a class="reference internal" href="_modules/pyarcade/games/crazy_eights.html#CrazyEights.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.crazy_eights.CrazyEights.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a card off the top of the deck and place it into a player’s
+hand.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>player</strong> (<em>int</em>) – number of the player who is drawing a card</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>game after the player has drawn</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyarcade.games.crazy_eights.CrazyEights" title="pyarcade.games.crazy_eights.CrazyEights">CrazyEights</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.crazy_eights.CrazyEights.get_top_card_suit">
+<code class="sig-name descname">get_top_card_suit</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyarcade.games.card.Suit" title="pyarcade.games.card.Suit">pyarcade.games.card.Suit</a><a class="reference internal" href="_modules/pyarcade/games/crazy_eights.html#CrazyEights.get_top_card_suit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.crazy_eights.CrazyEights.get_top_card_suit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the top card’s suit, as it might be set by an eight.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>suit of top card in discard</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyarcade.games.card.Suit" title="pyarcade.games.card.Suit">Suit</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.crazy_eights.CrazyEights.play">
+<code class="sig-name descname">play</code><span class="sig-paren">(</span><em class="sig-param">player_num: int</em>, <em class="sig-param">card_to_play: pyarcade.games.card.Card</em>, <em class="sig-param">set_suit: Optional[pyarcade.games.card.Suit] = &lt;Suit.SPADES: 0&gt;</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/pyarcade/games/crazy_eights.html#CrazyEights.play"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.crazy_eights.CrazyEights.play" title="Permalink to this definition">¶</a></dt>
+<dd><p>Play a specific card, if possible.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>player_num</strong> (<em>int</em>) – number of the player playing the card. Defaults</p></li>
+<li><p><strong>player 1</strong><strong>, </strong><strong>the user.</strong> (<em>to</em>) – </p></li>
+<li><p><strong>card_to_play</strong> (<a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card"><em>Card</em></a>) – desired card to play</p></li>
+<li><p><strong>set_suit</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="#pyarcade.games.card.Suit" title="pyarcade.games.card.Suit"><em>Suit</em></a><em>]</em><em>, </em><em>optional</em>) – suit to change the play to</p></li>
+<li><p><strong>the card being played is an eight. Defaults to spades.</strong> (<em>if</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if the card was played, and False otherwise</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.crazy_eights.CrazyEights.play_options">
+<code class="sig-name descname">play_options</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">player_num</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card">pyarcade.games.card.Card</a><span class="p">]</span><a class="reference internal" href="_modules/pyarcade/games/crazy_eights.html#CrazyEights.play_options"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.crazy_eights.CrazyEights.play_options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the cards in a player’s hand that can be played.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>player_num</strong> (<em>int</em>) – player number</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>cards in the player’s hand that are viable</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card">Card</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.crazy_eights.CrazyEights.playable">
+<code class="sig-name descname">playable</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">card_to_play</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card">pyarcade.games.card.Card</a></span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/pyarcade/games/crazy_eights.html#CrazyEights.playable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.crazy_eights.CrazyEights.playable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a card can be played.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>card_to_play</strong> (<a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card"><em>Card</em></a>) – card to try to play</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>whether the card can be played or not</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.crazy_eights.CrazyEights.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_players</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/pyarcade/games/crazy_eights.html#CrazyEights.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.crazy_eights.CrazyEights.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the game, storing its current state in the game history.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_players</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – number of players to start</p></li>
+<li><p><strong>new game with. Defaults to None</strong> (<em>the</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>game after being reset</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyarcade.games.crazy_eights.CrazyEights" title="pyarcade.games.crazy_eights.CrazyEights">CrazyEights</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.crazy_eights.CrazyEights.reset_round">
+<code class="sig-name descname">reset_round</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyarcade.games.crazy_eights.CrazyEights" title="pyarcade.games.crazy_eights.CrazyEights">pyarcade.games.crazy_eights.CrazyEights</a><a class="reference internal" href="_modules/pyarcade/games/crazy_eights.html#CrazyEights.reset_round"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.crazy_eights.CrazyEights.reset_round" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the round, storing it into the game’s round history.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>game after the round has been reset</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyarcade.games.crazy_eights.CrazyEights" title="pyarcade.games.crazy_eights.CrazyEights">CrazyEights</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.crazy_eights.CrazyEights.setup_game">
+<code class="sig-name descname">setup_game</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_players</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyarcade.games.crazy_eights.CrazyEights" title="pyarcade.games.crazy_eights.CrazyEights">pyarcade.games.crazy_eights.CrazyEights</a><a class="reference internal" href="_modules/pyarcade/games/crazy_eights.html#CrazyEights.setup_game"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.crazy_eights.CrazyEights.setup_game" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set up the game by creating the players, creating the round history,
+and completing round setup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>num_players</strong> (<em>int</em>) – number of players the game will have</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>game after being set up</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyarcade.games.crazy_eights.CrazyEights" title="pyarcade.games.crazy_eights.CrazyEights">CrazyEights</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.crazy_eights.CrazyEights.setup_round">
+<code class="sig-name descname">setup_round</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_players</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyarcade.games.crazy_eights.CrazyEights" title="pyarcade.games.crazy_eights.CrazyEights">pyarcade.games.crazy_eights.CrazyEights</a><a class="reference internal" href="_modules/pyarcade/games/crazy_eights.html#CrazyEights.setup_round"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.crazy_eights.CrazyEights.setup_round" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set up the game by making a deck, shuffling it, dealing cards,
+making a discard, flipping over the top card, and creating the
+round points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>num_players</strong> (<em>int</em>) – number of players</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>game after the setup is complete</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyarcade.games.crazy_eights.CrazyEights" title="pyarcade.games.crazy_eights.CrazyEights">CrazyEights</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.crazy_eights.CrazyEights.show_player_hand">
+<code class="sig-name descname">show_player_hand</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">player_num</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/pyarcade/games/crazy_eights.html#CrazyEights.show_player_hand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.crazy_eights.CrazyEights.show_player_hand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show the current hand of a player.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>player_num</strong> (<em>int</em>) – number of the player’s hand to show</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>hand of the player; empty string if player doesn’t exist</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.crazy_eights.CrazyEights.show_top_card">
+<code class="sig-name descname">show_top_card</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/games/crazy_eights.html#CrazyEights.show_top_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.crazy_eights.CrazyEights.show_top_card" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.crazy_eights.CrazyEights.turn">
+<code class="sig-name descname">turn</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">player_num</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card">pyarcade.games.card.Card</a><a class="reference internal" href="_modules/pyarcade/games/crazy_eights.html#CrazyEights.turn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.crazy_eights.CrazyEights.turn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Play out a player’s turn using automated choices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>player_num</strong> (<em>int</em>) – number of the player whose turn it is</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>card that the player plays</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card">Card</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="pyarcade-games-deck-module">
-<h2>pyarcade.games.deck module<a class="headerlink" href="#pyarcade-games-deck-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pyarcade.games.deck">
+<span id="pyarcade-games-deck-module"></span><h2>pyarcade.games.deck module<a class="headerlink" href="#module-pyarcade.games.deck" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyarcade.games.deck.Deck">
+<em class="property">class </em><code class="sig-prename descclassname">pyarcade.games.deck.</code><code class="sig-name descname">Deck</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_decks</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/games/deck.html#Deck"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.deck.Deck" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represent a deck of playing cards composed of a number of 52-card decks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_decks</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – number of 52-card decks to</p></li>
+<li><p><strong>Defaults to 1.</strong> (<em>use.</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="pyarcade.games.deck.Deck.add_cards">
+<code class="sig-name descname">add_cards</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cards_to_add</span><span class="p">:</span> <span class="n">List<span class="p">[</span><a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card">pyarcade.games.card.Card</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyarcade.games.deck.Deck" title="pyarcade.games.deck.Deck">pyarcade.games.deck.Deck</a><a class="reference internal" href="_modules/pyarcade/games/deck.html#Deck.add_cards"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.deck.Deck.add_cards" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add cards to the bottom of the deck.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cards_to_add</strong> (<em>List</em><em>[</em><a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card"><em>Card</em></a><em>]</em>) – cards to be added to the bottom of the</p></li>
+<li><p><strong>deck</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>deck after the cards are added</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyarcade.games.deck.Deck" title="pyarcade.games.deck.Deck">Deck</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.deck.Deck.draw">
+<code class="sig-name descname">draw</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card">pyarcade.games.card.Card</a><a class="reference internal" href="_modules/pyarcade/games/deck.html#Deck.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.deck.Deck.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a card off the top of the deck.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>card drawn</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card">Card</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.deck.Deck.is_empty">
+<code class="sig-name descname">is_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/pyarcade/games/deck.html#Deck.is_empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.deck.Deck.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine whether the deck has no cards.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>whether the deck is empty or not</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.deck.Deck.shuffle">
+<code class="sig-name descname">shuffle</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyarcade.games.deck.Deck" title="pyarcade.games.deck.Deck">pyarcade.games.deck.Deck</a><a class="reference internal" href="_modules/pyarcade/games/deck.html#Deck.shuffle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.deck.Deck.shuffle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shuffle the deck using random.shuffle, which uses the Fisher-Yates
+algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>deck after shuffling</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyarcade.games.deck.Deck" title="pyarcade.games.deck.Deck">Deck</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.deck.Deck.size">
+<code class="sig-name descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/pyarcade/games/deck.html#Deck.size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.deck.Deck.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of cards in the deck.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>number of cards in the deck</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-pyarcade.games.mastermind">
 <span id="pyarcade-games-mastermind-module"></span><h2>pyarcade.games.mastermind module<a class="headerlink" href="#module-pyarcade.games.mastermind" title="Permalink to this headline">¶</a></h2>
@@ -336,17 +806,44 @@ one. Jokers are not included.</p>
 <dl class="py method">
 <dt id="pyarcade.games.mastermind.Mastermind.clear">
 <code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/games/mastermind.html#Mastermind.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.mastermind.Mastermind.clear" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Clears current and total game history
+:returns: History cleared
+:rtype: String</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="pyarcade.games.mastermind.Mastermind.display_game_name">
 <em class="property">static </em><code class="sig-name descname">display_game_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/games/mastermind.html#Mastermind.display_game_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.mastermind.Mastermind.display_game_name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>displays game name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Mastermind</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="pyarcade.games.mastermind.Mastermind.display_help">
 <em class="property">static </em><code class="sig-name descname">display_help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/games/mastermind.html#Mastermind.display_help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.mastermind.Mastermind.display_help" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>displays the help instructions
+:returns:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>type a 4 digit number to guess a 4 digit secret number”</dt><dd><p>“Each turn the game will return how close your guess was ”
+“bulls are numbers that are the correct value in the correct position”
+“cows are numbers that are the correct value but not in the correct position”</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>String</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="pyarcade.games.mastermind.Mastermind.evaluate">
@@ -379,7 +876,10 @@ one. Jokers are not included.</p>
 <dl class="py method">
 <dt id="pyarcade.games.mastermind.Mastermind.reset">
 <code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/games/mastermind.html#Mastermind.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.mastermind.Mastermind.reset" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>resets current game history
+:returns: Game reset
+:rtype: String</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="pyarcade.games.mastermind.Mastermind.set_hidden_sequence">
@@ -542,8 +1042,183 @@ takes to find all of the mines</p>
 </dd></dl>
 
 </div>
-<div class="section" id="pyarcade-games-player-module">
-<h2>pyarcade.games.player module<a class="headerlink" href="#pyarcade-games-player-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pyarcade.games.player">
+<span id="pyarcade-games-player-module"></span><h2>pyarcade.games.player module<a class="headerlink" href="#module-pyarcade.games.player" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyarcade.games.player.Player">
+<em class="property">class </em><code class="sig-prename descclassname">pyarcade.games.player.</code><code class="sig-name descname">Player</code><span class="sig-paren">(</span><em class="sig-param">cards: Optional[List[pyarcade.games.card.Card]] = [&lt;pyarcade.games.card.Card object&gt;, &lt;pyarcade.games.card.Card object&gt;, &lt;pyarcade.games.card.Card object&gt;, &lt;pyarcade.games.card.Card object&gt;]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/games/player.html#Player"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.player.Player" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represent a card game player.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cards</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card"><em>Card</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – cards to add to the player’s</p></li>
+<li><p><strong>Defaults to</strong><strong> [</strong><strong>]</strong> (<em>hand.</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="pyarcade.games.player.Player.add_to_hand">
+<code class="sig-name descname">add_to_hand</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">card</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card">pyarcade.games.card.Card</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyarcade.games.player.Player" title="pyarcade.games.player.Player">pyarcade.games.player.Player</a><a class="reference internal" href="_modules/pyarcade/games/player.html#Player.add_to_hand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.player.Player.add_to_hand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a card to the player’s hand.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>card</strong> (<a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card"><em>Card</em></a>) – card to add</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>player with card added to their hand</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyarcade.games.player.Player" title="pyarcade.games.player.Player">Player</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.player.Player.clear_hand">
+<code class="sig-name descname">clear_hand</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyarcade.games.player.Player" title="pyarcade.games.player.Player">pyarcade.games.player.Player</a><a class="reference internal" href="_modules/pyarcade/games/player.html#Player.clear_hand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.player.Player.clear_hand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the player’s hand of all cards.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>player after their hand has been emptied</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyarcade.games.player.Player" title="pyarcade.games.player.Player">Player</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.player.Player.decrease_score">
+<code class="sig-name descname">decrease_score</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pts</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/pyarcade/games/player.html#Player.decrease_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.player.Player.decrease_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decrease the player’s score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pts</strong> (<em>int</em>) – points to decrease the player’s score by</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>player’s updated score after the decrease</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.player.Player.get_cards">
+<code class="sig-name descname">get_cards</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rank_or_suit</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card">pyarcade.games.card.Card</a><span class="p">]</span><a class="reference internal" href="_modules/pyarcade/games/player.html#Player.get_cards"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.player.Player.get_cards" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all the cards in the player’s hand, or all with a certain rank
+or suit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>rank_or_suit</strong> – card rank or suit to match against</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>cards in the player’s hand, with the requested rank
+or suit if it was supplied</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card">Card</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.player.Player.get_score">
+<code class="sig-name descname">get_score</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/pyarcade/games/player.html#Player.get_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.player.Player.get_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the player’s score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>player’s score</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.player.Player.has">
+<code class="sig-name descname">has</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">card</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card">pyarcade.games.card.Card</a></span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/pyarcade/games/player.html#Player.has"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.player.Player.has" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether the player has a certain card.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>card</strong> (<a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card"><em>Card</em></a>) – card to check for in the player’s hand</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>whether the card is present in the player’s hand or not</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.player.Player.has_cards">
+<code class="sig-name descname">has_cards</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/pyarcade/games/player.html#Player.has_cards"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.player.Player.has_cards" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether the player has any cards.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>whether the player has any cards in their hand or not</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.player.Player.increase_score">
+<code class="sig-name descname">increase_score</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pts</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/pyarcade/games/player.html#Player.increase_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.player.Player.increase_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Increase the player’s score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pts</strong> (<em>int</em>) – points to increase the player’s score by</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>player’s updated score after the increase</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.player.Player.remove_from_hand">
+<code class="sig-name descname">remove_from_hand</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">card</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card">pyarcade.games.card.Card</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyarcade.games.player.Player" title="pyarcade.games.player.Player">pyarcade.games.player.Player</a><a class="reference internal" href="_modules/pyarcade/games/player.html#Player.remove_from_hand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.player.Player.remove_from_hand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a card from the player’s hand.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>card</strong> (<a class="reference internal" href="#pyarcade.games.card.Card" title="pyarcade.games.card.Card"><em>Card</em></a>) – card to remove</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>player with card removed from their hand</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyarcade.games.player.Player" title="pyarcade.games.player.Player">Player</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.player.Player.show_hand">
+<code class="sig-name descname">show_hand</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/pyarcade/games/player.html#Player.show_hand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.player.Player.show_hand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show the player’s hand.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>representation of the cards in the player’s hand</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-pyarcade.games">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyarcade.games" title="Permalink to this headline">¶</a></h2>
