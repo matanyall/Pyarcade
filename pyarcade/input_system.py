@@ -51,7 +51,7 @@ class InputSystem:
 
     def handle_game_input(self, game_name: str, user_input: str):
         """Handles input given game name (mastermind, minesweeper, crazy eights, blackjack, etc) and user input and returns the correct output based on which
-        game and option is selected
+        game and the option that is selected. 
 
         Args:
             game_name (str): name of the game to check input against
@@ -107,7 +107,8 @@ class InputSystem:
 
     def handle_mastermind_input(self, guess_input):
         """ Accesses the mastermind game and runs mastermind logic based on user input and returns result for
-        start.py to print out
+        start.py to print out.This function acts as a handler that calls the functions associated with the mastermind to allow the player to progress in the game or execute game specific menu options
+        chosen and then returns the output.
             
         Args:
             guess_input (str): input that decides which menu option to take or guess to evaluate
@@ -142,7 +143,8 @@ class InputSystem:
 
     def handle_minesweeper_input(self, location_input: str):
         """ Accesses the minesweeper game and runs minesweeper logic based on user input and returns result for
-        start.py to print out
+        start.py to print out.This function acts as a handler that calls the functions associated with minesweeper to allow the player to progress in the game or execute game specific menu options
+        chosen and then returns the output.
             
         Args:
             location_input (str): location of desired move represented as a string or menu option depending on format
@@ -251,9 +253,9 @@ class InputSystem:
                    + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM)
 
     def handle_blackjack_input(self, user_input: str) -> str:
-        """Handles input varying from menu options such as reset, clear, save to game options such as 
-        hit or stand. This Accesses the blackjack game and runs blackjack logic based on user input and returns result for
-        start.py to print out. 
+        """ This Accesses the blackjack game and runs blackjack logic based on user input and returns result for
+        start.py to print out. This function acts as a handler that calls the functions associated with blackjack to allow the player to progress in the game or execute game specific menu options
+        chosen and then returns the output.
             
         Args:
             user_input: input from user varying from menu options to game options such as hit or stand

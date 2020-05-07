@@ -125,6 +125,12 @@ api.add_resource(UserResource, '/users/<int:user_id>')
 
 class Game(db.Model):
     """ A SQLAlchemy Model used to store information about a Game and its state
+
+    Args:
+        id (int): id of game save
+        player_id (int): id of player associated with save
+        save_name (str): name of game save
+        save (BLOB): save object
     """
     __tablename__ = 'GameDB'
 
@@ -215,45 +221,59 @@ api.add_resource(GameResource, '/games/<int:game_id>')
 
 
 class LoginForm(FlaskForm):
-    """Represents a login form that is used to login a user
+    """Represents a login form that is used to send the fields a User fills out to authenticate via REST
 
     Args: 
         username (str): username field of user 
         Password (str): password field of user 
         remember (bool): boolean field checked to remember user
     """
-    
+
     username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
     remember = BooleanField('remember me')
 
 
 class RegisterForm(FlaskForm):
-    """Represents a form that allows a user to register for a pyaracade account
+    """Represents a form that allows a user to store fields required to register for a pyaracade account via REST 
+
+    Args:
+        username (str): username field of user being registered
+        password (str): password field of user being registered
     """
     username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
 
 
 class GameForm(FlaskForm):
-    """Represents a form to record the input from the user on pyarcade website
+    """Represents a form to store fields required to record the input from the user on pyarcade website
+
+    Args:
+        input(str): game menu option field
     """
     input = StringField()
 
 
 class SaveForm(FlaskForm):
-    """Represents a form to record the save name 
+    """Represents a form to store fields required to record the save name 
+
+    Args:
+        save_name (str): name of save 
     """
     save_name = StringField(validators=[InputRequired(), Length(min=2, max=15)])
 
 
 @app.route('/')
 def index():
+    """default route. Displays home page 
+    """
     return render_template('index.html')
 
 
 @app.route('/mastermind', methods=['GET', 'POST'])
 def mastermind():
+    """routes to /mastermind. Displays mastermind ui and allows user to interact and play mastermind
+    """
     form = GameForm()
 
     user_input = "New Game"
@@ -286,6 +306,8 @@ def mastermind():
 
 @app.route('/minesweeper', methods=['GET', 'POST'])
 def minesweeper():
+    """routes to /minesweeper. Displays minesweeper ui and allows user to interact and play minesweeper
+    """
     form = GameForm()
 
     user_input = "New Game"
@@ -343,6 +365,8 @@ def minesweeper():
 
 @app.route('/crazy_eights', methods=['GET', 'POST'])
 def crazy_eights():
+    """routes to /crazy_eights. Displays crazy eights ui and allows user to interact and play crazy eights 
+    """
     form = GameForm()
 
     user_input = "New Game"
@@ -374,6 +398,8 @@ def crazy_eights():
 
 @app.route('/blackjack', methods=['GET', 'POST'])
 def blackjack():
+    """routes to blackjack, displays blackjack ui and allows user to interact and play blackjack
+    """
     form = GameForm()
 
     user_input = "New Game"
@@ -405,6 +431,8 @@ def blackjack():
 
 @app.route('/save', methods=['GET', 'POST'])
 def save():
+    """routes to /save displays save form and allows user to save game to database
+    """
     form = SaveForm()
 
     if form.validate_on_submit():
@@ -429,6 +457,8 @@ def save():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """routes to /login , displays login page and allows a user to login.
+    """
     form = LoginForm()
 
     if form.validate_on_submit():
@@ -445,6 +475,8 @@ def login():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    """routes to /signup displays signup page and allows user to sign up for pyarcade
+    """
     form = RegisterForm()
 
     if form.validate_on_submit():
@@ -466,12 +498,16 @@ def signup():
 @app.route('/dashboard')
 @login_required
 def dashboard():
+    """ routes to /dashboard displays user dashboard
+    """
     return render_template('dashboard.html', name=current_user.username)
 
 
 @app.route('/logout')
 @login_required
 def logout():
+    """routes to /logout. Logs out the user 
+    """
     logout_user()
     return redirect(url_for('index'))
 

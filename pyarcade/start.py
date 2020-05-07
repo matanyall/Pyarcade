@@ -6,6 +6,9 @@ from os import system, name
 def run_pyarcade():
     """Method used to start the pyarcade. Logic of navigating the pyarcade and starting selected games as well
     as output of choices are encapsulated in this method
+
+    Return:
+        String: output of current state of pyarcade ex: menus, game outputs, etc
     """
     model = Model()
     input_sys = InputSystem()
