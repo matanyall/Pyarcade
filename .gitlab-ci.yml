@@ -1,33 +1,36 @@
 default:
-  image: python:3.7
-
+  image: python:3.8
+# comment? python:3.7 docker:latest
 variables:
   DOCKER_DRIVER: overlay2
+  FLASK_APP: pyarcade/start
+  FLASK_ENV: development
 
 stages:
   - build
   - test
   - coverage
 
+#   - pip install docker-compose
 
 build:
   stage: build
   script:
-    - pip install -r requirements.txt
-
+    - pip install -r requirements-test.txt
 test:
   stage: test
   retry: 2
   script:
-    - pip install -r requirements.txt
-    - tox
+    - pip install -r requirements-test.txt
+    - python -m pytest -v -m local
+
 
 coverage:
   stage: coverage
   retry: 2
   script:
-    - pip install -r requirements.txt
-    - coverage run setup.py test
+    - pip install -r requirements-test.txt
+    - python -m pytest -v --cov=tests -m local
     - coverage report -m
 
 
