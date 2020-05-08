@@ -5,4 +5,4 @@
 -r requirements.txt
 pytest
 coverage
-tox
+pytest-cov

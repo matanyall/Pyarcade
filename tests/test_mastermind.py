@@ -1,7 +1,10 @@
 from unittest import TestCase
+
+import pytest
 from pyarcade.games.mastermind import Mastermind, total_history
 
 
+@pytest.mark.local
 class MastermindTestCase(TestCase):
     def test_exact_match(self):
         game1 = Mastermind()
