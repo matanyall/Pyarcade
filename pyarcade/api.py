@@ -256,12 +256,72 @@ def mastermind():
                 return redirect(url_for('dashboard'))
             elif game_option == "Save":
                 return redirect(url_for('save'))
+            elif game_option == "Help":
+                flash(input_system.handle_game_input('mastermind', game_option.lower()), 'info')
+                return redirect(url_for('mastermind'))
             else:
                 output_lines = input_system.handle_game_input('mastermind', game_option.lower()).splitlines(False)
                 return render_template('mastermind.html', form=form, output_lines=output_lines)
 
     output_lines = input_system.handle_game_input('mastermind', user_input).splitlines(False)
     return render_template('mastermind.html', form=form, output_lines=output_lines)
+
+
+@app.route('/minesweeper', methods=['GET', 'POST'])
+def minesweeper():
+    form = GameForm()
+
+    user_input = "New Game"
+    output_lines = ""
+    if input_system.get_current_game():
+        input_system.game_to_load = input_system.current_game
+        user_input = "Continue"
+
+    if request.method == "POST":
+        if form.validate_on_submit():
+            user_input = form.input.data
+            output_lines = input_system.handle_game_input('minesweeper', user_input)
+        else:
+            game_option = request.form["option"]
+            if game_option == "Quit":
+                input_system.set_current_game(None)
+                return redirect(url_for('dashboard'))
+            elif game_option == "Save":
+                return redirect(url_for('save'))
+            elif game_option == "Help":
+                flash(input_system.handle_game_input('minesweeper', game_option.lower()), 'info')
+                return redirect(url_for('minesweeper'))
+            else:
+                output_lines = input_system.handle_game_input('minesweeper', game_option.lower())
+
+    if user_input == "New Game":
+        output_lines = input_system.handle_game_input('minesweeper', user_input)
+
+    grid = input_system.minesweeper_game.hidden_grid
+    output_grid = [['-'] * (len(grid) + 1) for _ in range(len(grid) + 1)]
+    for row_idx in range(len(grid) + 1):
+        for col_idx in range(len(grid) + 1):
+            if row_idx == 0 and col_idx == 0:
+                output_grid[row_idx][col_idx] = " "
+            elif row_idx == 0 and col_idx > 0:
+                output_grid[row_idx][col_idx] = str(col_idx - 1)
+            elif row_idx > 0 and col_idx == 0:
+                output_grid[row_idx][col_idx] = str(row_idx - 1)
+            elif row_idx > 0 and col_idx > 0:
+                if input_system.minesweeper_game.game_state != "Game over." and grid[row_idx - 1][col_idx - 1] == '*':
+                    output_grid[row_idx][col_idx] = " - "
+                else:
+                    output_grid[row_idx][col_idx] = grid[row_idx - 1][col_idx - 1]
+
+    output_lines = output_lines.splitlines()
+    output = ""
+    if len(output_lines) > 0:
+        if len(output_lines) == 1 or output_lines[0] == "Game reset":
+            output = output_lines[0]
+        elif "===" not in output_lines[len(output_lines)-1]:
+            output = output_lines[len(output_lines)-1]
+
+    return render_template('minesweeper.html', form=form, output_grid=output_grid, game_status=output)
 
 
 @app.route('/crazy_eights', methods=['GET', 'POST'])
@@ -284,6 +344,9 @@ def crazy_eights():
                 return redirect(url_for('dashboard'))
             elif game_option == "Save":
                 return redirect(url_for('save'))
+            elif game_option == "Help":
+                flash(input_system.handle_game_input('Crazy Eights', game_option.lower()), 'info')
+                return redirect(url_for('crazy_eights'))
             else:
                 output_lines = input_system.handle_game_input('Crazy Eights', game_option.lower()).splitlines(False)
                 return render_template('crazy_eights.html', form=form, output_lines=output_lines)
@@ -312,6 +375,9 @@ def blackjack():
                 return redirect(url_for('dashboard'))
             elif game_option == "Save":
                 return redirect(url_for('save'))
+            elif game_option == "Help":
+                flash(input_system.handle_game_input('blackjack', game_option.lower()), 'info')
+                return redirect(url_for('blackjack'))
             else:
                 output_lines = input_system.handle_game_input('blackjack', game_option.lower()).splitlines(False)
                 return render_template('blackjack.html', form=form, output_lines=output_lines)

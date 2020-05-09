@@ -1,8 +1,10 @@
 import unittest
 
+import pytest
 from pyarcade.games.minesweeper import Minesweeper
 
 
+@pytest.mark.local
 class MyTestCase(unittest.TestCase):
     def setUp(self):
         pass

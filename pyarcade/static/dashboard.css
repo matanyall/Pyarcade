@@ -7,6 +7,10 @@ body {
   padding-top: 50px;
 }
 
+table, th, td {
+  border: 1px solid black;
+  text-align: center;
+}
 
 /*
  * Global add-ons

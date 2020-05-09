@@ -1,0 +1,95 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+Minesweeper
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='dashboard.css')}}">
+{% endblock %}
+
+{% block content %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">PyArcade</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="{{ url_for('dashboard') }}">Dashboard<span class="sr-only"></span></a></li>
+            <li><a href="#">Saved Games<span class="sr-only"></span></a></li>
+            <li><a href="#">Scores<span class="sr-only"></span></a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <div class="container">
+          <div class="col-md-8">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }}">
+                    {{ message }}
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+          </div>
+        </div>
+          <table style="width:30%">
+            {% for row in range(output_grid|count) %}
+              <tr>
+                {% for col in range(output_grid[row]|count) %}
+                  <td>
+                    {{ output_grid[row][col] }}
+                  </td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </table>
+          <div>
+            <h5>{{ game_status }}</h5>
+          </div>
+          <div class="row placeholders">
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <div>
+                <form class="form-input" method="POST" action="/minesweeper">
+                  <p>Please enter either a guess in the form #,#</p>
+                  {{ form.hidden_tag() }}
+                  {{ wtf.form_field(form.input) }}
+                  <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+                </form>
+              </div>
+              <div>
+                <form class="form-options" method="POST" action="/minesweeper">
+                  <h6><input type="submit" name="option" value="New Game"></h6>
+                  <h6><input type="submit" name="option" value="Reset"></h6>
+                  <h6><input type="submit" name="option" value="Clear"></h6>
+                  <h6><input type="submit" name="option" value="Save"></h6>
+                  <h6><input type="submit" name="option" value="Help"></h6>
+                  <h6><input type="submit" name="option" value="Quit"></h6>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

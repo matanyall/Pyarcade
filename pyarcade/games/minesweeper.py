@@ -238,6 +238,10 @@ class Minesweeper:
         return "History Cleared"
 
     @staticmethod
+    def display_game_name():
+        return "Minesweeper"
+
+    @staticmethod
     def display_help():
         return "The goal is to find all the mines in the board by clicking on and revealing the number of mines in the area." \
                "To click on that coordinate in the minesweeper board" \
