@@ -299,12 +299,16 @@ class CrazyEights:
         self.game_hist.clear()
         return "History cleared"
 
-    @staticmethod
-    def display_game_name():
-        return "crazy_eights"
+    """Define methods that all games are required to implement.
+    """
 
-    @staticmethod
-    def display_help():
+    def get_name(self):
+        return 'Crazy Eights'
+
+    def get_subdir(self) -> str:
+        return 'crazy_eights'
+
+    def get_help(self):
         return " Play a card that matches either the suit or value of the top card. Input is taken as value,suit i.e" \
                "seven,hearts to play the seven of hearts." \
                " The first one to play all of their cards wins."\

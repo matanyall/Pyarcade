@@ -1,0 +1,24 @@
+{% extends "dashboard.html" %}
+
+{% block title %}
+{{ game_name }}
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('.static', filename='game.css')}}">
+{% endblock %}
+
+{% block subcontent %}
+<!-- List of high scores. -->
+<h1>{{ game_name }}</h1>
+<div class="container">
+  {% if high_scores %}
+    {% for high_score in high_scores %}
+      <div class="high-score">
+        {{ high_score.score }}
+      </div>
+    {% endfor %}
+  {% endif %} 
+</div>
+{% endblock %}
