@@ -75,14 +75,14 @@ class InputSystem:
                 self.blackjack_game = Blackjack()
                 self.current_game = self.blackjack_game
                 return "\n Blackjack\n" + "\nHouse's revealed card: " \
-                       + str(self.blackjack_game.house_hand[0].value) + " \n\nPlayer Hand: \n" \
-                       + str(self.blackjack_game.user_hand[0].value) + ", " \
-                       + str(self.blackjack_game.user_hand[1].value) + "\n"
+                       + str(self.blackjack_game.house.get_cards()[0].get_rank().value) + " \n\nPlayer Hand: \n" \
+                       + str(self.blackjack_game.user.get_cards()[0].get_rank().value) + ", " \
+                       + str(self.blackjack_game.user.get_cards()[1].get_rank().value) + "\n"
             elif user_input.lower() == "continue":
-                user_hand_sum = self.blackjack_game.calculate_current_sum(self.blackjack_game.user_hand)
-                house_hand_sum = self.blackjack_game.calculate_current_sum(self.blackjack_game.house_hand)
-                win_status = self.blackjack_game.win_condition(user_hand_sum, house_hand_sum)
-                return self.blackjack_game.display_state(user_hand_sum, house_hand_sum, win_status)
+                user_hand_sum = self.blackjack_game.calculate_current_sum(self.blackjack_game.user)
+                house_hand_sum = self.blackjack_game.calculate_current_sum(self.blackjack_game.house)
+                win_status = self.blackjack_game.win_condition()
+                return self.blackjack_game.display_state(win_status)
             return self.handle_blackjack_input(user_input)
         else:
             return "Invalid game provided."
@@ -220,10 +220,10 @@ class InputSystem:
 
         if user_input.lower() == "load":
             self.blackjack_game = self.game_to_load
-            user_hand_sum = Blackjack.calculate_current_sum(self.blackjack_game.user_hand)
-            house_hand_sum = Blackjack.calculate_current_sum(self.blackjack_game.house_hand)
-            win_status = Blackjack.win_condition(user_hand_sum, house_hand_sum)
-            return Blackjack.display_state(user_hand_sum,house_hand_sum,win_status)
+            user_hand_sum = Blackjack.calculate_current_sum(self.blackjack_game.user)
+            house_hand_sum = Blackjack.calculate_current_sum(self.blackjack_game.house)
+            win_status = Blackjack.win_condition()
+            return Blackjack.display_state(win_status)
         if user_input.lower() == "hit" or user_input.lower() == "stand":
             return self.blackjack_game.start_game(user_input)
         else:
