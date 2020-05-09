@@ -96,12 +96,16 @@ class Mastermind:
         self.game_state = "New game."
         return "Game reset"
 
-    @staticmethod
-    def display_game_name():
-        return "Mastermind"
+    """Define methods that all games are required to implement.
+    """
 
-    @staticmethod
-    def display_help():
+    def get_name(self):
+        return 'Mastermind'
+
+    def get_subdir(self) -> str:
+        return 'mastermind'
+
+    def get_help(self):
         return "type a 4 digit number to guess a 4 digit secret number" \
                "Each turn the game will return how close your guess was " \
                "bulls are numbers that are the correct value in the correct position" \

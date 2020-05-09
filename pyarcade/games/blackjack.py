@@ -176,12 +176,16 @@ class Blackjack:
             decision = self.next_state(decision)
         return decision
 
-    @staticmethod
-    def display_game_name():
-        return "BlackJack"
+    """Define methods that all games are required to implement.
+    """
 
-    @staticmethod
-    def display_help():
+    def get_name(self):
+        return 'Blackjack'
+
+    def get_subdir(self) -> str:
+        return 'blackjack'
+
+    def get_help(self):
         return "You are originally dealt two cards and one card from the houses hand will be flipped up." \
                 "You have the choice to either have another card dealt to you (hit) or to stick with " \
                "your cards (stand). If your hand's sum is closest to twenty-one then you win, if the sum " \

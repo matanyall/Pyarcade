@@ -370,18 +370,22 @@ def game_menu(game):
     Args:
         game (str): URL extension for the game to display the menu of
     """
+    game_subdir = game
+
     # Redirect users to the game selection menu.
-    if game not in input_system.get_supported_games():
+    if game_subdir not in input_system.get_supported_games().keys():
         return redirect(url_for('dashboard'))
-    # TODO: Implement ip_sys.get_current_game().get_name() to pass instead of
-    # safe_game for first arg?
-    return render_template('game_menu.html', game_name=game,
-            game_play_route='/game/{}/play'.format(game))
+
+    return render_template('game_menu.html',
+            game_name=input_system.get_supported_games().get(game_subdir),
+            game_subdir=game_subdir
+            )
 
 
 @app.route('/game/<game>/play', methods=['GET', 'POST'])
 @login_required
 def play(game):
+    game_subdir = game  # alias for clarity
     form = GameForm()
 
     user_input = "New Game"
@@ -389,25 +393,48 @@ def play(game):
         input_system.game_to_load = input_system.current_game
         user_input = "Continue"
 
+    curr_game_name = input_system.get_supported_games().get(game_subdir)
     if request.method == "POST":
         if form.validate_on_submit():
             user_input = form.input.data
-            # TODO: Bug: game = 'crazy_eights' instead of 'Crazy Eights'
-            output_lines = input_system.handle_game_input(game, user_input).splitlines(False)
-            return render_template('{}.html'.format(game), form=form, output_lines=output_lines)
+            output_lines = input_system\
+                    .handle_game_input(curr_game_name, user_input)\
+                    .splitlines(False)
+
+            return render_template(f'{game_subdir}.html',
+                    game_name=curr_game_name,
+                    game_subdir=game_subdir,
+                    form=form,
+                    output_lines=output_lines
+                    )
         else:
             game_option = request.form["option"]
             if game_option == "Quit":
                 input_system.set_current_game(None)
                 return redirect(url_for('dashboard'))
             elif game_option == "Save":
-                return redirect(url_for('save', game=game))
+                return redirect(url_for('save', game=game_subdir))
             else:
-                output_lines = input_system.handle_game_input(game, game_option.lower()).splitlines(False)
-                return render_template('{}.html'.format(game), form=form, output_lines=output_lines)
+                output_lines = input_system\
+                        .handle_game_input(curr_game_name, game_option.lower())\
+                        .splitlines(False)
 
-    output_lines = input_system.handle_game_input(game, user_input).splitlines(False)
-    return render_template('{}.html'.format(game), form=form, output_lines=output_lines)
+                return render_template(f'{game_subdir}.html',
+                        game_name=curr_game_name,
+                        game_subdir=game_subdir,
+                        form=form,
+                        output_lines=output_lines
+                        )
+
+    output_lines = input_system.handle_game_input(curr_game_name, user_input)\
+            .splitlines(False)
+
+    return render_template(f'{game_subdir}.html',
+            game_name=curr_game_name,
+            game_subdir=game_subdir,
+            form=form,
+            output_lines=output_lines
+            )
 
 
 # TODO: Add global and user high score filters.
@@ -420,9 +447,12 @@ def high_scores(game):
         game (str): game to display high scores for
     """
     # Display the global high scores for now. Only display the top 10.
-    scores = HighScore.query.filter_by(game_name=game).limit(10).all()
-    return render_template('high_scores.html', game_name=game,
-            high_scores=scores)
+    curr_game_name = input_system.get_supported_games().get(game)
+    scores = HighScore.query.filter_by(game_name=curr_game_name).limit(10).all()
+    return render_template('high_scores.html',
+            game_name=curr_game_name,
+            high_scores=scores
+            )
 
 
 @app.route('/game/<game>/save', methods=['GET', 'POST'])
@@ -432,7 +462,7 @@ def save(game):
 
     if form.validate_on_submit():
         save = Game.query.filter_by(save_name=form.save_name.data).first()
-        if save and game.player_id == current_user.id:
+        if save and save.player_id == current_user.id:
             flash('Save name already exists. Please choose another', 'danger')
             return render_template('save.html', form=form)
 
@@ -447,7 +477,7 @@ def save(game):
         flash(f'{form.save_name.data} successfully saved!', 'success')
         return redirect(url_for('play', game=game))
 
-    return render_template('save.html', game_name=game, form=form)
+    return render_template('save.html', game_subdir=game, form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])

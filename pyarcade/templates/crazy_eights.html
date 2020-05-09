@@ -2,7 +2,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}
-Crazy Eights
+{{ game_name }}
 {% endblock %}
 
 {% block styles %}
@@ -18,14 +18,14 @@ Crazy Eights
     {% endfor %}
     <div class="row placeholders">
       <div class="col-xs-6 col-sm-3 placeholder">
-        <form class="form-input" method="POST" action="{{ url_for('play', game='crazy_eights') }}">
+        <form class="form-input" method="POST" action="{{ url_for('play', game=game_subdir) }}">
           <p>Please type draw or enter card you wish to play (Ex: Eight,Spades)</p>
           {{ form.hidden_tag() }}
           {{ wtf.form_field(form.input) }}
           <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
         </form>
 
-        <form class="form-options" method="POST" action="{{ url_for('play', game='crazy_eights') }}">
+        <form class="form-options" method="POST" action="{{ url_for('play', game=game_subdir) }}">
           <h6><input type="submit" name="option" value="New Game"></h6>
           <h6><input type="submit" name="option" value="Reset"></h6>
           <h6><input type="submit" name="option" value="Clear"></h6>

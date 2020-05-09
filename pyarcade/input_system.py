@@ -6,7 +6,12 @@ from pyarcade.games.blackjack import Blackjack
 import re
 
 
-_SUPPORTED_GAMES = ['blackjack', 'crazy_eights', 'mastermind', 'minesweeper']
+_SUPPORTED_GAMES = {
+    'blackjack': 'Blackjack',
+    'crazy_eights': 'Crazy Eights',
+    'mastermind': 'Mastermind',
+    'minesweeper': 'Minesweeper'
+}
 
 
 MASTERMIND_WIDTH = 4

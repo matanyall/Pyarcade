@@ -237,10 +237,17 @@ class Minesweeper:
         self.game_history.clear()
         return "History Cleared"
 
-    @staticmethod
-    def display_help():
+    """Define methods that all games are required to implement.
+    """
+
+    def get_name(self):
+        return 'Minesweeper'
+
+    def get_subdir(self) -> str:
+        return 'minesweeper'
+
+    def get_help(self):
         return "The goal is to find all the mines in the board by clicking on and revealing the number of mines in the area." \
                "To click on that coordinate in the minesweeper board" \
                "enter coordinates in the format number,number i.e: 4,5" \
                "dashes represent remaining spaces that are available" \
-

@@ -11,7 +11,7 @@ Save Game
 {% endblock %}
 
 {% block content %}
-<form class="form-save" method="POST" action="{{ url_for('save', game=game_name) }}">
+<form class="form-save" method="POST" action="{{ url_for('save', game=game_subdir) }}">
   <h2 class="form-save-heading">Save Name</h2>
   {{ form.hidden_tag() }}
   {{ wtf.form_field(form.save_name) }}
