@@ -355,6 +355,7 @@ def index():
 # Note that /games is already mapped to issue HTTP responses so we can't use
 # /games/* here.
 @app.route('/game')
+@login_required
 def game():
     """Serve as a placeholder to display the game selection menu.
     """
@@ -362,6 +363,7 @@ def game():
 
 
 @app.route('/game/<game>')
+@login_required
 def game_menu(game):
     """Render a custom game menu for all games.
 
@@ -378,6 +380,7 @@ def game_menu(game):
 
 
 @app.route('/game/<game>/play', methods=['GET', 'POST'])
+@login_required
 def play(game):
     form = GameForm()
 
@@ -409,6 +412,7 @@ def play(game):
 
 # TODO: Add global and user high score filters.
 @app.route('/game/<game>/high_scores')
+@login_required
 def high_scores(game):
     """Display the high scores for a game.
 
@@ -422,6 +426,7 @@ def high_scores(game):
 
 
 @app.route('/game/<game>/save', methods=['GET', 'POST'])
+@login_required
 def save(game):
     form = SaveForm()
 
