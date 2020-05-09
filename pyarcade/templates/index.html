@@ -9,16 +9,24 @@ PyArcade
 <link rel="stylesheet" href="{{url_for('.static', filename='index.css')}}">
 {% endblock %}
 
-{% block body %}
-
+{% block navbar %}
 <!-- Display the navbar. -->
-<div id="navbar" class="container">
-  {% block navbar %}
-  <nav class="navbar navbar-fixed-top navbar-expand-lg navbar-inverse">
-    <a class="navbar-brand" href="/">PyArcade</a>
+<nav id="navbar" class="navbar navbar-fixed-top navbar-inverse">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+        data-target="#navbar-content" aria-expanded="false" aria-controls="navbar">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="{{ url_for('index') }}">PyArcade</a>
+  </div>
+
+  <div class="collapse navbar-collapse" id="navbar-content">
     <ul class="nav navbar-nav">
       <!-- Menu options that should be displayed to all users. -->
-      <li class="active"><a href="/">Home</a></li>
+      <li class="active"><a href="{{ url_for('index') }}">Home</a></li>
       {% block navbar_elts %}
       <!-- Menu options for logged out users. Menu options for logged in users
       go in dashboard.html. -->
@@ -26,14 +34,16 @@ PyArcade
       <li><a href="{{ url_for('login') }}">Log In</a></li>
       {% endblock %}
     </ul>
-  </nav>
-  {% endblock %}
-</div>
+  </div>
+</nav>
+{% endblock %}
 
-<!-- Show alert messages above the current content. -->
-<div id="alert" class="container">
+{% block content %}
+<!-- Contain the page content. -->
+<div id="content" class="container">
   {% block alert %}
-  <div class="col-md-8">
+  <!-- Show alert messages above the current content. -->
+  <div id="alert" class="col-md-8">
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         {% for category, message in messages %}
@@ -45,13 +55,10 @@ PyArcade
     {% endwith %}
   </div>
   {% endblock %}
-</div>
 
-<!-- Contain the page content. -->
-<div id="content" class="container">
-  {% block content %}
+  {% block subcontent %}
+  <!-- Define a block for inheritance to override without clobbering the alert block. -->
   <h1 class="jumbotron">Welcome to PyArcade</h1>
   {% endblock %}
 </div>
-
 {% endblock %}

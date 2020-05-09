@@ -10,7 +10,7 @@ Save Game
 <link rel="stylesheet" href="{{ url_for('.static', filename='login.css') }}">
 {% endblock %}
 
-{% block content %}
+{% block subcontent %}
 <form class="form-save" method="POST" action="{{ url_for('save', game=game_subdir) }}">
   <h2 class="form-save-heading">Save Name</h2>
   {{ form.hidden_tag() }}

@@ -10,7 +10,7 @@ Log In
 <link rel="stylesheet" href="{{url_for('.static', filename='login.css')}}">
 {% endblock %}
 
-{% block content %}
+{% block subcontent %}
 <h2 class="form-signin-heading">Please sign in</h2>
 <form class="form-signin" method="POST" action="/login">
   {{ form.hidden_tag() }}
