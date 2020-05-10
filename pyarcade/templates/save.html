@@ -1,0 +1,20 @@
+{% extends "dashboard.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+Save Game
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('.static', filename='login.css') }}">
+{% endblock %}
+
+{% block subcontent %}
+<form class="form-save" method="POST" action="{{ url_for('save', game=game_subdir) }}">
+  <h2 class="form-save-heading">Save Name</h2>
+  {{ form.hidden_tag() }}
+  {{ wtf.form_field(form.save_name) }}
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
+</form>
+{% endblock %}

@@ -10,55 +10,59 @@
   - [Crazy Eights](#crazy-eights)
   - [Mastermind](#mastermind)
   - [Minesweeper](#minesweeper)
-- [Contributions](#contributions)
+- [Contributors](#contributors)
 
 ## Overview
-PyArcade is an arcade full of a variety of games. These games range from simple guessing games to strategical games. Currently,
-PyArcade is only playable through command line. Online version is a work in progress. Currently, you are only able to create an account and login.
+PyArcade is an arcade full of a variety of games. These games range from simple guessing games to strategical games. 
+
 
 ## Setup
-### Required Software
+Visit [pyarcade.tk](http://pyarcade.tk) to
+access PyArcade over the internet or download it using the following steps to
+run it locally.
+
+### Local Installation
+#### Required Software
 - Git
 - Docker
 
-### Steps
+#### Steps
 1. Clone the repository and navigate to the repository root.  
 ```
 git clone http://cmsc435.garrettvanhoy.com/cmsc435_group/pyarcade_extension.git
 cd pyarcade_extension
 ```
 2. Run the app.
-##### Running the App
-- Browser UI
-  1. Start the app.
-  ```
-  docker-compose up
-  ```
-  2. Go to http://0.0.0.0:5000/ in your browser
-- Command Line UI
-  1. Start the app.
-  ```
-  docker-compose -f pyarcade-cmdline.yml run --rm app
-  ```
+   - Browser UI
+     1. Start the app.
+     ```
+     docker-compose up
+     ```
+     2. Go to http://0.0.0.0:5000 in your browser
+   - Command Line UI [deprecated]
+     1. Start the app.
+     ```
+     docker-compose -f pyarcade-cmdline.yml run --rm app
+     ```
 
 ### Notes
-- **DEVELOPERS:**  
-If changes are made to the code base, `docker-compose run` does not pick up on
-them. To bypass the Docker build cache and apply the changes correctly run
-`docker-compose build --no-cache` before `docker-compose run --rm app`.
-- The database container will be left running after exiting. In the current
-absence of a mounted volume this allows for data persistence. To reset the
-database in between runs use `docker-compose down`.
+#### Website
+
+#### Local Installation
+- By design, `docker-compose up` does not check for changes when it builds the
+containers. To check for changes that are different from the build cache use
+`docker-compose up --build`.
+- Database data will persist in the Docker database container after exiting. To
+reset the database use `docker-compose down`.
 
 ## Accounts
-Luckily, this app runs locally. It probably could not be any less secure.
+On the website **DO NOT** use secure username / password information for any accounts.
 
 ## Games
 ### Blackjack
 In this game, the player will be originally dealt two cards and one card from the houses hand will be flipped up. The player has
 the choice to either have another card dealt to them (hit) or if they want to stick with their cards (stand). If the players hand's sum
-is closest to twenty-one then the player wins, if the sum is over twenty-one they lose (bust), or if the sum is exactly twenty-one they win (blackjack).
-(User input should be in the form of either: Hit or Stand))
+is closest to twenty-one then the player wins, if the sum is over twenty-one they lose (bust), or if the sum is exactly twenty-one they win (blackjack). (User input should be in the form of either: Hit or Stand))
 
 ### Crazy Eights
 In this game, the player will be originally dealt five cards and one card from the top the deck will be up. If the player has a 
@@ -76,31 +80,32 @@ uncovers cells, all of the adjacent cells that do not contain mines will be reve
 (User input should be in the form of: #,#)
 
 ## Contributors
-### Jill (35%)
-- Cleaned up the terminal UI so that it clears between each game
-- Implemented a REST api
-- Implemented website for PyArcade that includes: Main menu, Login page, Signin page, Page of games
+### Jill (25%)
+- Created all of the game pages and added implemented gameplay functionality
+- Created api for saves
+- Created page that lists all of users saves and implemented the load functionality
+- Set up the cloud instance and deployed our project to it
 
-### Anders (35%)
-- Fix the database integration
-  - Implement `wait-for-it.sh` script by cloning it onto the Docker machine
-  in the Dockerfile
-  - Debug `docker-compose` to run the database in the background and the app in
-  the foreground
-  - Rewrite [Setup](#setup)
-- Add user accounts
-  - Add UI / input handling for create account, login, and logout
-  - Query database to insert and select users' usernames and passwords
-  - Add controller tests
-  
-### Matanya (30%)
-- Implemented storing and loading function for games in Pyarcade
-  - Implemented Pickling with Pickle to serialize games and store them
-  - Added ability to see loaded games.
-- Added automatic testing with Gitlab CI/CD and tox.
-  - Switched over testing framework.
+### Anders (25%)
+- Refactor Blackjack and Crazy Eights to use uniform Card, Deck, and Player classes
+- Refactor Flask routing and all templates to use Flask variable routing and
+template inheritance to eliminate duplicate code
+- Add game menus
+- Add high scores database, REST API, and template
+- Fix login bugs and update templates
+
+### Andy(25%)
+- Implemented documention using sphinx 
+- documented and reviewed code 
+- Format the documentation to be visually appealing 
+
+### Matanya (25%)
+- Implemented DevOps through Gitlab CI/CD
+  - Automatic Testing with pytest, as well as coverage
+- Added Favorite and Friends functionality through the rest API
 - Did general bug fixes and improvements
 - Updated documentation
+- Managed Zoom Meetings
 
 ### Andy(0%)
 

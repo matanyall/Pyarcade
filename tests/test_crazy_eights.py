@@ -1,46 +1,18 @@
+import pytest
 from pyarcade.games.card import Rank, Suit, Card
+from pyarcade.games.deck import Deck
 from pyarcade.games.player import Player
 from pyarcade.games.crazy_eights import CrazyEights
 import unittest
 
 
-DECK_SZ = 52
-
-
+@pytest.mark.local
 class CrazyEightsTestCase(unittest.TestCase):
     def test_setup_round(self):
         pass
 
     def test_setup_game(self):
         pass
-
-    def test_new_deck(self):
-        # Single deck
-        game = CrazyEights(5)
-        game.new_deck()
-        self.assertEqual(len(game.deck), DECK_SZ)
-
-        # Double deck
-        game.new_deck(2)
-        self.assertEqual(len(game.deck), 2 * DECK_SZ)
-
-        as_card = Card(Rank.ACE, Suit.SPADES)
-        as_count = 0
-        for card in game.deck:
-            if card == as_card:
-                as_count += 1
-        self.assertEqual(as_count, 2)
-
-    def test_shuffle_deck(self):
-        game = CrazyEights(4)
-        game.new_deck()
-        game.shuffle_deck()
-        card1 = Card(Rank.ACE, Suit.SPADES)
-        card2 = Card(Rank.TWO, Suit.SPADES)
-        card1_shuffled = game.deck[0] is not card1
-        card2_shuffled = game.deck[1] is not card2
-        # Extremely unlikely to fail, but can happen
-        self.assertTrue(card1_shuffled or card2_shuffled)
 
     def test_deal(self):
         game = CrazyEights(4)

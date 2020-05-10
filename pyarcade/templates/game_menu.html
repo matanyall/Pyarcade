@@ -1,0 +1,21 @@
+{% extends "dashboard.html" %}
+
+{% block title %}
+{{ game_name }}
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('.static', filename='game.css')}}">
+{% endblock %}
+
+{% block subcontent %}
+<!-- Game navigation menu. -->
+<h1>{{ game_name }}</h1>
+<ul class="nav flex-column bg-light">
+  <li class="nav-item"><a class="nav-link" href="{{ url_for('play', game=game_subdir) }}">New Game</a></li>
+  <li class="nav-item"><a class="nav-link" href="{{ url_for('load', game=game_subdir) }}">Load Save</a></li>
+  <li class="nav-item"><a class="nav-link" href="{{ url_for('high_scores', game=game_subdir) }}">High Scores</a></li>
+  <li class="nav-item"><a class="nav-link" href="#">Clear History</a></li>
+</ul>
+{% endblock %}

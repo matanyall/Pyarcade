@@ -1,7 +1,9 @@
+import pytest
 from pyarcade.input_system import InputSystem
 import unittest
 
 
+@pytest.mark.local
 class InputSystemTestCase(unittest.TestCase):
     def test_mastermind_wrong_size(self):
         input_system = InputSystem()
@@ -115,5 +117,3 @@ class InputSystemTestCase(unittest.TestCase):
         input_sys = InputSystem()
         result = input_sys.handle_game_input("BlackJack", "stand")
         self.assertEqual(True, "CURRENT HAND" in result)
-
-

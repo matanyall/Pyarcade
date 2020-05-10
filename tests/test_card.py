@@ -1,7 +1,9 @@
+import pytest
 from pyarcade.games.card import Rank, Suit, Card
 import unittest
 
 
+@pytest.mark.local
 class CardTestCase(unittest.TestCase):
     def test_eq(self):
         card1 = Card(Rank.ACE, Suit.SPADES)

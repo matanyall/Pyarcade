@@ -1,8 +1,7 @@
 from __future__ import annotations
 from typing import Optional, List
-from collections import deque
-import random
 from pyarcade.games.card import Rank, Suit, Card
+from pyarcade.games.deck import Deck
 from pyarcade.games.player import Player
 
 
@@ -12,7 +11,6 @@ class CrazyEights:
     Args:
         num_players (int): number of players from [2, 7].
     """
-
     def __init__(self, num_players: int):
         # Set up the game.
         self.setup_game(num_players)
@@ -22,7 +20,7 @@ class CrazyEights:
         self.game_hist = []
         self.game_state = "Round 1"
 
-    def setup_round(self, num_players: int) -> CrazyEights:
+    def setup_round(self, num_players: int):
         """Set up the game by making a deck, shuffling it, dealing cards,
         making a discard, flipping over the top card, and creating the
         round points.
@@ -35,12 +33,13 @@ class CrazyEights:
         """
         for player in self.players.values():
             player.clear_hand()  # empty the players' hands from prev rounds
-        self.new_deck() if len(self.players) <= 5 else self.new_deck(2)
-        self.shuffle_deck()
+        num_decks = 2 if len(self.players) > 5 else 1
+        self.deck = Deck(num_decks)
+        self.deck.shuffle()
         num_cards = 5 if len(self.players) > 2 else 7
         self.deal(num_cards)
         self.discard = []
-        self.discard.append(self.deck.popleft())
+        self.discard.append(self.deck.draw())
         self.pts = [0] * num_players
 
     def setup_game(self, num_players: int) -> CrazyEights:
@@ -68,36 +67,6 @@ class CrazyEights:
 
         return self
 
-    def new_deck(self, num_decks: Optional[int] = 1) -> CrazyEights:
-        """Create a new deck of cards composed of a number of 52-card decks.
-
-        Args:
-            num_decks (Optional[int], optional): number of 52-card decks to
-            use. Defaults to 1.
-
-        Returns:
-            CrazyEights: game after the deck has been created
-        """
-        self.deck = deque([])
-        for suit in Suit:
-            for rank in Rank:
-                new_card = Card(rank, suit)
-                for i in range(num_decks):
-                    self.deck.append(new_card)
-        return self
-
-    def shuffle_deck(self) -> CrazyEights:
-        """Shuffle the game's current deck of cards.
-
-        Returns:
-            CrazyEights: game after the deck has been shuffled
-        """
-        for curr_idx in reversed(range(len(self.deck))):
-            swap_idx = random.randint(0, curr_idx)
-            self.deck[curr_idx], self.deck[swap_idx] = \
-                self.deck[swap_idx], self.deck[curr_idx]
-        return self
-
     def deal(self, num_cards: Optional[int] = -1) -> CrazyEights:
         """Deal the cards in the deck out to the players.
 
@@ -110,12 +79,12 @@ class CrazyEights:
             CrazyEights: game after the cards have been dealt
         """
         cards_to_deal = num_cards * len(self.players)
-        if cards_to_deal < 0 or cards_to_deal > len(self.deck):
-            cards_to_deal = len(self.deck)
+        if cards_to_deal < 0 or cards_to_deal > self.deck.size():
+            cards_to_deal = self.deck.size()
 
         for card_count in range(cards_to_deal):
             player_to_deal = (card_count % len(self.players)) + 1
-            card = self.deck.popleft()
+            card = self.deck.draw()
             self.players.get(player_to_deal).add_to_hand(card)
 
         return self
@@ -134,11 +103,11 @@ class CrazyEights:
         return self.players.get(player_num).show_hand()
 
     def draw(self, player_num: int) -> CrazyEights:
-        """Draw a card from the top of the deck and place it into a player's
+        """Draw a card off the top of the deck and place it into a player's
         hand.
 
         Args:
-            player (int): number of the player who is drawing a card
+            player_num (int): number of the player who is drawing a card
 
         Returns:
             CrazyEights: game after the player has drawn
@@ -146,18 +115,18 @@ class CrazyEights:
         if player_num < 1 or player_num > len(self.players):
             return self
 
-        if not self.deck and len(self.discard) <= 1:
+        if self.deck.is_empty() and len(self.discard) <= 1:
             self.reset_round()
             return self
 
-        if not self.deck:
+        if self.deck.is_empty():
             top_card = self.discard.pop()
-            self.deck.extend(self.discard)
+            self.deck.add_cards(self.discard)
             self.discard.clear()
             self.discard.append(top_card)
-            self.shuffle_deck()
+            self.deck.shuffle()
 
-        card = self.deck.popleft()
+        card = self.deck.draw()
         self.players.get(player_num).add_to_hand(card)
         return self
 
@@ -330,8 +299,19 @@ class CrazyEights:
         self.game_hist.clear()
         return "History cleared"
 
+    """Define methods that all games are required to implement.
+    """
+
     @staticmethod
-    def display_help():
+    def get_name():
+        return 'Crazy Eights'
+
+    @staticmethod
+    def get_subdir() -> str:
+        return 'crazy_eights'
+
+    @staticmethod
+    def get_help():
         return " Play a card that matches either the suit or value of the top card. Input is taken as value,suit i.e" \
                "seven,hearts to play the seven of hearts." \
                " The first one to play all of their cards wins."\

@@ -1,0 +1,328 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyarcade.games.mastermind &mdash; pyarcade  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pyarcade
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">pyarcade_extension</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyarcade</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyarcade.games.mastermind</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyarcade.games.mastermind</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="n">total_history</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">total_games</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+<div class="viewcode-block" id="Mastermind"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.mastermind.Mastermind">[docs]</a><span class="k">class</span> <span class="nc">Mastermind</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; A class representing a Mastermind game session</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            width (int): The number of random digits to generate</span>
+
+<span class="sd">            max_range (int): The range that a single digit can vary</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">max_range</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">game_state</span> <span class="o">=</span> <span class="s2">&quot;New game.&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_range</span> <span class="o">=</span> <span class="n">max_range</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_sequence</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_hidden_sequence</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_history</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">global</span> <span class="n">total_games</span>
+        <span class="n">total_games</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<div class="viewcode-block" id="Mastermind.generate_hidden_sequence"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.mastermind.Mastermind.generate_hidden_sequence">[docs]</a>    <span class="k">def</span> <span class="nf">generate_hidden_sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            hidden_sequence List[int]: A sequence of integers to be guessed by the player.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_range</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)]</span></div>
+
+    <span class="k">def</span> <span class="nf">set_hidden_sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_sequence</span> <span class="o">=</span> <span class="n">sequence</span>
+
+<div class="viewcode-block" id="Mastermind.evaluate"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.mastermind.Mastermind.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_guess</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            user_guess:</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            1 if digit is in the hidden sequence at the location it was submitted</span>
+<span class="sd">            0 if digit is somewhere in the hidden sequence, but not in the location it was submitted</span>
+<span class="sd">            -1 if the digit is nowhere in the hidden sequence</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Dictionary containing the user&#39;s guess and its evaluation</span>
+        <span class="n">evaluation</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">exact_match</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">cows</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">bulls</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">user_guess</span><span class="p">)):</span>
+            <span class="n">guess</span> <span class="o">=</span> <span class="n">user_guess</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">guess</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_sequence</span><span class="p">[</span><span class="n">idx</span><span class="p">]:</span>
+                <span class="n">eval_digit</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">bulls</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">guess</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_sequence</span><span class="p">:</span>
+                <span class="n">eval_digit</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">exact_match</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">cows</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">eval_digit</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="n">exact_match</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="n">guess</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">evaluation</span><span class="p">:</span>
+                <span class="n">evaluation</span><span class="p">[</span><span class="n">guess</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">eval_digit</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">evaluation</span><span class="p">[</span><span class="n">guess</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eval_digit</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_history</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">user_guess</span><span class="p">)]</span> <span class="o">=</span> <span class="n">evaluation</span>
+
+        <span class="k">if</span> <span class="n">exact_match</span><span class="p">:</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">user_guess</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">bulls</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; bulls and &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cows</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; cows&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">game_state</span> <span class="o">=</span> <span class="s2">&quot;Game over.&quot;</span>
+            <span class="n">total_history</span><span class="p">[</span><span class="n">total_games</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_history</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">user_guess</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">bulls</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; bulls and &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cows</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; cows. </span><span class="se">\n</span><span class="s2">&quot;</span> \
+                                                                                     <span class="s2">&quot;Congratulations, you win!&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">user_guess</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">bulls</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; bulls and &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cows</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; cows&quot;</span></div>
+
+    <span class="c1"># Clears current and total game history</span>
+<div class="viewcode-block" id="Mastermind.clear"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.mastermind.Mastermind.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Clears current and total game history</span>
+<span class="sd">        Return:</span>
+<span class="sd">            String: History cleared</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_history</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">global</span> <span class="n">total_history</span>
+        <span class="n">total_history</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">global</span> <span class="n">total_games</span>
+        <span class="n">total_games</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="s2">&quot;History cleared&quot;</span></div>
+
+    <span class="c1"># Resets current game history</span>
+<div class="viewcode-block" id="Mastermind.reset"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.mastermind.Mastermind.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;resets current game history</span>
+<span class="sd">        Return:</span>
+<span class="sd">            String: Game reset</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_history</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_sequence</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_hidden_sequence</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">game_state</span> <span class="o">=</span> <span class="s2">&quot;New game.&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;Game reset&quot;</span></div>
+
+<div class="viewcode-block" id="Mastermind.display_game_name"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.mastermind.Mastermind.display_game_name">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">display_game_name</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;displays game name</span>
+
+<span class="sd">        Return: </span>
+<span class="sd">            string: Mastermind</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;Mastermind&quot;</span></div>
+
+<div class="viewcode-block" id="Mastermind.get_subdir"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.mastermind.Mastermind.get_subdir">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_subdir</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;displays the subdirectory name for the game</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            string: mastermind</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;mastermind&#39;</span></div>
+
+<div class="viewcode-block" id="Mastermind.get_help"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.mastermind.Mastermind.get_help">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_help</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;displays the help instructions</span>
+<span class="sd">        Return:</span>
+<span class="sd">            String: type a 4 digit number to guess a 4 digit secret number&quot; </span>
+<span class="sd">               &quot;Each turn the game will return how close your guess was &quot; </span>
+<span class="sd">               &quot;bulls are numbers that are the correct value in the correct position&quot; </span>
+<span class="sd">               &quot;cows are numbers that are the correct value but not in the correct position&quot;</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;type a 4 digit number to guess a 4 digit secret number&quot;</span> \
+               <span class="s2">&quot;Each turn the game will return how close your guess was &quot;</span> \
+               <span class="s2">&quot;bulls are numbers that are the correct value in the correct position&quot;</span> \
+               <span class="s2">&quot;cows are numbers that are the correct value but not in the correct position&quot;</span></div></div>
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, group 12
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

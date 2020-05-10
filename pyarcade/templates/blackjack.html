@@ -1,0 +1,36 @@
+{% extends "dashboard.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+{{ game_name }}
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('.static', filename='game.css') }}">
+{% endblock %}
+
+{% block subcontent %}
+{% for output in output_lines %}
+  <h4>{{ output }}</h4>
+{% endfor %}
+<div class="row placeholders">
+  <div class="col-xs-6 col-sm-3 placeholder">
+    <form class="form-input" method="POST" action="{{ url_for('play', game=game_subdir) }}">
+      <p>Please enter your move (hit or stand)</p>
+      {{ form.hidden_tag() }}
+      {{ wtf.form_field(form.input) }}
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+    </form>
+
+    <form class="form-options" method="POST" action="{{ url_for('play', game=game_subdir) }}">
+      <h6><input type="submit" name="option" value="New Game"></h6>
+      <h6><input type="submit" name="option" value="Reset"></h6>
+      <h6><input type="submit" name="option" value="Clear"></h6>
+      <h6><input type="submit" name="option" value="Save"></h6>
+      <h6><input type="submit" name="option" value="Help"></h6>
+      <h6><input type="submit" name="option" value="Quit"></h6>
+    </form>
+  </div>
+</div>
+{% endblock %}

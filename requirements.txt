@@ -13,9 +13,7 @@ flask_wtf
 wtforms
 flask_login
 flask
-pytest
-coverage
-tox
+sqlalchemy
 # Requirements With Version Specifiers
 # See https://www.python.org/dev/peps/pep-0440/#version-specifiers.
 #django3

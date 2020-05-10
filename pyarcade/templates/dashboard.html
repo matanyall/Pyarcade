@@ -1,65 +1,32 @@
-{% extends "bootstrap/base.html" %}
+{% extends "index.html" %}
 
 {% block title %}
 Dashboard
 {% endblock %}
 
 {% block styles %}
-{{super()}}
-<link rel="stylesheet" href="{{url_for('.static', filename='dashboard.css')}}">
+{{ super() }}
 {% endblock %}
 
-{% block content %}
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">PyArcade</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="{{ url_for('logout') }}">Log Out</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+{% block navbar_elts %}
+<!-- Menu options to be displayed to logged in users. -->
+<li><a href="{{ url_for('logout') }}">Log Out</a></li>
+{% endblock %}
 
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-          </ul>
-        </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Welcome, {{ name }}!</h1>
-          <p>This site is still under construction. Thank you for your patience!</p>
-          <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <h4><a href="#">Mastermind</a></h4>
-              <span class="text-muted">Coming soon</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <h4><a href="#">Minesweeper</a></h4>
-              <span class="text-muted">Coming soon</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <h4><a href="#">Crazy Eights</a></h4>
-              <span class="text-muted">Coming soon</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <h4><a href="#">BlackJack</a></h4>
-              <span class="text-muted">Coming soon</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+{% block subcontent %}
+<h1 class="page-header">Welcome, {{ name }}!</h1>
+<div class="row placeholders">
+  <div class="col-xs-6 col-sm-3 placeholder">
+    <h4><a href="{{ url_for('game_menu', game='mastermind') }}">Mastermind</a></h4>
+  </div>
+  <div class="col-xs-6 col-sm-3 placeholder">
+    <h4><a href="{{ url_for('game_menu', game='minesweeper') }}">Minesweeper</a></h4>
+  </div>
+  <div class="col-xs-6 col-sm-3 placeholder">
+    <h4><a href="{{ url_for('game_menu', game='crazy_eights') }}">Crazy Eights</a></h4>
+  </div>
+  <div class="col-xs-6 col-sm-3 placeholder">
+    <h4><a href="{{ url_for('game_menu', game='blackjack') }}">Blackjack</a></h4>
+  </div>
+</div>
 {% endblock %}
