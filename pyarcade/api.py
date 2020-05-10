@@ -337,8 +337,6 @@ class SaveForm(FlaskForm):
 def index():
     """default route. Displays home page 
     """
-    return render_template('index.html')
-
     if current_user.is_authenticated:
         return redirect(url_for('dashboard'))
     return render_template('index.html')
