@@ -11,6 +11,7 @@ services:
       - db
     build:
       context: .
+      dockerfile: pyarcade-browser-test.Dockerfile
     environment:
       - FLASK_APP=pyarcade/start
       - FLASK_ENV=development
