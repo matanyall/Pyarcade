@@ -11,25 +11,28 @@ class CrazyEights:
     Args:
         num_players (int): number of players from [2, 7].
     """
+
     def __init__(self, num_players: int):
         # Set up the game.
         self.setup_game(num_players)
         self.curr_suit = Suit.SPADES  # suit choice after an eight is played
+        self.deck = Deck(2 if len(self.players) > 5 else 1)
+        self.discard = []
+        self.pts = [0] * num_players
+        self.players = {}
+        self.round_hist = []
 
         # Keep track of the game history.
         self.game_hist = []
         self.game_state = "Round 1"
 
-    def setup_round(self, num_players: int) -> CrazyEights:
+    def setup_round(self, num_players: int):
         """Set up the game by making a deck, shuffling it, dealing cards,
         making a discard, flipping over the top card, and creating the
         round points.
 
         Args:
             num_players (int): number of players
-
-        Returns:
-            CrazyEights: game after the setup is complete
         """
         for player in self.players.values():
             player.clear_hand()  # empty the players' hands from prev rounds
@@ -107,7 +110,7 @@ class CrazyEights:
         hand.
 
         Args:
-            player (int): number of the player who is drawing a card
+            player_num (int): number of the player who is drawing a card
 
         Returns:
             CrazyEights: game after the player has drawn
@@ -212,7 +215,7 @@ class CrazyEights:
         cards = same_rank + same_suit + eights
         return cards
 
-    def turn(self, player_num: int) -> Card:
+    def turn(self, player_num: int):
         """Play out a player's turn using automated choices.
 
         Args:
@@ -302,14 +305,17 @@ class CrazyEights:
     """Define methods that all games are required to implement.
     """
 
-    def get_name(self):
+    @staticmethod
+    def get_name():
         return 'Crazy Eights'
 
-    def get_subdir(self) -> str:
+    @staticmethod
+    def get_subdir() -> str:
         return 'crazy_eights'
 
-    def get_help(self):
+    @staticmethod
+    def get_help():
         return " Play a card that matches either the suit or value of the top card. Input is taken as value,suit i.e" \
                "seven,hearts to play the seven of hearts." \
-               " The first one to play all of their cards wins."\
+               " The first one to play all of their cards wins." \
                " If you don't have a corresponding card then type draw to draw a card."
