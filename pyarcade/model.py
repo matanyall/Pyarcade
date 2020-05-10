@@ -131,19 +131,19 @@ class Model():
 
     def load_game(self, save_name: str, username: int):
         user_id = self._get_user(username)
-        game = self.session.query(GameDB).filter(GameDB.player_id == user_id.id).filter(
+        game = self.session.query(GameDB).filter(GameDB.user_id == user_id.id).filter(
             GameDB.save_name == save_name).first()
         result = pickle.loads(game.save)
         return result
 
     def list_saves(self, username: str):
         user_id = self._get_user(username)
-        save_list = self.session.query(GameDB).filter(GameDB.player_id == user_id.id).all()
+        save_list = self.session.query(GameDB).filter(GameDB.user_id == user_id.id).all()
         return save_list
 
     def get_save(self, save_name: str, username: str):
         user_id = self._get_user(username)
-        save = self.session.query(GameDB).filter(GameDB.player_id == user_id.id).filter(
+        save = self.session.query(GameDB).filter(GameDB.user_id == user_id.id).filter(
             GameDB.save_name == save_name).first()
         return save
 
