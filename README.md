@@ -80,7 +80,7 @@ uncovers cells, all of the adjacent cells that do not contain mines will be reve
 (User input should be in the form of: #,#)
 
 ## Contributors
-### Jill (55%)
+### Jill (25%)
 - 
 
 ### Anders (25%)
