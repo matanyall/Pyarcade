@@ -107,5 +107,4 @@ template inheritance to eliminate duplicate code
 - Updated documentation
 - Managed Zoom Meetings
 
-### Andy(0%)
 
