@@ -17,7 +17,7 @@ PyArcade is an arcade with a variety of games ranging from simpler guessing
 games to more complex strategical games.
 
 ## Setup
-Visit the [website](ec2-3-22-112-101.us-east-2.compute.amazonaws.com:80) to
+Visit the [website](http://ec2-3-22-112-101.us-east-2.compute.amazonaws.com:80) to
 access PyArcade over the internet or download it using the following steps to
 run it locally.
 
