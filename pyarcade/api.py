@@ -38,6 +38,8 @@ class User(UserMixin, db.Model):
     passwd = db.Column(db.String(255), unique=False, nullable=False)
     high_scores = db.relationship('HighScore', backref='user', lazy=True)
     saves = db.relationship('Save', backref='user', lazy=True)
+    friends = db.relationship('Friend', backref='user', lazy=True)
+    favorites = db.relationship('Favorite', backref='user', lazy=True)
 
 
 @login_manager.user_loader
@@ -280,6 +282,160 @@ api.add_resource(HighScoreListResource, '/high_scores')
 api.add_resource(HighScoreResource, '/high_scores/<int:high_score_id>')
 
 
+class Friend(db.Model):
+    __tablename__ = 'Friends'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'), nullable=False)
+    friend_name = db.Column(db.String(128), unique=True, nullable=False)
+
+
+class FriendsListResource(Resource):
+    """Respond to REST API requests GET and POST at the generic URL /high_scores.
+    """
+
+    def get(self) -> List[dict]:
+        """Get all friends.
+
+        Returns:
+            List[dict]: all friends
+        """
+        return [{
+            "id": friend.id,
+            "friend_name": friend.friend_name
+        } for friend in Friend.query.all()]
+
+    def post(self) -> dict:
+        """Add a friend.
+
+        Returns:
+            dict: friend that is created
+        """
+        new_friend = Friend(
+            friend_name=request.json["friend_name"],
+            user_id=request.json["user_id"])
+        db.session.add(new_friend)
+        db.session.commit()
+        return {
+            "id": new_friend.id,
+            "friend_name": new_friend.friend_name,
+            "user_id": new_friend.user_id
+        }
+
+
+class FriendsResource(Resource):
+    """ A Resource is a collection of routes (think URLs) that map to these functions.
+    For a REST API, we have GET, PUT, POST, PATCH, DELETE, etc. Here we just define
+    functions that map to the REST API verbs, later we map this to a specific URL
+    with api.add_resource
+    """
+
+    def get(self, user_id) -> List[dict]:
+        """Responds to http://[domain or IP]:[port (default 5000)]/friends/<user_id>
+
+        Returns:
+            List of dictionaries describing all of a users friends in the database.
+        """
+        user = Friend.query.get_or_404(user_id)
+        return [{"friend_name": friend.friend_name} for friend in user.friends]
+
+    def post(self, user_id) -> dict:
+        """Responds to http://[domain or IP]:[port (default 5000)]/friends/<user_id>.
+
+        Adds a new friend to the database.
+
+        Returns:
+            Dictionary describing friend that was just created.
+        """
+        new_save = Friend(player_id=user_id, friend_name=request.json['friend_name'])
+        db.session.add(new_save)
+        db.session.commit()
+        return {"friend_name": request.json["friend_name"]}
+
+
+# General friend requests can be made at /friends.
+api.add_resource(FriendsListResource, '/friends')
+# Specific friends requests can be made using a friend ID.
+api.add_resource(FriendsResource, '/friends/<int:user_id>')
+
+
+class Favorite(db.Model):
+    __tablename__ = 'Favorite'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'), nullable=False)
+    favorite_name = db.Column(db.String(128), unique=True, nullable=False)
+
+
+class FavoritesListResource(Resource):
+    """Respond to REST API requests GET and POST at the generic URL /favorites.
+    """
+
+    def get(self) -> List[dict]:
+        """Get all favorites.
+
+        Returns:
+            List[dict]: all favorites
+        """
+        return [{
+            "id": favorite.id,
+            "favorite_name": favorite.favorite_name
+        } for favorite in Favorite.query.all()]
+
+    def post(self) -> dict:
+        """Add a favorite.
+
+        Returns:
+            dict: favorite that is created
+        """
+        new_favorite = Favorite(
+            favorite_name=request.json["favorite_name"],
+            user_id=request.json["user_id"])
+        db.session.add(new_favorite)
+        db.session.commit()
+        return {
+            "id": new_favorite.id,
+            "favorite_name": new_favorite.favorite_name,
+            "user_id": new_favorite.user_id
+        }
+
+
+class FavoritesResource(Resource):
+    """ A Resource is a collection of routes (think URLs) that map to these functions.
+    For a REST API, we have GET, PUT, POST, PATCH, DELETE, etc. Here we just define
+    functions that map to the REST API verbs, later we map this to a specific URL
+    with api.add_resource
+    """
+
+    def get(self, user_id) -> List[dict]:
+        """Responds to http://[domain or IP]:[port (default 5000)]/favorites/<user_id>
+
+        Returns:
+            List of dictionaries describing all of a users favorites in the database.
+        """
+        user = Favorite.query.get_or_404(user_id)
+        return [{"favorite_name": favorite.favorite_name} for favorite in user.favorite]
+
+    def post(self, user_id) -> dict:
+        """Responds to http://[domain or IP]:[port (default 5000)]/favorites/<user_id>.
+
+        Adds a new favorite to the database.
+
+        Returns:
+            Dictionary describing favorite that was just created.
+        """
+        new_favorite = Favorite(player_id=user_id, favorite_name=request.json['favorite_name'])
+        db.session.add(new_favorite)
+        db.session.commit()
+        return {"favorite_name": request.json["favorite_name"]}
+
+
+# General favorite requests can be made at /favorites.
+api.add_resource(FavoritesListResource, '/favorites')
+# Specific favorites requests can be made using a favorite ID.
+api.add_resource(FavoritesResource, '/favorites/<int:user_id>')
+
+
 class LoginForm(FlaskForm):
     username = StringField('Username:', validators=[InputRequired(), Length(min=4, max=15)])
     password = PasswordField('Password:', validators=[InputRequired(), Length(min=8, max=80)])
@@ -421,7 +577,7 @@ def save(game):
 
     if form.validate_on_submit():
         save = Save.query.filter_by(save_name=form.save_name.data).first()
-        if save and save.player_id == current_user.id:
+        if save and save.user_id == current_user.id:
             flash('Save name already exists. Please choose another', 'danger')
             return render_template('save.html', form=form)
 
