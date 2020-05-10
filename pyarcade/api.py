@@ -430,9 +430,9 @@ class FavoritesResource(Resource):
 
 
 # General favorite requests can be made at /favorites.
-api.add_resource(FriendsListResource, '/favorites')
+api.add_resource(FavoritesListResource, '/favorites')
 # Specific favorites requests can be made using a favorite ID.
-api.add_resource(FriendsResource, '/favorites/<int:user_id>')
+api.add_resource(FavoritesResource, '/favorites/<int:user_id>')
 
 
 class LoginForm(FlaskForm):
