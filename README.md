@@ -81,7 +81,10 @@ uncovers cells, all of the adjacent cells that do not contain mines will be reve
 
 ## Contributors
 ### Jill (25%)
-- 
+- Created all of the game pages and added implemented gameplay functionality
+- Created api for saves
+- Created page that lists all of users saves and implemented the load functionality
+- Set up the cloud instance and deployed our project to it
 
 ### Anders (25%)
 - Refactor Blackjack and Crazy Eights to use uniform Card, Deck, and Player classes
