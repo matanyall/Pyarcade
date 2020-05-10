@@ -1,0 +1,680 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyarcade package &mdash; pyarcade  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pyarcade.games package" href="pyarcade.games.html" />
+    <link rel="prev" title="pyarcade_extension" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyarcade
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">pyarcade_extension</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pyarcade package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyarcade.games.html">pyarcade.games package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyarcade-api-module">pyarcade.api module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyarcade.base">pyarcade.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyarcade.gamedb">pyarcade.gamedb module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyarcade.input_system">pyarcade.input_system module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyarcade.model">pyarcade.model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyarcade.start">pyarcade.start module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyarcade.user">pyarcade.user module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyarcade">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyarcade</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">pyarcade_extension</a> &raquo;</li>
+        
+      <li>pyarcade package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/pyarcade.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pyarcade-package">
+<h1>pyarcade package<a class="headerlink" href="#pyarcade-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyarcade.games.html">pyarcade.games package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyarcade.games.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarcade.games.html#module-pyarcade.games.blackjack">pyarcade.games.blackjack module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarcade.games.html#module-pyarcade.games.card">pyarcade.games.card module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarcade.games.html#module-pyarcade.games.crazy_eights">pyarcade.games.crazy_eights module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarcade.games.html#module-pyarcade.games.deck">pyarcade.games.deck module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarcade.games.html#module-pyarcade.games.mastermind">pyarcade.games.mastermind module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarcade.games.html#module-pyarcade.games.minesweeper">pyarcade.games.minesweeper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarcade.games.html#module-pyarcade.games.ordered_enum">pyarcade.games.ordered_enum module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarcade.games.html#module-pyarcade.games.player">pyarcade.games.player module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyarcade.games.html#module-pyarcade.games">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="pyarcade-api-module">
+<h2>pyarcade.api module<a class="headerlink" href="#pyarcade-api-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pyarcade.base">
+<span id="pyarcade-base-module"></span><h2>pyarcade.base module<a class="headerlink" href="#module-pyarcade.base" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">show-inheritance</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</div>
+<div class="section" id="module-pyarcade.gamedb">
+<span id="pyarcade-gamedb-module"></span><h2>pyarcade.gamedb module<a class="headerlink" href="#module-pyarcade.gamedb" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">show-inheritance</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="py class">
+<dt id="pyarcade.gamedb.GameDB">
+<em class="property">class </em><code class="sig-prename descclassname">pyarcade.gamedb.</code><code class="sig-name descname">GameDB</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/gamedb.html#GameDB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.gamedb.GameDB" title="Permalink to this definition">¶</a></dt>
+<dd><p>game class that represents the model to create a game resource. Primarily represents a game and its
+save state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>int</em>) – primary key that uniquely identifies a save</p></li>
+<li><p><strong>player_id</strong> (<em>int</em>) – key that uniquely identifies a user and is associated with this save</p></li>
+<li><p><strong>save_name</strong> (<em>str</em>) – name of the save</p></li>
+<li><p><strong>save</strong> (<em>BLOB</em>) – game object being saved</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyarcade.input_system">
+<span id="pyarcade-input-system-module"></span><h2>pyarcade.input_system module<a class="headerlink" href="#module-pyarcade.input_system" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">show-inheritance</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="py class">
+<dt id="pyarcade.input_system.InputSystem">
+<em class="property">class </em><code class="sig-prename descclassname">pyarcade.input_system.</code><code class="sig-name descname">InputSystem</code><a class="reference internal" href="_modules/pyarcade/input_system.html#InputSystem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.input_system.InputSystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class that handles input for all games</p>
+<dl class="py method">
+<dt id="pyarcade.input_system.InputSystem.get_current_game">
+<code class="sig-name descname">get_current_game</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/input_system.html#InputSystem.get_current_game"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.input_system.InputSystem.get_current_game" title="Permalink to this definition">¶</a></dt>
+<dd><p>getter for current game</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>return current game which could be any of the games in pyarcade</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>game</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.input_system.InputSystem.handle_blackjack_input">
+<code class="sig-name descname">handle_blackjack_input</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_input</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/pyarcade/input_system.html#InputSystem.handle_blackjack_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.input_system.InputSystem.handle_blackjack_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>This Accesses the blackjack game and runs blackjack logic based on user input and returns result for
+start.py to print out. This function acts as a handler that calls the functions associated with blackjack to allow the player to progress in the game or execute game specific menu options
+chosen and then returns the output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>user_input</strong> – input from user varying from menu options to game options such as hit or stand</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>returns current state of user and house hands</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>String</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.input_system.InputSystem.handle_card">
+<em class="property">static </em><code class="sig-name descname">handle_card</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_card</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/input_system.html#InputSystem.handle_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.input_system.InputSystem.handle_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds a corresponding card based on user input and returns that card of type card. If none exist
+it returns None
+:param user_card: string representation of Users card played
+:type user_card: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>card with rank and suit specified
+None</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="pyarcade.games.html#pyarcade.games.card.Card" title="pyarcade.games.card.Card">Card</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.input_system.InputSystem.handle_crazy_eights_input">
+<code class="sig-name descname">handle_crazy_eights_input</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">card_input</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/pyarcade/input_system.html#InputSystem.handle_crazy_eights_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.input_system.InputSystem.handle_crazy_eights_input" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Handles input varying from game menu options such as help, save, clear and game options such as draw</dt><dd><p>Accesses the crazy eights game and runs crazy eights logic based on user input and returns result for</p>
+</dd>
+</dl>
+<p>start.py to print out</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>card_input</strong> (<em>str</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>returns what the last card played was in the form of a string</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>String</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.input_system.InputSystem.handle_game_input">
+<code class="sig-name descname">handle_game_input</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">game_name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">user_input</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/input_system.html#InputSystem.handle_game_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.input_system.InputSystem.handle_game_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles input given game name (mastermind, minesweeper, crazy eights, blackjack, etc) and user input and returns the correct output based on which
+game and the option that is selected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>game_name</strong> (<em>str</em>) – name of the game to check input against</p></li>
+<li><p><strong>user_input</strong> (<em>str</em>) – user input representing which choice from main menu options is chosen</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.input_system.InputSystem.handle_mastermind_input">
+<code class="sig-name descname">handle_mastermind_input</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">guess_input</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/input_system.html#InputSystem.handle_mastermind_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.input_system.InputSystem.handle_mastermind_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accesses the mastermind game and runs mastermind logic based on user input and returns result for
+start.py to print out.This function acts as a handler that calls the functions associated with the mastermind to allow the player to progress in the game or execute game specific menu options
+chosen and then returns the output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>guess_input</strong> (<em>str</em>) – input that decides which menu option to take or guess to evaluate</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A sequence of integers to be guessed by the player.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>hidden_sequence List[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.input_system.InputSystem.handle_minesweeper_input">
+<code class="sig-name descname">handle_minesweeper_input</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">location_input</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/input_system.html#InputSystem.handle_minesweeper_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.input_system.InputSystem.handle_minesweeper_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accesses the minesweeper game and runs minesweeper logic based on user input and returns result for
+start.py to print out.This function acts as a handler that calls the functions associated with minesweeper to allow the player to progress in the game or execute game specific menu options
+chosen and then returns the output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>location_input</strong> (<em>str</em>) – location of desired move represented as a string or menu option depending on format</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a string representation of the minesweeper board</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>board_str (str)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.input_system.InputSystem.set_current_game">
+<code class="sig-name descname">set_current_game</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">game</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/input_system.html#InputSystem.set_current_game"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.input_system.InputSystem.set_current_game" title="Permalink to this definition">¶</a></dt>
+<dd><p>setter for current game</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>game</strong> – is the game that you are setting current game to could be
+any type of game within pyarcade</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.input_system.InputSystem.set_game_to_load">
+<code class="sig-name descname">set_game_to_load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">game</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/input_system.html#InputSystem.set_game_to_load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.input_system.InputSystem.set_game_to_load" title="Permalink to this definition">¶</a></dt>
+<dd><p>setter for game to load</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>game</strong> – is the game that you are setting game to load to could be
+any type of game within pyarcade</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyarcade.model">
+<span id="pyarcade-model-module"></span><h2>pyarcade.model module<a class="headerlink" href="#module-pyarcade.model" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">show-inheritance</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="py class">
+<dt id="pyarcade.model.Model">
+<em class="property">class </em><code class="sig-prename descclassname">pyarcade.model.</code><code class="sig-name descname">Model</code><a class="reference internal" href="_modules/pyarcade/model.html#Model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.model.Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to create the database and interact with it</p>
+<dl class="py method">
+<dt id="pyarcade.model.Model.add_user">
+<code class="sig-name descname">add_user</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">username</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">passwd</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">confirm</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/pyarcade/model.html#Model.add_user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.model.Model.add_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a user account to the app.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>username</strong> (<em>str</em>) – username of the user</p></li>
+<li><p><strong>passwd</strong> (<em>str</em>) – password</p></li>
+<li><p><strong>confirm</strong> (<em>str</em>) – password confirmation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>whether the user was registered successfully</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.model.Model.authenticate_user">
+<code class="sig-name descname">authenticate_user</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">username</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">passwd</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/pyarcade/model.html#Model.authenticate_user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.model.Model.authenticate_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Authenticate user login information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>username</strong> (<em>String</em>) – username of the user to be logged in</p></li>
+<li><p><strong>passwd</strong> (<em>String</em>) – password corresponding to the user</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>whether the user was logged in successfully</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.model.Model.begin_nested">
+<code class="sig-name descname">begin_nested</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/pyarcade/model.html#Model.begin_nested"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.model.Model.begin_nested" title="Permalink to this definition">¶</a></dt>
+<dd><p>Issue a new SAVEPOINT for rollbacks.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.model.Model.delete_save">
+<code class="sig-name descname">delete_save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">save_name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">user_id</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/model.html#Model.delete_save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.model.Model.delete_save" title="Permalink to this definition">¶</a></dt>
+<dd><p>deletes a save</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>save_name</strong> (<em>str</em>) – name of the save</p></li>
+<li><p><strong>user_id</strong> (<em>int</em>) – unique id of user</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.model.Model.delete_user">
+<code class="sig-name descname">delete_user</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">username</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/pyarcade/model.html#Model.delete_user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.model.Model.delete_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a user by dropping their data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>username</strong> (<em>str</em>) – username of user to be deleted</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.model.Model.get_save">
+<code class="sig-name descname">get_save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">save_name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">username</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/model.html#Model.get_save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.model.Model.get_save" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns save object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>save_name</strong> (<em>str</em>) – name associated with save</p></li>
+<li><p><strong>username</strong> (<em>str</em>) – used to query database for save list</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>save object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>BLOB</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.model.Model.list_saves">
+<code class="sig-name descname">list_saves</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">username</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/model.html#Model.list_saves"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.model.Model.list_saves" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns list of saves associated with user id</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>username</strong> (<em>str</em>) – used to query database for save list</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of saves associated with user</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.model.Model.load_game">
+<code class="sig-name descname">load_game</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">save_name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">username</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/model.html#Model.load_game"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.model.Model.load_game" title="Permalink to this definition">¶</a></dt>
+<dd><p>retrieves game save from database</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>save_name</strong> (<em>str</em>) – name of the save to query database with</p></li>
+<li><p><strong>username</strong> (<em>str</em>) – name of user to query database with</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>game object that is unpickled</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>game object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.model.Model.rollback">
+<code class="sig-name descname">rollback</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/pyarcade/model.html#Model.rollback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.model.Model.rollback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Roll back the session to the last SAVEPOINT.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.model.Model.save_game">
+<code class="sig-name descname">save_game</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">game_object</span></em>, <em class="sig-param"><span class="n">save_name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">user_id</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/model.html#Model.save_game"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.model.Model.save_game" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves a game object through pickling</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>game_object</strong> (<em>BLOB</em>) – game object to be pickled and saved in database</p></li>
+<li><p><strong>save_name</strong> (<em>str</em>) – name of the save for later reference</p></li>
+<li><p><strong>user_id</strong> (<em>int</em>) – unique identifier associated with user</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.model.Model.save_game_by_username">
+<code class="sig-name descname">save_game_by_username</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">game_object</span></em>, <em class="sig-param"><span class="n">save_name</span></em>, <em class="sig-param"><span class="n">username</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/model.html#Model.save_game_by_username"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.model.Model.save_game_by_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>saves a game and associates it with a given username, this takes the place of userid</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>game_object</strong> (<em>BLOB</em>) – game object to be pickled and saved in database</p></li>
+<li><p><strong>save_name</strong> (<em>str</em>) – name of the save for later reference</p></li>
+<li><p><strong>username</strong> (<em>str</em>) – username to be associated with game save</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyarcade.start">
+<span id="pyarcade-start-module"></span><h2>pyarcade.start module<a class="headerlink" href="#module-pyarcade.start" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">show-inheritance</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="py function">
+<dt id="pyarcade.start.run_pyarcade">
+<code class="sig-prename descclassname">pyarcade.start.</code><code class="sig-name descname">run_pyarcade</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/start.html#run_pyarcade"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.start.run_pyarcade" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method used to start the pyarcade. Logic of navigating the pyarcade and starting selected games as well
+as output of choices are encapsulated in this method</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>output of current state of pyarcade ex: menus, game outputs, etc</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>String</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyarcade.user">
+<span id="pyarcade-user-module"></span><h2>pyarcade.user module<a class="headerlink" href="#module-pyarcade.user" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">show-inheritance</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="py class">
+<dt id="pyarcade.user.User">
+<em class="property">class </em><code class="sig-prename descclassname">pyarcade.user.</code><code class="sig-name descname">User</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/user.html#User"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.user.User" title="Permalink to this definition">¶</a></dt>
+<dd><p>user class that represents the model to create users</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>int</em>) – the primary key that uniquely identifies a user</p></li>
+<li><p><strong>username</strong> (<em>str</em>) – username associated with the user</p></li>
+<li><p><strong>passwd</strong> (<em>str</em>) – password associated with user</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyarcade">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyarcade" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">show-inheritance</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pyarcade.games.html" class="btn btn-neutral float-right" title="pyarcade.games package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="modules.html" class="btn btn-neutral float-left" title="pyarcade_extension" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, group 12
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

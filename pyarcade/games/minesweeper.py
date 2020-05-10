@@ -10,7 +10,7 @@ class Minesweeper:
             width (int): width of the minesweeper grid
             height (int): height of minesweeper grid
             mines (int): number of mines to be placed in the grid
-        """
+    """
 
     def __init__(self, width: Optional[int] = 9, height: Optional[int] = 9, mines: Optional[int] = 10):
         self.game_state = "New game."
@@ -26,8 +26,7 @@ class Minesweeper:
         self.end_time = time.time()
 
     def generate_hidden_grid(self) -> [List[int]]:
-        """
-        Generates a minesweeper grid with randomly placed mines
+        """Generates a minesweeper grid with randomly placed mines
 
         Returns:
             hidden_grid [List[int]]: a minesweeper grid with randomly generated mines
@@ -46,8 +45,7 @@ class Minesweeper:
         return temp_grid
 
     def set_hidden_grid(self, mine_locations: Dict[int, List[int]]):
-        """
-        Creates a minesweeper grid based on the mine locations that are provided
+        """Creates a minesweeper grid based on the mine locations that are provided
         Args:
             mine_locations: indices of mines to be placed in grid
         """

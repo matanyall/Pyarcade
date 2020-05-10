@@ -61,10 +61,14 @@ class Blackjack:
         return curr_sum
 
     def bust(self) -> str:
+        """updates game state and returns loss string 
+        """
         self.game_state = "Game over."
         return "BUST"
 
     def win(self) -> str:
+        """updates game state and returns win string
+        """
         self.game_state = "Game over."
         return "WIN BABY"
 

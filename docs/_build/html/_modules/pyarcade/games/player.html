@@ -1,0 +1,326 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyarcade.games.player &mdash; pyarcade  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pyarcade
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">pyarcade_extension</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyarcade</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyarcade.games.player</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyarcade.games.player</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">pyarcade.games.card</span> <span class="kn">import</span> <span class="n">Rank</span><span class="p">,</span> <span class="n">Card</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span>
+
+
+<div class="viewcode-block" id="Player"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.player.Player">[docs]</a><span class="k">class</span> <span class="nc">Player</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Represent a card game player.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cards (Optional[List[Card]], optional): cards to add to the player&#39;s</span>
+<span class="sd">        hand. Defaults to [] (empty hand).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cards</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Card</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hand</span> <span class="o">=</span> <span class="n">cards</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="Player.add_to_hand"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.player.Player.add_to_hand">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_hand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">card</span><span class="p">:</span> <span class="n">Card</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Player</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Add a card to the player&#39;s hand.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            card (Card): card to add</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Player: player with card added to their hand</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hand</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Player.remove_from_hand"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.player.Player.remove_from_hand">[docs]</a>    <span class="k">def</span> <span class="nf">remove_from_hand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">card</span><span class="p">:</span> <span class="n">Card</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Player</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Remove a card from the player&#39;s hand.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            card (Card): card to remove</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Player: player with card removed from their hand</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">card_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hand</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hand</span><span class="p">[</span><span class="n">card_idx</span><span class="p">]</span> <span class="o">==</span> <span class="n">card</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">hand</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">card_idx</span><span class="p">)</span>
+                <span class="k">break</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Player.has"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.player.Player.has">[docs]</a>    <span class="k">def</span> <span class="nf">has</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">card</span><span class="p">:</span> <span class="n">Card</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Check whether the player has a certain card.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            card (Card): card to check for in the player&#39;s hand</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: whether the card is present in the player&#39;s hand or not</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">card</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hand</span></div>
+
+<div class="viewcode-block" id="Player.has_cards"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.player.Player.has_cards">[docs]</a>    <span class="k">def</span> <span class="nf">has_cards</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Checks whether the player has any cards.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: whether the player has any cards in their hand or not</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hand</span><span class="p">)</span>  <span class="c1"># force conversion here to encapsulate data</span></div>
+
+<div class="viewcode-block" id="Player.get_cards"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.player.Player.get_cards">[docs]</a>    <span class="k">def</span> <span class="nf">get_cards</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rank_or_suit</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Card</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Get all the cards in the player&#39;s hand, or all with a certain rank</span>
+<span class="sd">        or suit.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            rank_or_suit: card rank or suit to match against</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Card]: cards in the player&#39;s hand, with the requested rank</span>
+<span class="sd">            or suit if it was supplied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cards</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">rank_or_suit</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rank_or_suit</span><span class="p">,</span> <span class="n">Rank</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">card</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hand</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">card</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span> <span class="o">==</span> <span class="n">rank_or_suit</span><span class="p">:</span>
+                    <span class="n">cards</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">rank_or_suit</span><span class="p">:</span>  <span class="c1"># isinstance(rank_or_suit, Suit) (we hope)</span>
+            <span class="k">for</span> <span class="n">card</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hand</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">card</span><span class="o">.</span><span class="n">get_suit</span><span class="p">()</span> <span class="o">==</span> <span class="n">rank_or_suit</span><span class="p">:</span>
+                    <span class="n">cards</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cards</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hand</span>
+        <span class="k">return</span> <span class="n">cards</span></div>
+
+<div class="viewcode-block" id="Player.show_hand"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.player.Player.show_hand">[docs]</a>    <span class="k">def</span> <span class="nf">show_hand</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Show the player&#39;s hand.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: representation of the cards in the player&#39;s hand</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: sort the cards</span>
+        <span class="n">str_hand</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">card</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hand</span><span class="p">:</span>
+            <span class="n">str_hand</span> <span class="o">+=</span> <span class="n">card</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="k">return</span> <span class="n">str_hand</span></div>
+
+<div class="viewcode-block" id="Player.clear_hand"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.player.Player.clear_hand">[docs]</a>    <span class="k">def</span> <span class="nf">clear_hand</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Player</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Clear the player&#39;s hand of all cards.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Player: player after their hand has been emptied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hand</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Player.get_score"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.player.Player.get_score">[docs]</a>    <span class="k">def</span> <span class="nf">get_score</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the player&#39;s score.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: player&#39;s score</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span></div>
+
+<div class="viewcode-block" id="Player.increase_score"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.player.Player.increase_score">[docs]</a>    <span class="k">def</span> <span class="nf">increase_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pts</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Increase the player&#39;s score.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            pts (int): points to increase the player&#39;s score by</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: player&#39;s updated score after the increase</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">+=</span> <span class="n">pts</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_score</span></div>
+
+<div class="viewcode-block" id="Player.decrease_score"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.player.Player.decrease_score">[docs]</a>    <span class="k">def</span> <span class="nf">decrease_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pts</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Decrease the player&#39;s score.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            pts (int): points to decrease the player&#39;s score by</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: player&#39;s updated score after the decrease</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">-=</span> <span class="n">pts</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_score</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, group 12
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

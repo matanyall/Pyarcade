@@ -1,0 +1,394 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyarcade.model &mdash; pyarcade  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pyarcade
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pyarcade_extension</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyarcade</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyarcade.model</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyarcade.model</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">import</span> <span class="nn">sqlalchemy</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">sessionmaker</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="kn">from</span> <span class="nn">pyarcade.base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span class="kn">from</span> <span class="nn">pyarcade.user</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">pyarcade.gamedb</span> <span class="kn">import</span> <span class="n">GameDB</span>
+
+
+<div class="viewcode-block" id="Model"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.model.Model">[docs]</a><span class="k">class</span> <span class="nc">Model</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Class to create the database and interact with it</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; instantiates the database and creates the session</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Create the engine. echo=(True|False) reflects the state of SQLAlchemy logging.</span>
+        <span class="c1"># TODO: Fix password security issues.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="s1">&#39;mysql+pymysql://root@db:3306/pyarcadedb&#39;</span><span class="p">,</span>
+                <span class="n">echo</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">Session</span> <span class="o">=</span> <span class="n">sessionmaker</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">Session</span><span class="p">()</span>
+        <span class="n">Base</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Model.begin_nested"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.model.Model.begin_nested">[docs]</a>    <span class="k">def</span> <span class="nf">begin_nested</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Issue a new SAVEPOINT for rollbacks.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">begin_nested</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Model.rollback"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.model.Model.rollback">[docs]</a>    <span class="k">def</span> <span class="nf">rollback</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Roll back the session to the last SAVEPOINT.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_sanitize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Guard against dangerous user input.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ip (String): user input string</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: &#39;safe&#39; user input string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: Use a whitelist to only allow acceptable inputs.</span>
+        <span class="k">return</span> <span class="n">ip</span>
+
+<div class="viewcode-block" id="Model.add_user"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.model.Model.add_user">[docs]</a>    <span class="k">def</span> <span class="nf">add_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">passwd</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">confirm</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Add a user account to the app.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            username (str): username of the user</span>
+<span class="sd">            passwd (str): password</span>
+<span class="sd">            confirm (str): password confirmation</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: whether the user was registered successfully</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">safe_username</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sanitize</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+        <span class="n">safe_passwd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sanitize</span><span class="p">(</span><span class="n">passwd</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">safe_passwd</span> <span class="o">!=</span> <span class="n">confirm</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_user</span><span class="p">(</span><span class="n">safe_username</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">safe_username</span><span class="p">,</span> <span class="n">passwd</span><span class="o">=</span><span class="n">safe_passwd</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">passwd</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">User</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get a registered user.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            username (str): username of the user</span>
+<span class="sd">            passwd (Optional[str], optional): password of the user. Defaults to</span>
+<span class="sd">            None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            User: user data for the user with username (and passwd, if included)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">safe_username</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sanitize</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">passwd</span><span class="p">:</span>
+            <span class="n">safe_passwd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sanitize</span><span class="p">(</span><span class="n">passwd</span><span class="p">)</span>
+
+        <span class="n">user</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">passwd</span><span class="p">:</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>\
+                    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">username</span> <span class="o">==</span> <span class="n">safe_username</span><span class="p">)</span>\
+                    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">passwd</span> <span class="o">==</span> <span class="n">safe_passwd</span><span class="p">)</span>\
+                    <span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Note that usernames should be unique.</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>\
+                    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">username</span> <span class="o">==</span> <span class="n">safe_username</span><span class="p">)</span>\
+                    <span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">user</span>
+
+<div class="viewcode-block" id="Model.authenticate_user"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.model.Model.authenticate_user">[docs]</a>    <span class="k">def</span> <span class="nf">authenticate_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">passwd</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Authenticate user login information.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            username (String): username of the user to be logged in</span>
+<span class="sd">            passwd (String): password corresponding to the user</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: whether the user was logged in successfully</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">safe_username</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sanitize</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+        <span class="n">safe_passwd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sanitize</span><span class="p">(</span><span class="n">passwd</span><span class="p">)</span>
+
+        <span class="c1"># Query the database for a user that has the username and password.</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_user</span><span class="p">(</span><span class="n">safe_username</span><span class="p">,</span> <span class="n">safe_passwd</span><span class="p">)</span>
+
+        <span class="c1"># Return whether the login was successful.</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">user</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Model.delete_user"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.model.Model.delete_user">[docs]</a>    <span class="k">def</span> <span class="nf">delete_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Delete a user by dropping their data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            username (str): username of user to be deleted</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Model.save_game"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.model.Model.save_game">[docs]</a>    <span class="k">def</span> <span class="nf">save_game</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game_object</span><span class="p">,</span> <span class="n">save_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Saves a game object through pickling</span>
+
+<span class="sd">        Args: </span>
+<span class="sd">            game_object (BLOB): game object to be pickled and saved in database</span>
+<span class="sd">            save_name (str): name of the save for later reference</span>
+<span class="sd">            user_id (int): unique identifier associated with user</span>
+<span class="sd">        </span>
+<span class="sd">        returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">game_pickle</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">game_object</span><span class="p">)</span>
+        <span class="n">game</span> <span class="o">=</span> <span class="n">GameDB</span><span class="p">(</span><span class="n">player_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span> <span class="n">save_name</span><span class="o">=</span><span class="n">save_name</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="n">game_pickle</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">game</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Model.save_game_by_username"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.model.Model.save_game_by_username">[docs]</a>    <span class="k">def</span> <span class="nf">save_game_by_username</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game_object</span><span class="p">,</span> <span class="n">save_name</span><span class="p">,</span> <span class="n">username</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;saves a game and associates it with a given username, this takes the place of userid</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            game_object (BLOB): game object to be pickled and saved in database</span>
+<span class="sd">            save_name (str): name of the save for later reference</span>
+<span class="sd">            username (str): username to be associated with game save </span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">user_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_user</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_game</span><span class="p">(</span><span class="n">game_object</span><span class="p">,</span> <span class="n">save_name</span><span class="p">,</span> <span class="n">user_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Model.load_game"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.model.Model.load_game">[docs]</a>    <span class="k">def</span> <span class="nf">load_game</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;retrieves game save from database</span>
+
+<span class="sd">        Args: </span>
+<span class="sd">            save_name (str): name of the save to query database with</span>
+<span class="sd">            username (str): name of user to query database with</span>
+<span class="sd">        </span>
+<span class="sd">        Return:</span>
+<span class="sd">            game object: game object that is unpickled </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">user_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_user</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+        <span class="n">game</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">GameDB</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">GameDB</span><span class="o">.</span><span class="n">user_id</span> <span class="o">==</span> <span class="n">user_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">GameDB</span><span class="o">.</span><span class="n">save_name</span> <span class="o">==</span> <span class="n">save_name</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">save</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="Model.list_saves"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.model.Model.list_saves">[docs]</a>    <span class="k">def</span> <span class="nf">list_saves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; returns list of saves associated with user id</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            username (str): used to query database for save list</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            List: list of saves associated with user</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">user_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_user</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+        <span class="n">save_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">GameDB</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">GameDB</span><span class="o">.</span><span class="n">user_id</span> <span class="o">==</span> <span class="n">user_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">save_list</span></div>
+
+<div class="viewcode-block" id="Model.get_save"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.model.Model.get_save">[docs]</a>    <span class="k">def</span> <span class="nf">get_save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; returns save object</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            save_name (str) : name associated with save</span>
+<span class="sd">            username (str): used to query database for save list</span>
+<span class="sd">            </span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            BLOB: save object </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">user_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_user</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+        <span class="n">save</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">GameDB</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">GameDB</span><span class="o">.</span><span class="n">user_id</span> <span class="o">==</span> <span class="n">user_id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">GameDB</span><span class="o">.</span><span class="n">save_name</span> <span class="o">==</span> <span class="n">save_name</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">save</span></div>
+
+<div class="viewcode-block" id="Model.delete_save"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.model.Model.delete_save">[docs]</a>    <span class="k">def</span> <span class="nf">delete_save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;deletes a save </span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            save_name (str): name of the save</span>
+<span class="sd">            user_id (int): unique id of user</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, group 12
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

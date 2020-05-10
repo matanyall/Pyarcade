@@ -38,10 +38,13 @@ class User(UserMixin, db.Model):
     passwd = db.Column(db.String(255), unique=False, nullable=False)
     high_scores = db.relationship('HighScore', backref='user', lazy=True)
     saves = db.relationship('Save', backref='user', lazy=True)
+    friends = db.relationship('Friend', backref='user', lazy=True)
+    favorites = db.relationship('Favorite', backref='user', lazy=True)
 
 
 @login_manager.user_loader
 def load_user(user_id):
+
     return User.query.get(int(user_id))
 
 
@@ -56,7 +59,7 @@ class UserListResource(Resource):
         """Responds to http://[domain or IP]:[port (default 5000)]/users
 
         Returns:
-            List of dictionaries describing all users in the database. We should only include some information if
+            List: a list of dictionaries describing all users in the database. We should only include some information if
             passwords or other personal information is involved.
         """
         return [{"username": user.username, "id": user.id} for user in User.query.all()]
@@ -126,10 +129,19 @@ api.add_resource(UserResource, '/users/<int:user_id>')
 
 
 class Save(db.Model):
-    __tablename__ = 'Games'
+    """ A SQLAlchemy Model used to store saves for a Game and its state
+
+       Args:
+           id (int): id of game save
+           player_id (int): id of player associated with save
+           save_name (str): name of game save
+           save (BLOB): save object
+       """
+    __tablename__ = 'Saves'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     player_id = db.Column(db.Integer, db.ForeignKey('Users.id'), nullable=False)
+    game_name = db.Column(db.String(32), nullable=False)
     save_name = db.Column(db.String(128), unique=True, nullable=False)
     save = db.Column(db.BLOB, unique=False, nullable=False)
 
@@ -158,7 +170,7 @@ class SaveListResource(Resource):
         Returns:
             Dictionary describing game that was just created.
         """
-        new_save = Save(player_id=user_id, save_name=request.json['save_name'],
+        new_save = Save(player_id=user_id, game_name=request.json['game_name'], save_name=request.json['save_name'],
                         save=request.json['save'])
         db.session.add(new_save)
         db.session.commit()
@@ -279,29 +291,208 @@ api.add_resource(HighScoreListResource, '/high_scores')
 api.add_resource(HighScoreResource, '/high_scores/<int:high_score_id>')
 
 
+class Friend(db.Model):
+    __tablename__ = 'Friends'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'), nullable=False)
+    friend_name = db.Column(db.String(128), unique=True, nullable=False)
+
+
+class FriendsListResource(Resource):
+    """Respond to REST API requests GET and POST at the generic URL /high_scores.
+    """
+
+    def get(self) -> List[dict]:
+        """Get all friends.
+
+        Returns:
+            List[dict]: all friends
+        """
+        return [{
+            "id": friend.id,
+            "friend_name": friend.friend_name
+        } for friend in Friend.query.all()]
+
+    def post(self) -> dict:
+        """Add a friend.
+
+        Returns:
+            dict: friend that is created
+        """
+        new_friend = Friend(
+            friend_name=request.json["friend_name"],
+            user_id=request.json["user_id"])
+        db.session.add(new_friend)
+        db.session.commit()
+        return {
+            "id": new_friend.id,
+            "friend_name": new_friend.friend_name,
+            "user_id": new_friend.user_id
+        }
+
+
+class FriendsResource(Resource):
+    """ A Resource is a collection of routes (think URLs) that map to these functions.
+    For a REST API, we have GET, PUT, POST, PATCH, DELETE, etc. Here we just define
+    functions that map to the REST API verbs, later we map this to a specific URL
+    with api.add_resource
+    """
+
+    def get(self, user_id) -> List[dict]:
+        """Responds to http://[domain or IP]:[port (default 5000)]/friends/<user_id>
+
+        Returns:
+            List of dictionaries describing all of a users friends in the database.
+        """
+        user = Friend.query.get_or_404(user_id)
+        return [{"friend_name": friend.friend_name} for friend in user.friends]
+
+    def post(self, user_id) -> dict:
+        """Responds to http://[domain or IP]:[port (default 5000)]/friends/<user_id>.
+
+        Adds a new friend to the database.
+
+        Returns:
+            Dictionary describing friend that was just created.
+        """
+        new_save = Friend(player_id=user_id, friend_name=request.json['friend_name'])
+        db.session.add(new_save)
+        db.session.commit()
+        return {"friend_name": request.json["friend_name"]}
+
+
+# General friend requests can be made at /friends.
+api.add_resource(FriendsListResource, '/friends')
+# Specific friends requests can be made using a friend ID.
+api.add_resource(FriendsResource, '/friends/<int:user_id>')
+
+
+class Favorite(db.Model):
+    __tablename__ = 'Favorite'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'), nullable=False)
+    favorite_name = db.Column(db.String(128), unique=True, nullable=False)
+
+
+class FavoritesListResource(Resource):
+    """Respond to REST API requests GET and POST at the generic URL /favorites.
+    """
+
+    def get(self) -> List[dict]:
+        """Get all favorites.
+
+        Returns:
+            List[dict]: all favorites
+        """
+        return [{
+            "id": favorite.id,
+            "favorite_name": favorite.favorite_name
+        } for favorite in Favorite.query.all()]
+
+    def post(self) -> dict:
+        """Add a favorite.
+
+        Returns:
+            dict: favorite that is created
+        """
+        new_favorite = Favorite(
+            favorite_name=request.json["favorite_name"],
+            user_id=request.json["user_id"])
+        db.session.add(new_favorite)
+        db.session.commit()
+        return {
+            "id": new_favorite.id,
+            "favorite_name": new_favorite.favorite_name,
+            "user_id": new_favorite.user_id
+        }
+
+
+class FavoritesResource(Resource):
+    """ A Resource is a collection of routes (think URLs) that map to these functions.
+    For a REST API, we have GET, PUT, POST, PATCH, DELETE, etc. Here we just define
+    functions that map to the REST API verbs, later we map this to a specific URL
+    with api.add_resource
+    """
+
+    def get(self, user_id) -> List[dict]:
+        """Responds to http://[domain or IP]:[port (default 5000)]/favorites/<user_id>
+
+        Returns:
+            List of dictionaries describing all of a users favorites in the database.
+        """
+        user = Favorite.query.get_or_404(user_id)
+        return [{"favorite_name": favorite.favorite_name} for favorite in user.favorite]
+
+    def post(self, user_id) -> dict:
+        """Responds to http://[domain or IP]:[port (default 5000)]/favorites/<user_id>.
+
+        Adds a new favorite to the database.
+
+        Returns:
+            Dictionary describing favorite that was just created.
+        """
+        new_favorite = Favorite(player_id=user_id, favorite_name=request.json['favorite_name'])
+        db.session.add(new_favorite)
+        db.session.commit()
+        return {"favorite_name": request.json["favorite_name"]}
+
+
+# General favorite requests can be made at /favorites.
+api.add_resource(FavoritesListResource, '/favorites')
+# Specific favorites requests can be made using a favorite ID.
+api.add_resource(FavoritesResource, '/favorites/<int:user_id>')
+
+
 class LoginForm(FlaskForm):
-    username = StringField('Username:', validators=[InputRequired(), Length(min=4, max=15)])
-    password = PasswordField('Password:', validators=[InputRequired(), Length(min=8, max=80)])
-    remember = BooleanField('Remember Me')
+    """Represents a login form that is used to send the fields a User fills out to authenticate via REST
+
+    Args: 
+        username (str): username field of user 
+        Password (str): password field of user 
+        remember (bool): boolean field checked to remember user
+    """
+
+    username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
+    password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
 
 
 class RegisterForm(FlaskForm):
+    """Represents a form that allows a user to store fields required to register for a pyaracade account via REST 
+
+    Args:
+        username (str): username field of user being registered
+        password (str): password field of user being registered
+    """
     username = StringField('Username:', validators=[InputRequired(), Length(min=4, max=15)])
     password = PasswordField('Password:', validators=[InputRequired(), Length(min=8, max=80)])
     confirm = PasswordField('Confirm Password:', validators=[
-        InputRequired(), EqualTo('password', message='Passwords must match')])
+    InputRequired(), EqualTo('password', message='Passwords must match')])
 
 
 class GameForm(FlaskForm):
+    """Represents a form to store fields required to record the input from the user on pyarcade website
+
+    Args:
+        input(str): game menu option field
+    """
     input = StringField()
 
 
 class SaveForm(FlaskForm):
+    """Represents a form to store fields required to record the save name 
+
+    Args:
+        save_name (str): name of save 
+    """
     save_name = StringField(validators=[InputRequired(), Length(min=2, max=15)])
 
 
 @app.route('/')
 def index():
+    """default route. Displays home page 
+    """
     if current_user.is_authenticated:
         return redirect(url_for('dashboard'))
     return render_template('index.html')
@@ -416,17 +607,19 @@ def high_scores(game):
 @app.route('/game/<game>/save', methods=['GET', 'POST'])
 @login_required
 def save(game):
+    """routes to /save displays save form and allows user to save game to database
+        """
     form = SaveForm()
 
     if form.validate_on_submit():
         save = Save.query.filter_by(save_name=form.save_name.data).first()
-        if save and save.player_id == current_user.id:
+        if save and save.user_id == current_user.id:
             flash('Save name already exists. Please choose another', 'danger')
             return render_template('save.html', form=form)
 
         current_game = input_system.get_current_game()
         game_pickle = pickle.dumps(current_game)
-        new_save = Save(player_id=current_user.id, save_name=form.save_name.data,
+        new_save = Save(player_id=current_user.id, game_name=game, save_name=form.save_name.data,
                         save=game_pickle)
 
         db.session.add(new_save)
@@ -438,8 +631,33 @@ def save(game):
     return render_template('save.html', game_subdir=game, form=form)
 
 
+@app.route('/game/<game>/load', methods=['GET', 'POST'])
+@login_required
+def load(game):
+    form = SaveForm()
+
+    game_saves = Save.query.filter_by(game_name=game)
+    saves = ''
+    for saved_game in game_saves:
+        saves += saved_game.save_name + "\n"
+
+    saves = saves.splitlines()
+    if form.validate_on_submit():
+        picked_save = Save.query.filter_by(save_name=form.save_name.data).first()
+        if picked_save and picked_save.player_id == current_user.id:
+            input_system.set_current_game(pickle.loads(picked_save.save))
+            flash(f'{picked_save.save_name} successfully loaded!', 'success')
+            return redirect(url_for('play', game=game))
+
+        flash('This save does not exist. Please type in a save from the list', 'danger')
+
+    return render_template('load.html', game_subdir=game, form=form, saved_games=saves)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """routes to /login , displays login page and allows a user to login.
+    """
     form = LoginForm()
 
     if form.validate_on_submit():
@@ -456,6 +674,8 @@ def login():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    """routes to /signup displays signup page and allows user to sign up for pyarcade
+    """
     form = RegisterForm()
 
     if form.validate_on_submit():
@@ -478,12 +698,16 @@ def signup():
 @app.route('/dashboard')
 @login_required
 def dashboard():
+    """ routes to /dashboard displays user dashboard
+    """
     return render_template('dashboard.html', name=current_user.username)
 
 
 @app.route('/logout')
 @login_required
 def logout():
+    """routes to /logout. Logs out the user 
+    """
     logout_user()
     return redirect(url_for('index'))
 

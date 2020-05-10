@@ -18,6 +18,8 @@ CRAZY_EIGHTS_PLAYER_NUM = 1
 
 
 class InputSystem:
+    """Class that handles input for all games 
+    """
 
     def __init__(self):
         self.mastermind_game = Mastermind()
@@ -32,15 +34,42 @@ class InputSystem:
         return _SUPPORTED_GAMES
 
     def get_current_game(self):
+        """getter for current game
+
+        Returns:
+            game: return current game which could be any of the games in pyarcade 
+        """
         return self.current_game
 
     def set_current_game(self, game):
+        """setter for current game
+
+        Args:
+            game: is the game that you are setting current game to could be 
+                    any type of game within pyarcade
+        """
         self.current_game = game
 
     def set_game_to_load(self, game):
+        """setter for game to load
+
+        Args:
+            game: is the game that you are setting game to load to could be 
+                    any type of game within pyarcade
+        """
         self.game_to_load = game
 
     def handle_game_input(self, game_name: str, user_input: str):
+        """Handles input given game name (mastermind, minesweeper, crazy eights, blackjack, etc) and user input and returns the correct output based on which
+        game and the option that is selected. 
+
+        Args:
+            game_name (str): name of the game to check input against
+            user_input (str): user input representing which choice from main menu options is chosen
+        
+        Returns:
+            
+        """
         if game_name.lower() == "mastermind":
             if user_input.lower() == "new game":
                 self.mastermind_game = Mastermind()
@@ -85,9 +114,12 @@ class InputSystem:
             return "Invalid game provided."
 
     def handle_mastermind_input(self, guess_input):
-        """
-        Takes:
-            string str that we ensure follows appropriate form
+        """ Accesses the mastermind game and runs mastermind logic based on user input and returns result for
+        start.py to print out.This function acts as a handler that calls the functions associated with the mastermind to allow the player to progress in the game or execute game specific menu options
+        chosen and then returns the output.
+            
+        Args:
+            guess_input (str): input that decides which menu option to take or guess to evaluate
         Returns:
             hidden_sequence List[int]: A sequence of integers to be guessed by the player.
         """
@@ -118,6 +150,15 @@ class InputSystem:
         return "Invalid input. Input should be of the form \"####\""
 
     def handle_minesweeper_input(self, location_input: str):
+        """ Accesses the minesweeper game and runs minesweeper logic based on user input and returns result for
+        start.py to print out.This function acts as a handler that calls the functions associated with minesweeper to allow the player to progress in the game or execute game specific menu options
+        chosen and then returns the output.
+            
+        Args:
+            location_input (str): location of desired move represented as a string or menu option depending on format
+        Returns:
+            board_str (str): a string representation of the minesweeper board 
+        """
         if type(location_input) == str:
             two_comma_separated_digits_regex = r"^\d,\d$"
             if re.search(two_comma_separated_digits_regex, location_input):
@@ -149,6 +190,15 @@ class InputSystem:
 
     @staticmethod
     def handle_card(user_card: str):
+        """ Finds a corresponding card based on user input and returns that card of type card. If none exist
+        it returns None
+        Args: 
+            user_card (str): string representation of Users card played
+
+        Return:
+            Card: card with rank and suit specified
+            None
+        """
         user_card = user_card.split(",")
         if len(user_card) != 2:
             return None
@@ -163,6 +213,15 @@ class InputSystem:
         return None
 
     def handle_crazy_eights_input(self, card_input: str) -> str:
+        """Handles input varying from game menu options such as help, save, clear and game options such as draw
+         Accesses the crazy eights game and runs crazy eights logic based on user input and returns result for
+        start.py to print out
+            
+        Args:
+            card_input (str): 
+        Returns:
+            String: returns what the last card played was in the form of a string 
+        """
         if card_input.lower() == "help":
             return self.crazy_eights_game.get_help()
         if card_input.lower() == "clear":
@@ -205,6 +264,16 @@ class InputSystem:
                    + "\n\nPlayer Hand: \n" + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM)
 
     def handle_blackjack_input(self, user_input: str) -> str:
+        """ This Accesses the blackjack game and runs blackjack logic based on user input and returns result for
+        start.py to print out. This function acts as a handler that calls the functions associated with blackjack to allow the player to progress in the game or execute game specific menu options
+        chosen and then returns the output.
+            
+        Args:
+            user_input: input from user varying from menu options to game options such as hit or stand
+        
+        Returns:
+            String: returns current state of user and house hands 
+        """
 
         if user_input.lower() == "help":
             return self.blackjack_game.get_help()
