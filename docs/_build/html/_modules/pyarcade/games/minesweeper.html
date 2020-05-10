@@ -146,7 +146,7 @@
   <h1>Source code for pyarcade.games.minesweeper</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
 
 
 <div class="viewcode-block" id="Minesweeper"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.minesweeper.Minesweeper">[docs]</a><span class="k">class</span> <span class="nc">Minesweeper</span><span class="p">:</span>
@@ -158,7 +158,7 @@
 <span class="sd">            mines (int): number of mines to be placed in the grid</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">mines</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">mines</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">game_state</span> <span class="o">=</span> <span class="s2">&quot;New game.&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
@@ -206,24 +206,23 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            board_str (str): string representation of minesweeper board</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">board_string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">output_grid</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">row_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">col_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">row_idx</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">col_idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">output_grid</span> <span class="o">=</span> <span class="s2">&quot;X&quot;</span>
+                <span class="k">elif</span> <span class="n">row_idx</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">col_idx</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">output_grid</span> <span class="o">+=</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">col_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="n">row_idx</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">col_idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">output_grid</span> <span class="o">+=</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">row_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="n">row_idx</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">col_idx</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_state</span> <span class="o">!=</span> <span class="s2">&quot;Game over.&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_grid</span><span class="p">[</span><span class="n">row_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">col_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
+                        <span class="n">output_grid</span> <span class="o">+=</span> <span class="s2">&quot;-&quot;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">output_grid</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_grid</span><span class="p">[</span><span class="n">row_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">col_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">output_grid</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
 
-        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">):</span>
-            <span class="n">board_string</span> <span class="o">+=</span> <span class="s1">&#39;  </span><span class="si">%s</span><span class="s1"> &#39;</span> <span class="o">%</span> <span class="n">x</span>
-        <span class="n">board_string</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;  &#39;</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;====&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">):</span>
-            <span class="n">board_string</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{idx}</span><span class="s1">|&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">idx</span><span class="o">=</span><span class="n">row</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">):</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_state</span> <span class="o">!=</span> <span class="s2">&quot;Game over.&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_grid</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
-                    <span class="n">board_string</span> <span class="o">+=</span> <span class="s1">&#39; </span><span class="si">%s</span><span class="s1"> &#39;</span> <span class="o">%</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="s1">&#39;|&#39;</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">board_string</span> <span class="o">+=</span> <span class="s1">&#39; </span><span class="si">%s</span><span class="s1"> &#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_grid</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;|&#39;</span>
-            <span class="k">if</span> <span class="n">row</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">board_string</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> |&#39;</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;---|&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
-        <span class="n">board_string</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">  &#39;</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;====&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">board_string</span></div>
+        <span class="k">return</span> <span class="n">output_grid</span></div>
 
 <div class="viewcode-block" id="Minesweeper.count_threebv"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.minesweeper.Minesweeper.count_threebv">[docs]</a>    <span class="k">def</span> <span class="nf">count_threebv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -271,8 +270,8 @@
                     <span class="k">if</span> <span class="n">sol</span><span class="p">[</span><span class="n">nxt_row</span><span class="p">][</span><span class="n">nxt_col</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot; &quot;</span><span class="p">:</span>
                         <span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">nxt_row</span><span class="p">,</span> <span class="n">nxt_col</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Minesweeper.get_threebv"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.minesweeper.Minesweeper.get_threebv">[docs]</a>    <span class="k">def</span> <span class="nf">get_threebv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">threebv</span></div>
+    <span class="k">def</span> <span class="nf">get_threebv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">threebv</span>
 
 <div class="viewcode-block" id="Minesweeper.set_score"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.minesweeper.Minesweeper.set_score">[docs]</a>    <span class="k">def</span> <span class="nf">set_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -302,10 +301,10 @@
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_grid</span><span class="p">[</span><span class="n">row_guess</span><span class="p">][</span><span class="n">col_guess</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">game_state</span> <span class="o">=</span> <span class="s2">&quot;Game over.&quot;</span>
-            <span class="k">return</span> <span class="n">Minesweeper</span><span class="o">.</span><span class="n">draw_board</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">BOOM! Game over.&quot;</span>
+            <span class="k">return</span> <span class="s2">&quot;BOOM! Game over.</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_board</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_grid</span><span class="p">[</span><span class="n">row_guess</span><span class="p">][</span><span class="n">col_guess</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39; &#39;</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_grid</span><span class="p">[</span><span class="n">row_guess</span><span class="p">][</span><span class="n">col_guess</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
-            <span class="k">return</span> <span class="n">Minesweeper</span><span class="o">.</span><span class="n">draw_board</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Location already uncovered&quot;</span>
+            <span class="k">return</span> <span class="s2">&quot;Location already uncovered</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_board</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">bfs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hidden_grid</span><span class="p">,</span> <span class="n">row_guess</span><span class="p">,</span> <span class="n">col_guess</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
@@ -313,9 +312,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">game_state</span> <span class="o">=</span> <span class="s2">&quot;Game over.&quot;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_score</span><span class="p">()</span>
-            <span class="k">return</span> <span class="n">Minesweeper</span><span class="o">.</span><span class="n">draw_board</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Congratulations! You win!&quot;</span>
+            <span class="k">return</span> <span class="s2">&quot;Congratulations! You win!</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_board</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_board</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="s2">&quot;Minesweeper</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_board</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Minesweeper.bfs"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.minesweeper.Minesweeper.bfs">[docs]</a>    <span class="k">def</span> <span class="nf">bfs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid</span><span class="p">:</span> <span class="p">[[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">row_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">col_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">reveal_board</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -344,12 +343,12 @@
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">nxt_row</span><span class="p">,</span> <span class="n">nxt_col</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Minesweeper.is_valid"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.minesweeper.Minesweeper.is_valid">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">col</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">row</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="ow">or</span> <span class="n">col</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="kc">True</span></div>
+        <span class="k">return</span> <span class="kc">True</span>
 
-<div class="viewcode-block" id="Minesweeper.check_adjacent_mines"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.minesweeper.Minesweeper.check_adjacent_mines">[docs]</a>    <span class="k">def</span> <span class="nf">check_adjacent_mines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">check_adjacent_mines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">mine_count</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">mine_count</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_if_mine</span><span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span>  <span class="c1"># N</span>
         <span class="n">mine_count</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_if_mine</span><span class="p">(</span><span class="n">row</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span>  <span class="c1"># S</span>
@@ -362,36 +361,43 @@
         <span class="k">if</span> <span class="n">mine_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">mine_count</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s1">&#39; &#39;</span></div>
+            <span class="k">return</span> <span class="s1">&#39; &#39;</span>
 
-<div class="viewcode-block" id="Minesweeper.check_if_mine"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.minesweeper.Minesweeper.check_if_mine">[docs]</a>    <span class="k">def</span> <span class="nf">check_if_mine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">check_if_mine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_valid</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_grid</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">0</span></div>
+            <span class="k">return</span> <span class="mi">0</span>
 
-<div class="viewcode-block" id="Minesweeper.reset_game"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.minesweeper.Minesweeper.reset_game">[docs]</a>    <span class="k">def</span> <span class="nf">reset_game</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">reset_game</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">game_state</span> <span class="o">=</span> <span class="s2">&quot;New game.&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">hidden_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_hidden_grid</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">total_hidden_squares</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">game_history</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-        <span class="k">return</span> <span class="s2">&quot;Game reset&quot;</span></div>
+        <span class="k">return</span> <span class="s2">&quot;Game reset&quot;</span>
 
-<div class="viewcode-block" id="Minesweeper.clear_game_history"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.minesweeper.Minesweeper.clear_game_history">[docs]</a>    <span class="k">def</span> <span class="nf">clear_game_history</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">clear_game_history</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">game_history</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-        <span class="k">return</span> <span class="s2">&quot;History Cleared&quot;</span></div>
+        <span class="k">return</span> <span class="s2">&quot;History Cleared&quot;</span>
 
-<div class="viewcode-block" id="Minesweeper.display_game_name"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.minesweeper.Minesweeper.display_game_name">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">display_game_name</span><span class="p">():</span>
-        <span class="k">return</span> <span class="s2">&quot;Minesweeper&quot;</span></div>
+    <span class="sd">&quot;&quot;&quot;Define methods that all games are required to implement.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Minesweeper.display_help"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.minesweeper.Minesweeper.display_help">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">display_help</span><span class="p">():</span>
-        <span class="k">return</span> <span class="s2">&quot;The goal is to find all the mines in the board by clicking on and revealing the number of mines in the area.&quot;</span> \
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_name</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s1">&#39;Minesweeper&#39;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_subdir</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;minesweeper&#39;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_help</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s2">&quot;The goal is to find all the mines in the board by clicking on &quot;</span> \
+               <span class="s2">&quot;and revealing the number of mines in the area.&quot;</span> \
                <span class="s2">&quot;To click on that coordinate in the minesweeper board&quot;</span> \
                <span class="s2">&quot;enter coordinates in the format number,number i.e: 4,5&quot;</span> \
-               <span class="s2">&quot;dashes represent remaining spaces that are available&quot;</span> \</div></div>
-
+               <span class="s2">&quot;dashes represent remaining spaces that are available&quot;</span></div>
 </pre></div>
 
            </div>

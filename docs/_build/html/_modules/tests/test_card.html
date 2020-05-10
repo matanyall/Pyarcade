@@ -144,11 +144,13 @@
            <div itemprop="articleBody">
             
   <h1>Source code for tests.test_card</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyarcade.games.card</span> <span class="k">import</span> <span class="n">Rank</span><span class="p">,</span> <span class="n">Suit</span><span class="p">,</span> <span class="n">Card</span>
+<span></span><span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">pyarcade.games.card</span> <span class="kn">import</span> <span class="n">Rank</span><span class="p">,</span> <span class="n">Suit</span><span class="p">,</span> <span class="n">Card</span>
 <span class="kn">import</span> <span class="nn">unittest</span>
 
 
-<div class="viewcode-block" id="CardTestCase"><a class="viewcode-back" href="../../tests.html#tests.test_card.CardTestCase">[docs]</a><span class="k">class</span> <span class="nc">CardTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<div class="viewcode-block" id="CardTestCase"><a class="viewcode-back" href="../../tests.html#tests.test_card.CardTestCase">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">local</span>
+<span class="k">class</span> <span class="nc">CardTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
 <div class="viewcode-block" id="CardTestCase.test_eq"><a class="viewcode-back" href="../../tests.html#tests.test_card.CardTestCase.test_eq">[docs]</a>    <span class="k">def</span> <span class="nf">test_eq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">card1</span> <span class="o">=</span> <span class="n">Card</span><span class="p">(</span><span class="n">Rank</span><span class="o">.</span><span class="n">ACE</span><span class="p">,</span> <span class="n">Suit</span><span class="o">.</span><span class="n">SPADES</span><span class="p">)</span>
         <span class="n">card2</span> <span class="o">=</span> <span class="n">Card</span><span class="p">(</span><span class="n">Rank</span><span class="o">.</span><span class="n">ACE</span><span class="p">,</span> <span class="n">Suit</span><span class="o">.</span><span class="n">SPADES</span><span class="p">)</span>

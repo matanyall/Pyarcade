@@ -89,7 +89,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pyarcade.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pyarcade.html#module-pyarcade.api">pyarcade.api module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyarcade.html#pyarcade-api-module">pyarcade.api module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarcade.html#module-pyarcade.base">pyarcade.base module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarcade.html#module-pyarcade.gamedb">pyarcade.gamedb module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyarcade.html#module-pyarcade.input_system">pyarcade.input_system module</a></li>
@@ -206,13 +206,13 @@
 
 <dl class="py method">
 <dt id="pyarcade.games.blackjack.Blackjack.clear">
-<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack.clear" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack.clear" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reset the game by clearing all player hands.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pyarcade.games.blackjack.Blackjack.display_state">
-<code class="sig-name descname">display_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">win_status</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack.display_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack.display_state" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">display_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">win_status</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/pyarcade/games/blackjack.html#Blackjack.display_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.blackjack.Blackjack.display_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>[summary]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -370,7 +370,7 @@ one. Jokers are not included.</p>
 hand.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>player</strong> (<em>int</em>) – number of the player who is drawing a card</p>
+<dd class="field-odd"><p><strong>player_num</strong> (<em>int</em>) – number of the player who is drawing a card</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>game after the player has drawn</p>
@@ -506,7 +506,7 @@ and completing round setup.</p>
 
 <dl class="py method">
 <dt id="pyarcade.games.crazy_eights.CrazyEights.setup_round">
-<code class="sig-name descname">setup_round</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_players</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyarcade.games.crazy_eights.CrazyEights" title="pyarcade.games.crazy_eights.CrazyEights">pyarcade.games.crazy_eights.CrazyEights</a><a class="reference internal" href="_modules/pyarcade/games/crazy_eights.html#CrazyEights.setup_round"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.crazy_eights.CrazyEights.setup_round" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setup_round</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_players</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/games/crazy_eights.html#CrazyEights.setup_round"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.crazy_eights.CrazyEights.setup_round" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set up the game by making a deck, shuffling it, dealing cards,
 making a discard, flipping over the top card, and creating the
 round points.</p>
@@ -699,26 +699,6 @@ algorithm.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pyarcade.games.mastermind.Mastermind.display_help">
-<em class="property">static </em><code class="sig-name descname">display_help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/games/mastermind.html#Mastermind.display_help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.mastermind.Mastermind.display_help" title="Permalink to this definition">¶</a></dt>
-<dd><p>displays the help instructions
-:returns:</p>
-<blockquote>
-<div><dl class="simple">
-<dt>type a 4 digit number to guess a 4 digit secret number”</dt><dd><p>“Each turn the game will return how close your guess was ”
-“bulls are numbers that are the correct value in the correct position”
-“cows are numbers that are the correct value but not in the correct position”</p>
-</dd>
-</dl>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>String</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt id="pyarcade.games.mastermind.Mastermind.evaluate">
 <code class="sig-name descname">evaluate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_guess</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/pyarcade/games/mastermind.html#Mastermind.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.mastermind.Mastermind.evaluate" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -742,6 +722,40 @@ algorithm.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>hidden_sequence List[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.mastermind.Mastermind.get_help">
+<em class="property">static </em><code class="sig-name descname">get_help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyarcade/games/mastermind.html#Mastermind.get_help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.mastermind.Mastermind.get_help" title="Permalink to this definition">¶</a></dt>
+<dd><p>displays the help instructions
+:returns:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>type a 4 digit number to guess a 4 digit secret number”</dt><dd><p>“Each turn the game will return how close your guess was ”
+“bulls are numbers that are the correct value in the correct position”
+“cows are numbers that are the correct value but not in the correct position”</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>String</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyarcade.games.mastermind.Mastermind.get_subdir">
+<em class="property">static </em><code class="sig-name descname">get_subdir</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/pyarcade/games/mastermind.html#Mastermind.get_subdir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyarcade.games.mastermind.Mastermind.get_subdir" title="Permalink to this definition">¶</a></dt>
+<dd><p>displays the subdirectory name for the game</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>mastermind</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>string</p>
 </dd>
 </dl>
 </dd></dl>

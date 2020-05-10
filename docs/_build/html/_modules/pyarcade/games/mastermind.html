@@ -144,7 +144,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for pyarcade.games.mastermind</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
 <span class="kn">import</span> <span class="nn">random</span>
 
 <span class="n">total_history</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -161,7 +161,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">max_range</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">max_range</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">game_state</span> <span class="o">=</span> <span class="s2">&quot;New game.&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_range</span> <span class="o">=</span> <span class="n">max_range</span>
@@ -177,8 +177,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_range</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)]</span></div>
 
-<div class="viewcode-block" id="Mastermind.set_hidden_sequence"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.mastermind.Mastermind.set_hidden_sequence">[docs]</a>    <span class="k">def</span> <span class="nf">set_hidden_sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_sequence</span> <span class="o">=</span> <span class="n">sequence</span></div>
+    <span class="k">def</span> <span class="nf">set_hidden_sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_sequence</span> <span class="o">=</span> <span class="n">sequence</span>
 
 <div class="viewcode-block" id="Mastermind.evaluate"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.mastermind.Mastermind.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_guess</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -259,8 +259,17 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s2">&quot;Mastermind&quot;</span></div>
 
-<div class="viewcode-block" id="Mastermind.display_help"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.mastermind.Mastermind.display_help">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">display_help</span><span class="p">():</span>
+<div class="viewcode-block" id="Mastermind.get_subdir"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.mastermind.Mastermind.get_subdir">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_subdir</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;displays the subdirectory name for the game</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            string: mastermind</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;mastermind&#39;</span></div>
+
+<div class="viewcode-block" id="Mastermind.get_help"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.mastermind.Mastermind.get_help">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_help</span><span class="p">():</span>
         <span class="sd">&quot;&quot;&quot;displays the help instructions</span>
 <span class="sd">        Return:</span>
 <span class="sd">            String: type a 4 digit number to guess a 4 digit secret number&quot; </span>
@@ -273,6 +282,8 @@
                <span class="s2">&quot;Each turn the game will return how close your guess was &quot;</span> \
                <span class="s2">&quot;bulls are numbers that are the correct value in the correct position&quot;</span> \
                <span class="s2">&quot;cows are numbers that are the correct value but not in the correct position&quot;</span></div></div>
+
+
 </pre></div>
 
            </div>

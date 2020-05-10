@@ -144,14 +144,16 @@
            <div itemprop="articleBody">
             
   <h1>Source code for tests.test_crazy_eights</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyarcade.games.card</span> <span class="k">import</span> <span class="n">Rank</span><span class="p">,</span> <span class="n">Suit</span><span class="p">,</span> <span class="n">Card</span>
-<span class="kn">from</span> <span class="nn">pyarcade.games.deck</span> <span class="k">import</span> <span class="n">Deck</span>
-<span class="kn">from</span> <span class="nn">pyarcade.games.player</span> <span class="k">import</span> <span class="n">Player</span>
-<span class="kn">from</span> <span class="nn">pyarcade.games.crazy_eights</span> <span class="k">import</span> <span class="n">CrazyEights</span>
+<span></span><span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">pyarcade.games.card</span> <span class="kn">import</span> <span class="n">Rank</span><span class="p">,</span> <span class="n">Suit</span><span class="p">,</span> <span class="n">Card</span>
+<span class="kn">from</span> <span class="nn">pyarcade.games.deck</span> <span class="kn">import</span> <span class="n">Deck</span>
+<span class="kn">from</span> <span class="nn">pyarcade.games.player</span> <span class="kn">import</span> <span class="n">Player</span>
+<span class="kn">from</span> <span class="nn">pyarcade.games.crazy_eights</span> <span class="kn">import</span> <span class="n">CrazyEights</span>
 <span class="kn">import</span> <span class="nn">unittest</span>
 
 
-<div class="viewcode-block" id="CrazyEightsTestCase"><a class="viewcode-back" href="../../tests.html#tests.test_crazy_eights.CrazyEightsTestCase">[docs]</a><span class="k">class</span> <span class="nc">CrazyEightsTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<div class="viewcode-block" id="CrazyEightsTestCase"><a class="viewcode-back" href="../../tests.html#tests.test_crazy_eights.CrazyEightsTestCase">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">local</span>
+<span class="k">class</span> <span class="nc">CrazyEightsTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
 <div class="viewcode-block" id="CrazyEightsTestCase.test_setup_round"><a class="viewcode-back" href="../../tests.html#tests.test_crazy_eights.CrazyEightsTestCase.test_setup_round">[docs]</a>    <span class="k">def</span> <span class="nf">test_setup_round</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span></div>
 

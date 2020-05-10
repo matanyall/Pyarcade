@@ -144,8 +144,8 @@
            <div itemprop="articleBody">
             
   <h1>Source code for pyarcade.user</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyarcade.base</span> <span class="k">import</span> <span class="n">Base</span>
-<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="k">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span>
+<span></span><span class="kn">from</span> <span class="nn">pyarcade.base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span>
 
 
 <div class="viewcode-block" id="User"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.user.User">[docs]</a><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
@@ -163,7 +163,7 @@
     <span class="c1"># TODO: fix the security!</span>
     <span class="n">passwd</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">&#39;&lt;User(id=</span><span class="si">{0}</span><span class="s1">, username=&quot;</span><span class="si">{1}</span><span class="s1">&quot;, password=&quot;</span><span class="si">{2}</span><span class="s1">&quot;)&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
                                                                        <span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">passwd</span><span class="p">)</span></div>
 </pre></div>

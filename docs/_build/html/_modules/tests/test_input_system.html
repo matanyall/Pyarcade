@@ -144,11 +144,13 @@
            <div itemprop="articleBody">
             
   <h1>Source code for tests.test_input_system</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyarcade.input_system</span> <span class="k">import</span> <span class="n">InputSystem</span>
+<span></span><span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">pyarcade.input_system</span> <span class="kn">import</span> <span class="n">InputSystem</span>
 <span class="kn">import</span> <span class="nn">unittest</span>
 
 
-<div class="viewcode-block" id="InputSystemTestCase"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase">[docs]</a><span class="k">class</span> <span class="nc">InputSystemTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<div class="viewcode-block" id="InputSystemTestCase"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">local</span>
+<span class="k">class</span> <span class="nc">InputSystemTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
 <div class="viewcode-block" id="InputSystemTestCase.test_mastermind_wrong_size"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_mastermind_wrong_size">[docs]</a>    <span class="k">def</span> <span class="nf">test_mastermind_wrong_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">input_system</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s2">&quot;Mastermind&quot;</span><span class="p">,</span> <span class="s2">&quot;53255&quot;</span><span class="p">)</span>
@@ -261,8 +263,6 @@
         <span class="n">input_sys</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">input_sys</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s2">&quot;BlackJack&quot;</span><span class="p">,</span> <span class="s2">&quot;stand&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;CURRENT HAND&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div></div>
-
-
 </pre></div>
 
            </div>

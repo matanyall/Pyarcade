@@ -146,10 +146,12 @@
   <h1>Source code for tests.test_minesweeper</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">unittest</span>
 
-<span class="kn">from</span> <span class="nn">pyarcade.games.minesweeper</span> <span class="k">import</span> <span class="n">Minesweeper</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">pyarcade.games.minesweeper</span> <span class="kn">import</span> <span class="n">Minesweeper</span>
 
 
-<div class="viewcode-block" id="MyTestCase"><a class="viewcode-back" href="../../tests.html#tests.test_minesweeper.MyTestCase">[docs]</a><span class="k">class</span> <span class="nc">MyTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<div class="viewcode-block" id="MyTestCase"><a class="viewcode-back" href="../../tests.html#tests.test_minesweeper.MyTestCase">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">local</span>
+<span class="k">class</span> <span class="nc">MyTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
 <div class="viewcode-block" id="MyTestCase.setUp"><a class="viewcode-back" href="../../tests.html#tests.test_minesweeper.MyTestCase.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span></div>
 
