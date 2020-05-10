@@ -91,8 +91,10 @@ template inheritance to eliminate duplicate code
 - Add high scores database, REST API, and template
 - Fix login bugs and update templates
 
-### Andy(0%)
-- 
+### Andy(20%)
+- Implemented documention using sphinx 
+- documented and reviewed code 
+- Format the documentation to be visually appealing 
 
 ### Matanya (30%)
 - Implemented storing and loading function for games in Pyarcade
