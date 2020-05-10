@@ -126,10 +126,11 @@ api.add_resource(UserResource, '/users/<int:user_id>')
 
 
 class Save(db.Model):
-    __tablename__ = 'Games'
+    __tablename__ = 'Saves'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     player_id = db.Column(db.Integer, db.ForeignKey('Users.id'), nullable=False)
+    game_name = db.Column(db.String(32), nullable=False)
     save_name = db.Column(db.String(128), unique=True, nullable=False)
     save = db.Column(db.BLOB, unique=False, nullable=False)
 
@@ -158,7 +159,7 @@ class SaveListResource(Resource):
         Returns:
             Dictionary describing game that was just created.
         """
-        new_save = Save(player_id=user_id, save_name=request.json['save_name'],
+        new_save = Save(player_id=user_id, game_name=request.json['game_name'], save_name=request.json['save_name'],
                         save=request.json['save'])
         db.session.add(new_save)
         db.session.commit()
@@ -426,7 +427,7 @@ def save(game):
 
         current_game = input_system.get_current_game()
         game_pickle = pickle.dumps(current_game)
-        new_save = Save(player_id=current_user.id, save_name=form.save_name.data,
+        new_save = Save(player_id=current_user.id, game_name=game, save_name=form.save_name.data,
                         save=game_pickle)
 
         db.session.add(new_save)
@@ -436,6 +437,29 @@ def save(game):
         return redirect(url_for('play', game=game))
 
     return render_template('save.html', game_subdir=game, form=form)
+
+
+@app.route('/game/<game>/load', methods=['GET', 'POST'])
+@login_required
+def load(game):
+    form = SaveForm()
+
+    game_saves = Save.query.filter_by(game_name=game)
+    saves = ''
+    for saved_game in game_saves:
+        saves += saved_game.save_name + "\n"
+
+    saves = saves.splitlines()
+    if form.validate_on_submit():
+        picked_save = Save.query.filter_by(save_name=form.save_name.data).first()
+        if picked_save and picked_save.player_id == current_user.id:
+            input_system.set_current_game(pickle.loads(picked_save.save))
+            flash(f'{picked_save.save_name} successfully loaded!', 'success')
+            return redirect(url_for('play', game=game))
+
+        flash('This save does not exist. Please type in a save from the list', 'danger')
+
+    return render_template('load.html', game_subdir=game, form=form, saved_games=saves)
 
 
 @app.route('/login', methods=['GET', 'POST'])
