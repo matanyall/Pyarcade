@@ -123,7 +123,7 @@ class Mastermind:
         return 'mastermind'
 
     @staticmethod
-    def display_help():
+    def get_help():
         """displays the help instructions
         Return:
             String: type a 4 digit number to guess a 4 digit secret number" 
