@@ -17,7 +17,7 @@ PyArcade is an arcade with a variety of games ranging from simpler guessing
 games to more complex strategical games.
 
 ## Setup
-Visit [pyarcade.tk](pyarcade.tk) to
+Visit [pyarcade.tk](http://pyarcade.tk) to
 access PyArcade over the internet or download it using the following steps to
 run it locally.
 
