@@ -293,10 +293,10 @@ class FriendsListResource(Resource):
     """
 
     def get(self) -> List[dict]:
-        """Get all high scores.
+        """Get all friends.
 
         Returns:
-            List[dict]: all high scores
+            List[dict]: all friends
         """
         return [{
             "id": friend.id,
@@ -304,10 +304,10 @@ class FriendsListResource(Resource):
         } for friend in Friend.query.all()]
 
     def post(self) -> dict:
-        """Add a high score.
+        """Add a friend.
 
         Returns:
-            dict: high score that is created
+            dict: friend that is created
         """
         new_friend = Friend(
             friend_name=request.json["friend_name"],
