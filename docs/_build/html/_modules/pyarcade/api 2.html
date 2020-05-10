@@ -1,0 +1,714 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyarcade.api &mdash; pyarcade  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pyarcade
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pyarcade_extension</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyarcade</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyarcade.api</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyarcade.api</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="k">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">flash</span>
+<span class="kn">from</span> <span class="nn">flask_sqlalchemy</span> <span class="k">import</span> <span class="n">SQLAlchemy</span>
+<span class="kn">from</span> <span class="nn">flask_restful</span> <span class="k">import</span> <span class="n">Api</span><span class="p">,</span> <span class="n">Resource</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="k">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">url_for</span>
+<span class="kn">from</span> <span class="nn">flask_bootstrap</span> <span class="k">import</span> <span class="n">Bootstrap</span>
+<span class="kn">from</span> <span class="nn">flask_wtf</span> <span class="k">import</span> <span class="n">FlaskForm</span>
+<span class="kn">from</span> <span class="nn">wtforms</span> <span class="k">import</span> <span class="n">StringField</span><span class="p">,</span> <span class="n">PasswordField</span><span class="p">,</span> <span class="n">BooleanField</span>
+<span class="kn">from</span> <span class="nn">wtforms.validators</span> <span class="k">import</span> <span class="n">InputRequired</span><span class="p">,</span> <span class="n">Length</span>
+<span class="kn">from</span> <span class="nn">flask_login</span> <span class="k">import</span> <span class="n">LoginManager</span><span class="p">,</span> <span class="n">UserMixin</span><span class="p">,</span> <span class="n">login_user</span><span class="p">,</span> <span class="n">login_required</span><span class="p">,</span> <span class="n">logout_user</span><span class="p">,</span> <span class="n">current_user</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">pyarcade.input_system</span> <span class="k">import</span> <span class="n">InputSystem</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="n">input_system</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;SQLALCHEMY_TRACK_MODIFICATIONS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;d9eae96b0e36281c7de5759e5d1aa7740426000710b2db47&#39;</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;SQLALCHEMY_DATABASE_URI&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;mysql+pymysql://root@db:3306/pyarcadedb&#39;</span>
+
+<span class="n">bootstrap</span> <span class="o">=</span> <span class="n">Bootstrap</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">SQLAlchemy</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">Api</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+<span class="n">login_manager</span> <span class="o">=</span> <span class="n">LoginManager</span><span class="p">()</span>
+<span class="n">login_manager</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+<span class="n">login_manager</span><span class="o">.</span><span class="n">login_view</span> <span class="o">=</span> <span class="s1">&#39;login&#39;</span>
+
+
+<div class="viewcode-block" id="User"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.User">[docs]</a><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">UserMixin</span><span class="p">,</span> <span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A SQLAlchemy Model used to store information about a user. This only</span>
+<span class="sd">    needs to have a collection of class variables that are of type db.Column.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;Users&#39;</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">128</span><span class="p">),</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">passwd</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<span class="nd">@login_manager</span><span class="o">.</span><span class="n">user_loader</span>
+<span class="k">def</span> <span class="nf">load_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">):</span>
+
+    <span class="k">return</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">user_id</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="UserListResource"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.UserListResource">[docs]</a><span class="k">class</span> <span class="nc">UserListResource</span><span class="p">(</span><span class="n">Resource</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A Resource is a collection of routes (think URLs) that map to these functions.</span>
+<span class="sd">    For a REST API, we have GET, PUT, POST, PATCH, DELETE, etc. Here we just define</span>
+<span class="sd">    functions that map to the REST API verbs, later we map this to a specific URL</span>
+<span class="sd">    with api.add_resource</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="UserListResource.get"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.UserListResource.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Responds to http://[domain or IP]:[port (default 5000)]/users</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List: a list of dictionaries describing all users in the database. We should only include some information if</span>
+<span class="sd">            passwords or other personal information is involved.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[{</span><span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">}</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()]</span></div>
+
+<div class="viewcode-block" id="UserListResource.post"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.UserListResource.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Responds to http://[domain or IP]:[port (default 5000)]/users.</span>
+
+<span class="sd">        Adds a new user to the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary describing user that was just created.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">],</span> <span class="n">passwd</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">])</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_user</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s2">&quot;username&quot;</span><span class="p">]}</span></div></div>
+
+
+<div class="viewcode-block" id="UserResource"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.UserResource">[docs]</a><span class="k">class</span> <span class="nc">UserResource</span><span class="p">(</span><span class="n">Resource</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; UserResource is slightly different from UserListResource as these functions will only respond</span>
+<span class="sd">    to Responds to http://[domain or IP]:[port (default 5000)]/users/&lt;user_id&gt; so these are always</span>
+<span class="sd">    executed in the context of a specific user.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="UserResource.get"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.UserResource.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Responds to http://[domain or IP]:[port (default 5000)]/users/&lt;user_id&gt;</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary describing user by user_id</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get_or_404</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="UserResource.patch"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.UserResource.patch">[docs]</a>    <span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Responds to http://[domain or IP]:[port (default 5000)]/users/&lt;user_id&gt;</span>
+
+<span class="sd">        This is used to update an existing user.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">           Dictionary describing user that was changed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get_or_404</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;username&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">:</span>
+            <span class="n">user</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span>
+
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="UserResource.delete"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.UserResource.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Responds to http://[domain or IP]:[port (default 5000)]/users/&lt;user_id&gt;</span>
+
+<span class="sd">        This is used to delete an existing user</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">           Dictionary describing user that was changed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get_or_404</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">204</span></div></div>
+
+
+<span class="n">api</span><span class="o">.</span><span class="n">add_resource</span><span class="p">(</span><span class="n">UserListResource</span><span class="p">,</span> <span class="s1">&#39;/users&#39;</span><span class="p">)</span>
+<span class="n">api</span><span class="o">.</span><span class="n">add_resource</span><span class="p">(</span><span class="n">UserResource</span><span class="p">,</span> <span class="s1">&#39;/users/&lt;int:user_id&gt;&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Game"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.Game">[docs]</a><span class="k">class</span> <span class="nc">Game</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A SQLAlchemy Model used to store information about a Game and its state</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        id (int): id of game save</span>
+<span class="sd">        player_id (int): id of player associated with save</span>
+<span class="sd">        save_name (str): name of game save</span>
+<span class="sd">        save (BLOB): save object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;GameDB&#39;</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">autoincrement</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">player_id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">save_name</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">128</span><span class="p">),</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">save</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">BLOB</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GameListResource"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.GameListResource">[docs]</a><span class="k">class</span> <span class="nc">GameListResource</span><span class="p">(</span><span class="n">Resource</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A Resource is a collection of routes (think URLs) that map to these functions.</span>
+<span class="sd">    For a REST API, we have GET, PUT, POST, PATCH, DELETE, etc. Here we just define</span>
+<span class="sd">    functions that map to the REST API verbs, later we map this to a specific URL</span>
+<span class="sd">    with api.add_resource</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GameListResource.get"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.GameListResource.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Responds to http://[domain or IP]:[port (default 5000)]/game</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of dictionaries describing all games in the database.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[{</span><span class="s2">&quot;save_name&quot;</span><span class="p">:</span> <span class="n">game</span><span class="o">.</span><span class="n">save_name</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">game</span><span class="o">.</span><span class="n">id</span><span class="p">}</span> <span class="k">for</span> <span class="n">game</span> <span class="ow">in</span> <span class="n">Game</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()]</span></div>
+
+<div class="viewcode-block" id="GameListResource.post"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.GameListResource.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Responds to http://[domain or IP]:[port (default 5000)]/games.</span>
+
+<span class="sd">        Adds a new game to the database.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary describing game that was just created.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_save</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">player_id</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;player_id&#39;</span><span class="p">],</span> <span class="n">save_name</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;save_name&#39;</span><span class="p">],</span>
+                        <span class="n">save</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;save&#39;</span><span class="p">])</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_save</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;save_name&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s2">&quot;save_name&quot;</span><span class="p">]}</span></div></div>
+
+
+<div class="viewcode-block" id="GameResource"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.GameResource">[docs]</a><span class="k">class</span> <span class="nc">GameResource</span><span class="p">(</span><span class="n">Resource</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; GameResource is slightly different from GameListResource as these functions will only respond</span>
+<span class="sd">    to Responds to http://[domain or IP]:[port (default 5000)]/games/&lt;game_id&gt; so these are always</span>
+<span class="sd">    executed in the context of a specific game.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GameResource.get"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.GameResource.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Responds to http://[domain or IP]:[port (default 5000)]/games/&lt;game_id&gt;</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary describing user by game_id</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get_or_404</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">game</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s2">&quot;save_name&quot;</span><span class="p">:</span> <span class="n">game</span><span class="o">.</span><span class="n">save_name</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="GameResource.patch"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.GameResource.patch">[docs]</a>    <span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Responds to http://[domain or IP]:[port (default 5000)]/games/&lt;game_id&gt;</span>
+
+<span class="sd">        This is used to update an existing game.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">           Dictionary describing game that was changed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get_or_404</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;save_name&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">:</span>
+            <span class="n">game</span><span class="o">.</span><span class="n">save_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;save_name&#39;</span><span class="p">]</span>
+
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">game</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s2">&quot;save_name&quot;</span><span class="p">:</span> <span class="n">game</span><span class="o">.</span><span class="n">save_name</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="GameResource.delete"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.GameResource.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Responds to http://[domain or IP]:[port (default 5000)]/games/&lt;game_id&gt;</span>
+
+<span class="sd">        This is used to delete an existing game</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">           Dictionary describing game that was changed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get_or_404</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">game</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">204</span></div></div>
+
+
+<span class="n">api</span><span class="o">.</span><span class="n">add_resource</span><span class="p">(</span><span class="n">GameListResource</span><span class="p">,</span> <span class="s1">&#39;/games&#39;</span><span class="p">)</span>
+<span class="n">api</span><span class="o">.</span><span class="n">add_resource</span><span class="p">(</span><span class="n">GameResource</span><span class="p">,</span> <span class="s1">&#39;/games/&lt;int:game_id&gt;&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="LoginForm"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.LoginForm">[docs]</a><span class="k">class</span> <span class="nc">LoginForm</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Represents a login form that is used to send the fields a User fills out to authenticate via REST</span>
+
+<span class="sd">    Args: </span>
+<span class="sd">        username (str): username field of user </span>
+<span class="sd">        Password (str): password field of user </span>
+<span class="sd">        remember (bool): boolean field checked to remember user</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">username</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="n">Length</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">15</span><span class="p">)])</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">PasswordField</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="n">Length</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">80</span><span class="p">)])</span>
+    <span class="n">remember</span> <span class="o">=</span> <span class="n">BooleanField</span><span class="p">(</span><span class="s1">&#39;remember me&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RegisterForm"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.RegisterForm">[docs]</a><span class="k">class</span> <span class="nc">RegisterForm</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Represents a form that allows a user to store fields required to register for a pyaracade account via REST </span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        username (str): username field of user being registered</span>
+<span class="sd">        password (str): password field of user being registered</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="n">Length</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">15</span><span class="p">)])</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">PasswordField</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="n">Length</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">80</span><span class="p">)])</span></div>
+
+
+<div class="viewcode-block" id="GameForm"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.GameForm">[docs]</a><span class="k">class</span> <span class="nc">GameForm</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Represents a form to store fields required to record the input from the user on pyarcade website</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        input(str): game menu option field</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">input</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="SaveForm"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.SaveForm">[docs]</a><span class="k">class</span> <span class="nc">SaveForm</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Represents a form to store fields required to record the save name </span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        save_name (str): name of save </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">save_name</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="n">Length</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">15</span><span class="p">)])</span></div>
+
+
+<div class="viewcode-block" id="index"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.index">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;default route. Displays home page </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;index.html&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="mastermind"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.mastermind">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/mastermind&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">mastermind</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;routes to /mastermind. Displays mastermind ui and allows user to interact and play mastermind</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">GameForm</span><span class="p">()</span>
+
+    <span class="n">user_input</span> <span class="o">=</span> <span class="s2">&quot;New Game&quot;</span>
+    <span class="k">if</span> <span class="n">input_system</span><span class="o">.</span><span class="n">get_current_game</span><span class="p">():</span>
+        <span class="n">input_system</span><span class="o">.</span><span class="n">game_to_load</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">current_game</span>
+        <span class="n">user_input</span> <span class="o">=</span> <span class="s2">&quot;Continue&quot;</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+            <span class="n">user_input</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">output_lines</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s1">&#39;mastermind&#39;</span><span class="p">,</span> <span class="n">user_input</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;mastermind.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">,</span> <span class="n">output_lines</span><span class="o">=</span><span class="n">output_lines</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">game_option</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">&quot;option&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">game_option</span> <span class="o">==</span> <span class="s2">&quot;Quit&quot;</span><span class="p">:</span>
+                <span class="n">input_system</span><span class="o">.</span><span class="n">set_current_game</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;dashboard&#39;</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">game_option</span> <span class="o">==</span> <span class="s2">&quot;Save&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">game_option</span> <span class="o">==</span> <span class="s2">&quot;Help&quot;</span><span class="p">:</span>
+                <span class="n">flash</span><span class="p">(</span><span class="n">input_system</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s1">&#39;mastermind&#39;</span><span class="p">,</span> <span class="n">game_option</span><span class="o">.</span><span class="n">lower</span><span class="p">()),</span> <span class="s1">&#39;info&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;mastermind&#39;</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">output_lines</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s1">&#39;mastermind&#39;</span><span class="p">,</span> <span class="n">game_option</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;mastermind.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">,</span> <span class="n">output_lines</span><span class="o">=</span><span class="n">output_lines</span><span class="p">)</span>
+
+    <span class="n">output_lines</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s1">&#39;mastermind&#39;</span><span class="p">,</span> <span class="n">user_input</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;mastermind.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">,</span> <span class="n">output_lines</span><span class="o">=</span><span class="n">output_lines</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="minesweeper"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.minesweeper">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/minesweeper&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">minesweeper</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;routes to /minesweeper. Displays minesweeper ui and allows user to interact and play minesweeper</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">GameForm</span><span class="p">()</span>
+
+    <span class="n">user_input</span> <span class="o">=</span> <span class="s2">&quot;New Game&quot;</span>
+    <span class="n">output_lines</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">input_system</span><span class="o">.</span><span class="n">get_current_game</span><span class="p">():</span>
+        <span class="n">input_system</span><span class="o">.</span><span class="n">game_to_load</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">current_game</span>
+        <span class="n">user_input</span> <span class="o">=</span> <span class="s2">&quot;Continue&quot;</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+            <span class="n">user_input</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">output_lines</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s1">&#39;minesweeper&#39;</span><span class="p">,</span> <span class="n">user_input</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">game_option</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">&quot;option&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">game_option</span> <span class="o">==</span> <span class="s2">&quot;Quit&quot;</span><span class="p">:</span>
+                <span class="n">input_system</span><span class="o">.</span><span class="n">set_current_game</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;dashboard&#39;</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">game_option</span> <span class="o">==</span> <span class="s2">&quot;Save&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">game_option</span> <span class="o">==</span> <span class="s2">&quot;Help&quot;</span><span class="p">:</span>
+                <span class="n">flash</span><span class="p">(</span><span class="n">input_system</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s1">&#39;minesweeper&#39;</span><span class="p">,</span> <span class="n">game_option</span><span class="o">.</span><span class="n">lower</span><span class="p">()),</span> <span class="s1">&#39;info&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;minesweeper&#39;</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">output_lines</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s1">&#39;minesweeper&#39;</span><span class="p">,</span> <span class="n">game_option</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">user_input</span> <span class="o">==</span> <span class="s2">&quot;New Game&quot;</span><span class="p">:</span>
+        <span class="n">output_lines</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s1">&#39;minesweeper&#39;</span><span class="p">,</span> <span class="n">user_input</span><span class="p">)</span>
+
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">minesweeper_game</span><span class="o">.</span><span class="n">hidden_grid</span>
+    <span class="n">output_grid</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">row_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">col_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">row_idx</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">col_idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">output_grid</span><span class="p">[</span><span class="n">row_idx</span><span class="p">][</span><span class="n">col_idx</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
+            <span class="k">elif</span> <span class="n">row_idx</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">col_idx</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">output_grid</span><span class="p">[</span><span class="n">row_idx</span><span class="p">][</span><span class="n">col_idx</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">col_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">row_idx</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">col_idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">output_grid</span><span class="p">[</span><span class="n">row_idx</span><span class="p">][</span><span class="n">col_idx</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">row_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">row_idx</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">col_idx</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">input_system</span><span class="o">.</span><span class="n">minesweeper_game</span><span class="o">.</span><span class="n">game_state</span> <span class="o">!=</span> <span class="s2">&quot;Game over.&quot;</span> <span class="ow">and</span> <span class="n">grid</span><span class="p">[</span><span class="n">row_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">col_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
+                    <span class="n">output_grid</span><span class="p">[</span><span class="n">row_idx</span><span class="p">][</span><span class="n">col_idx</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot; - &quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">output_grid</span><span class="p">[</span><span class="n">row_idx</span><span class="p">][</span><span class="n">col_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">row_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">col_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">output_lines</span> <span class="o">=</span> <span class="n">output_lines</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">output_lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">output_lines</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">output_lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Game reset&quot;</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">output_lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="s2">&quot;===&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output_lines</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">output_lines</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">output_lines</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">output_lines</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;minesweeper.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">,</span> <span class="n">output_grid</span><span class="o">=</span><span class="n">output_grid</span><span class="p">,</span> <span class="n">game_status</span><span class="o">=</span><span class="n">output</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="crazy_eights"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.crazy_eights">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/crazy_eights&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">crazy_eights</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;routes to /crazy_eights. Displays crazy eights ui and allows user to interact and play crazy eights </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">GameForm</span><span class="p">()</span>
+
+    <span class="n">user_input</span> <span class="o">=</span> <span class="s2">&quot;New Game&quot;</span>
+    <span class="k">if</span> <span class="n">input_system</span><span class="o">.</span><span class="n">get_current_game</span><span class="p">():</span>
+        <span class="n">input_system</span><span class="o">.</span><span class="n">game_to_load</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">current_game</span>
+        <span class="n">user_input</span> <span class="o">=</span> <span class="s2">&quot;Continue&quot;</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+            <span class="n">user_input</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">output_lines</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s1">&#39;Crazy Eights&#39;</span><span class="p">,</span> <span class="n">user_input</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;crazy_eights.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">,</span> <span class="n">output_lines</span><span class="o">=</span><span class="n">output_lines</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">game_option</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">&quot;option&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">game_option</span> <span class="o">==</span> <span class="s2">&quot;Quit&quot;</span><span class="p">:</span>
+                <span class="n">input_system</span><span class="o">.</span><span class="n">set_current_game</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;dashboard&#39;</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">game_option</span> <span class="o">==</span> <span class="s2">&quot;Save&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">game_option</span> <span class="o">==</span> <span class="s2">&quot;Help&quot;</span><span class="p">:</span>
+                <span class="n">flash</span><span class="p">(</span><span class="n">input_system</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s1">&#39;Crazy Eights&#39;</span><span class="p">,</span> <span class="n">game_option</span><span class="o">.</span><span class="n">lower</span><span class="p">()),</span> <span class="s1">&#39;info&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;crazy_eights&#39;</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">output_lines</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s1">&#39;Crazy Eights&#39;</span><span class="p">,</span> <span class="n">game_option</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;crazy_eights.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">,</span> <span class="n">output_lines</span><span class="o">=</span><span class="n">output_lines</span><span class="p">)</span>
+
+    <span class="n">output_lines</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s1">&#39;Crazy Eights&#39;</span><span class="p">,</span> <span class="n">user_input</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;crazy_eights.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">,</span> <span class="n">output_lines</span><span class="o">=</span><span class="n">output_lines</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="blackjack"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.blackjack">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/blackjack&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">blackjack</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;routes to blackjack, displays blackjack ui and allows user to interact and play blackjack</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">GameForm</span><span class="p">()</span>
+
+    <span class="n">user_input</span> <span class="o">=</span> <span class="s2">&quot;New Game&quot;</span>
+    <span class="k">if</span> <span class="n">input_system</span><span class="o">.</span><span class="n">get_current_game</span><span class="p">():</span>
+        <span class="n">input_system</span><span class="o">.</span><span class="n">game_to_load</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">current_game</span>
+        <span class="n">user_input</span> <span class="o">=</span> <span class="s2">&quot;Continue&quot;</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+            <span class="n">user_input</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">output_lines</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s1">&#39;blackjack&#39;</span><span class="p">,</span> <span class="n">user_input</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;blackjack.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">,</span> <span class="n">output_lines</span><span class="o">=</span><span class="n">output_lines</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">game_option</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">&quot;option&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">game_option</span> <span class="o">==</span> <span class="s2">&quot;Quit&quot;</span><span class="p">:</span>
+                <span class="n">input_system</span><span class="o">.</span><span class="n">set_current_game</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;dashboard&#39;</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">game_option</span> <span class="o">==</span> <span class="s2">&quot;Save&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">game_option</span> <span class="o">==</span> <span class="s2">&quot;Help&quot;</span><span class="p">:</span>
+                <span class="n">flash</span><span class="p">(</span><span class="n">input_system</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s1">&#39;blackjack&#39;</span><span class="p">,</span> <span class="n">game_option</span><span class="o">.</span><span class="n">lower</span><span class="p">()),</span> <span class="s1">&#39;info&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;blackjack&#39;</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">output_lines</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s1">&#39;blackjack&#39;</span><span class="p">,</span> <span class="n">game_option</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;blackjack.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">,</span> <span class="n">output_lines</span><span class="o">=</span><span class="n">output_lines</span><span class="p">)</span>
+
+    <span class="n">output_lines</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s1">&#39;blackjack&#39;</span><span class="p">,</span> <span class="n">user_input</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;blackjack.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">,</span> <span class="n">output_lines</span><span class="o">=</span><span class="n">output_lines</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="save"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.save">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/save&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">save</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;routes to /save displays save form and allows user to save game to database</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">SaveForm</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+        <span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">save_name</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">save_name</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">game</span> <span class="ow">and</span> <span class="n">game</span><span class="o">.</span><span class="n">player_id</span> <span class="o">==</span> <span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
+            <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Save name already exists. Please choose another&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;save.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span>
+
+        <span class="n">current_game</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">get_current_game</span><span class="p">()</span>
+        <span class="n">game_pickle</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">current_game</span><span class="p">)</span>
+        <span class="n">new_save</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">player_id</span><span class="o">=</span><span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">save_name</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">save_name</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                        <span class="n">save</span><span class="o">=</span><span class="n">game_pickle</span><span class="p">)</span>
+
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_save</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+        <span class="n">flash</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{form.save_name.data}</span><span class="s1"> successfully saved!&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="n">current_game</span><span class="o">.</span><span class="n">display_game_name</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
+
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;save.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="login"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.login">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/login&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">login</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;routes to /login , displays login page and allows a user to login.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">LoginForm</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">username</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">user</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">passwd</span> <span class="o">==</span> <span class="n">form</span><span class="o">.</span><span class="n">password</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+                <span class="n">login_user</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">remember</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">remember</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;dashboard&#39;</span><span class="p">))</span>
+
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Login Unsuccessful. Please check username and password&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;login.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="signup"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.signup">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/signup&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">signup</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;routes to /signup displays signup page and allows user to sign up for pyarcade</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">RegisterForm</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">username</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">user</span><span class="p">:</span>
+            <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Username already in use. Please choose another.&#39;</span><span class="p">,</span> <span class="s1">&#39;danger&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;signup.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span>
+
+        <span class="n">new_user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">username</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">passwd</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">password</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_user</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+        <span class="n">flash</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Account created for </span><span class="si">{form.username.data}</span><span class="s1">!&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;signup.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="dashboard"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.dashboard">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/dashboard&#39;</span><span class="p">)</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">dashboard</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; routes to /dashboard displays user dashboard</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;dashboard.html&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">current_user</span><span class="o">.</span><span class="n">username</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="logout"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.logout">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/logout&#39;</span><span class="p">)</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">logout</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;routes to /logout. Logs out the user </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">logout_user</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="create_app"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.api.create_app">[docs]</a><span class="k">def</span> <span class="nf">create_app</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This is used as a factory function for creating the entire application instance</span>
+<span class="sd">    when the application is first run. Best practices for FLASK is to allow creating an</span>
+<span class="sd">    application instance ONLY using this function for very good reasons, but this</span>
+<span class="sd">    is good enough to use for now.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">app</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, group 12
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

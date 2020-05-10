@@ -1,0 +1,485 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyarcade.input_system &mdash; pyarcade  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pyarcade
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pyarcade_extension</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyarcade</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyarcade.input_system</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyarcade.input_system</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pyarcade.games.mastermind</span> <span class="kn">import</span> <span class="n">Mastermind</span>
+<span class="kn">from</span> <span class="nn">pyarcade.games.minesweeper</span> <span class="kn">import</span> <span class="n">Minesweeper</span>
+<span class="kn">from</span> <span class="nn">pyarcade.games.card</span> <span class="kn">import</span> <span class="n">Rank</span><span class="p">,</span> <span class="n">Suit</span><span class="p">,</span> <span class="n">Card</span>
+<span class="kn">from</span> <span class="nn">pyarcade.games.crazy_eights</span> <span class="kn">import</span> <span class="n">CrazyEights</span>
+<span class="kn">from</span> <span class="nn">pyarcade.games.blackjack</span> <span class="kn">import</span> <span class="n">Blackjack</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="n">_SUPPORTED_GAMES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;blackjack&#39;</span><span class="p">:</span> <span class="s1">&#39;Blackjack&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;crazy_eights&#39;</span><span class="p">:</span> <span class="s1">&#39;Crazy Eights&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;mastermind&#39;</span><span class="p">:</span> <span class="s1">&#39;Mastermind&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;minesweeper&#39;</span><span class="p">:</span> <span class="s1">&#39;Minesweeper&#39;</span>
+<span class="p">}</span>
+
+<span class="n">MASTERMIND_WIDTH</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">CRAZY_EIGHTS_NUM_PLAYERS</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">CRAZY_EIGHTS_PLAYER_NUM</span> <span class="o">=</span> <span class="mi">1</span>
+
+
+<div class="viewcode-block" id="InputSystem"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.input_system.InputSystem">[docs]</a><span class="k">class</span> <span class="nc">InputSystem</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Class that handles input for all games </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mastermind_game</span> <span class="o">=</span> <span class="n">Mastermind</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">minesweeper_game</span> <span class="o">=</span> <span class="n">Minesweeper</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span> <span class="o">=</span> <span class="n">CrazyEights</span><span class="p">(</span><span class="n">CRAZY_EIGHTS_NUM_PLAYERS</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">blackjack_game</span> <span class="o">=</span> <span class="n">Blackjack</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">game_to_load</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_game</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_supported_games</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">_SUPPORTED_GAMES</span>
+
+<div class="viewcode-block" id="InputSystem.get_current_game"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.input_system.InputSystem.get_current_game">[docs]</a>    <span class="k">def</span> <span class="nf">get_current_game</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;getter for current game</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            game: return current game which could be any of the games in pyarcade </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_game</span></div>
+
+<div class="viewcode-block" id="InputSystem.set_current_game"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.input_system.InputSystem.set_current_game">[docs]</a>    <span class="k">def</span> <span class="nf">set_current_game</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;setter for current game</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            game: is the game that you are setting current game to could be </span>
+<span class="sd">                    any type of game within pyarcade</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_game</span> <span class="o">=</span> <span class="n">game</span></div>
+
+<div class="viewcode-block" id="InputSystem.set_game_to_load"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.input_system.InputSystem.set_game_to_load">[docs]</a>    <span class="k">def</span> <span class="nf">set_game_to_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;setter for game to load</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            game: is the game that you are setting game to load to could be </span>
+<span class="sd">                    any type of game within pyarcade</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">game_to_load</span> <span class="o">=</span> <span class="n">game</span></div>
+
+<div class="viewcode-block" id="InputSystem.handle_game_input"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.input_system.InputSystem.handle_game_input">[docs]</a>    <span class="k">def</span> <span class="nf">handle_game_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user_input</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handles input given game name (mastermind, minesweeper, crazy eights, blackjack, etc) and user input and returns the correct output based on which</span>
+<span class="sd">        game and the option that is selected. </span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            game_name (str): name of the game to check input against</span>
+<span class="sd">            user_input (str): user input representing which choice from main menu options is chosen</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">game_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;mastermind&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;new game&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mastermind_game</span> <span class="o">=</span> <span class="n">Mastermind</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">current_game</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mastermind_game</span>
+                <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Mastermind</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="k">elif</span> <span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;continue&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Mastermind</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_mastermind_input</span><span class="p">(</span><span class="n">user_input</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">game_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;minesweeper&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;new game&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">minesweeper_game</span> <span class="o">=</span> <span class="n">Minesweeper</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">current_game</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">minesweeper_game</span>
+                <span class="k">return</span> <span class="s2">&quot;Minesweeper</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">minesweeper_game</span><span class="o">.</span><span class="n">draw_board</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;continue&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;Minesweeper</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">minesweeper_game</span><span class="o">.</span><span class="n">draw_board</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_minesweeper_input</span><span class="p">(</span><span class="n">user_input</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">game_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;crazy eights&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;new game&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span> <span class="o">=</span> <span class="n">CrazyEights</span><span class="p">(</span><span class="n">CRAZY_EIGHTS_NUM_PLAYERS</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">current_game</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span>
+                <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Crazy Eights</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">game_state</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Top Card: &quot;</span> \
+                       <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">show_top_card</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; </span><span class="se">\n\n</span><span class="s2">Player Hand: </span><span class="se">\n</span><span class="s2">&quot;</span> \
+                       <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">show_player_hand</span><span class="p">(</span><span class="n">CRAZY_EIGHTS_PLAYER_NUM</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="k">elif</span> <span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;continue&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Crazy Eights</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">game_state</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Top Card: &quot;</span> \
+                       <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">show_top_card</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; </span><span class="se">\n\n</span><span class="s2">Player Hand: </span><span class="se">\n</span><span class="s2">&quot;</span> \
+                       <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">show_player_hand</span><span class="p">(</span><span class="n">CRAZY_EIGHTS_PLAYER_NUM</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_crazy_eights_input</span><span class="p">(</span><span class="n">user_input</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">game_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;blackjack&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;new game&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">blackjack_game</span> <span class="o">=</span> <span class="n">Blackjack</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">current_game</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blackjack_game</span>
+                <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Blackjack</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">House&#39;s revealed card: &quot;</span> \
+                       <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blackjack_game</span><span class="o">.</span><span class="n">house</span><span class="o">.</span><span class="n">get_cards</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; </span><span class="se">\n\n</span><span class="s2">Player Hand: </span><span class="se">\n</span><span class="s2">&quot;</span> \
+                       <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blackjack_game</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">get_cards</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> \
+                       <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blackjack_game</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">get_cards</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="k">elif</span> <span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;continue&quot;</span><span class="p">:</span>
+                <span class="n">win_status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blackjack_game</span><span class="o">.</span><span class="n">win_condition</span><span class="p">()</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">blackjack_game</span><span class="o">.</span><span class="n">display_state</span><span class="p">(</span><span class="n">win_status</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_blackjack_input</span><span class="p">(</span><span class="n">user_input</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;Invalid game provided.&quot;</span></div>
+
+<div class="viewcode-block" id="InputSystem.handle_mastermind_input"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.input_system.InputSystem.handle_mastermind_input">[docs]</a>    <span class="k">def</span> <span class="nf">handle_mastermind_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">guess_input</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Accesses the mastermind game and runs mastermind logic based on user input and returns result for</span>
+<span class="sd">        start.py to print out.This function acts as a handler that calls the functions associated with the mastermind to allow the player to progress in the game or execute game specific menu options</span>
+<span class="sd">        chosen and then returns the output.</span>
+<span class="sd">            </span>
+<span class="sd">        Args:</span>
+<span class="sd">            guess_input (str): input that decides which menu option to take or guess to evaluate</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            hidden_sequence List[int]: A sequence of integers to be guessed by the player.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">guess_input</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">guess_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;clear&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mastermind_game</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">guess_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;reset&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mastermind_game</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">guess_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;help&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mastermind_game</span><span class="o">.</span><span class="n">get_help</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">guess_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;state&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mastermind_game</span><span class="o">.</span><span class="n">game_state</span>
+            <span class="k">if</span> <span class="n">guess_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;save&quot;</span><span class="p">:</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mastermind_game</span>
+                <span class="k">return</span> <span class="n">output</span>
+            <span class="k">if</span> <span class="n">guess_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;load&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mastermind_game</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_to_load</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mastermind_game</span><span class="o">.</span><span class="n">game_state</span>
+
+            <span class="n">guess</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">guess_input</span><span class="p">)</span>
+            <span class="n">guess_output</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">guess</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">guess</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+                    <span class="n">guess_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">guess</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">guess_output</span><span class="p">)</span> <span class="o">==</span> <span class="n">MASTERMIND_WIDTH</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mastermind_game</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">guess_output</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;Invalid input. Input should be of the form </span><span class="se">\&quot;</span><span class="s2">####</span><span class="se">\&quot;</span><span class="s2">&quot;</span></div>
+
+<div class="viewcode-block" id="InputSystem.handle_minesweeper_input"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.input_system.InputSystem.handle_minesweeper_input">[docs]</a>    <span class="k">def</span> <span class="nf">handle_minesweeper_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location_input</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Accesses the minesweeper game and runs minesweeper logic based on user input and returns result for</span>
+<span class="sd">        start.py to print out.This function acts as a handler that calls the functions associated with minesweeper to allow the player to progress in the game or execute game specific menu options</span>
+<span class="sd">        chosen and then returns the output.</span>
+<span class="sd">            </span>
+<span class="sd">        Args:</span>
+<span class="sd">            location_input (str): location of desired move represented as a string or menu option depending on format</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            board_str (str): a string representation of the minesweeper board </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">location_input</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">two_comma_separated_digits_regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;^\d,\d$&quot;</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">two_comma_separated_digits_regex</span><span class="p">,</span> <span class="n">location_input</span><span class="p">):</span>
+                <span class="n">location_guess</span> <span class="o">=</span> <span class="n">location_input</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">minesweeper_game</span><span class="o">.</span><span class="n">is_valid</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">location_guess</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">location_guess</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">minesweeper_game</span><span class="o">.</span><span class="n">make_move</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">location_guess</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">location_guess</span><span class="p">[</span><span class="mi">1</span><span class="p">])])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="s2">&quot;Guess is out of bounds. Please provide input within the bounds of the grid.&quot;</span>
+            <span class="k">elif</span> <span class="n">location_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;reset&quot;</span><span class="p">:</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">minesweeper_game</span><span class="o">.</span><span class="n">reset_game</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="k">return</span> <span class="n">output</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">minesweeper_game</span><span class="o">.</span><span class="n">draw_board</span><span class="p">()</span>
+
+            <span class="k">elif</span> <span class="n">location_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;save&quot;</span><span class="p">:</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">minesweeper_game</span>
+                <span class="k">return</span> <span class="n">output</span>
+
+            <span class="k">elif</span> <span class="n">location_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;load&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">minesweeper_game</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_to_load</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">minesweeper_game</span><span class="o">.</span><span class="n">draw_board</span><span class="p">()</span>
+
+            <span class="k">elif</span> <span class="n">location_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;clear&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">minesweeper_game</span><span class="o">.</span><span class="n">clear_game_history</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">minesweeper_game</span><span class="o">.</span><span class="n">draw_board</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">location_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;state&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">minesweeper_game</span><span class="o">.</span><span class="n">game_state</span>
+            <span class="k">elif</span> <span class="n">location_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;help&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">minesweeper_game</span><span class="o">.</span><span class="n">get_help</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="s2">&quot;Invalid input. User should specify an x and y coordinate: </span><span class="se">\&quot;</span><span class="s2">&lt;row&gt;,&lt;col&gt;</span><span class="se">\&quot;</span><span class="s2">&quot;</span></div>
+
+<div class="viewcode-block" id="InputSystem.handle_card"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.input_system.InputSystem.handle_card">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">handle_card</span><span class="p">(</span><span class="n">user_card</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Finds a corresponding card based on user input and returns that card of type card. If none exist</span>
+<span class="sd">        it returns None</span>
+<span class="sd">        Args: </span>
+<span class="sd">            user_card (str): string representation of Users card played</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            Card: card with rank and suit specified</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">user_card</span> <span class="o">=</span> <span class="n">user_card</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">user_card</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">for</span> <span class="n">rank</span> <span class="ow">in</span> <span class="n">Rank</span><span class="p">:</span>
+            <span class="n">card_rank</span> <span class="o">=</span> <span class="s2">&quot;rank.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user_card</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">suit</span> <span class="ow">in</span> <span class="n">Suit</span><span class="p">:</span>
+                <span class="n">card_suit</span> <span class="o">=</span> <span class="s2">&quot;suit.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user_card</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+
+                <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">rank</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">card_rank</span> <span class="ow">and</span> <span class="nb">str</span><span class="p">(</span><span class="n">suit</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">card_suit</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">Card</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="n">suit</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="InputSystem.handle_crazy_eights_input"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.input_system.InputSystem.handle_crazy_eights_input">[docs]</a>    <span class="k">def</span> <span class="nf">handle_crazy_eights_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">card_input</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Handles input varying from game menu options such as help, save, clear and game options such as draw</span>
+<span class="sd">         Accesses the crazy eights game and runs crazy eights logic based on user input and returns result for</span>
+<span class="sd">        start.py to print out</span>
+<span class="sd">            </span>
+<span class="sd">        Args:</span>
+<span class="sd">            card_input (str): </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            String: returns what the last card played was in the form of a string </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">card_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;help&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">get_help</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">card_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;clear&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">card_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;state&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">game_state</span>
+        <span class="k">if</span> <span class="n">card_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;save&quot;</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span>
+            <span class="k">return</span> <span class="n">output</span>
+        <span class="k">if</span> <span class="n">card_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;load&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_to_load</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">game_state</span>
+        <span class="k">if</span> <span class="n">card_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;reset&quot;</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">CRAZY_EIGHTS_NUM_PLAYERS</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">game_state</span>
+            <span class="k">return</span> <span class="n">output</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Top Card: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">show_top_card</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Player Hand: </span><span class="se">\n</span><span class="s2">&quot;</span> \
+                   <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">show_player_hand</span><span class="p">(</span><span class="n">CRAZY_EIGHTS_PLAYER_NUM</span><span class="p">)</span>
+        <span class="n">curr_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">game_state</span>
+
+        <span class="k">if</span> <span class="n">card_input</span> <span class="o">==</span> <span class="s1">&#39;draw&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">CRAZY_EIGHTS_PLAYER_NUM</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Top Card: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">show_top_card</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Player Hand: </span><span class="se">\n</span><span class="s2">&quot;</span> \
+                   <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">show_player_hand</span><span class="p">(</span><span class="n">CRAZY_EIGHTS_PLAYER_NUM</span><span class="p">)</span>
+
+        <span class="n">card</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_card</span><span class="p">(</span><span class="n">card_input</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">card</span><span class="p">:</span>
+            <span class="n">not_str</span> <span class="o">=</span> <span class="s1">&#39;not &#39;</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">CRAZY_EIGHTS_PLAYER_NUM</span><span class="p">,</span> <span class="n">card</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+            <span class="n">game_output</span> <span class="o">=</span> <span class="s1">&#39;card </span><span class="si">{}</span><span class="s1"> was &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">card</span><span class="p">))</span> <span class="o">+</span> <span class="n">not_str</span> <span class="o">+</span> <span class="s1">&#39;played </span><span class="se">\n</span><span class="s1">Top Card: &#39;</span> \
+                          <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">show_top_card</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Player Hand: </span><span class="se">\n</span><span class="s2">&quot;</span> \
+                          <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">show_player_hand</span><span class="p">(</span><span class="n">CRAZY_EIGHTS_PLAYER_NUM</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">curr_state</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">game_state</span><span class="p">:</span>
+                <span class="n">score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">players</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">CRAZY_EIGHTS_PLAYER_NUM</span><span class="p">)</span><span class="o">.</span><span class="n">get_score</span><span class="p">()</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">game_state</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Score: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">score</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">game_output</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">game_output</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">invalid_str</span> <span class="o">=</span> <span class="s2">&quot;Invalid input. User should specify either to draw or which card to place (Ex: Eight,&quot;</span> \
+                          <span class="s2">&quot;Spades)</span><span class="se">\n</span><span class="s2"> &quot;</span>
+            <span class="k">return</span> <span class="n">invalid_str</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Top Card: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">show_top_card</span><span class="p">()</span> \
+                   <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Player Hand: </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">crazy_eights_game</span><span class="o">.</span><span class="n">show_player_hand</span><span class="p">(</span><span class="n">CRAZY_EIGHTS_PLAYER_NUM</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystem.handle_blackjack_input"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.input_system.InputSystem.handle_blackjack_input">[docs]</a>    <span class="k">def</span> <span class="nf">handle_blackjack_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_input</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; This Accesses the blackjack game and runs blackjack logic based on user input and returns result for</span>
+<span class="sd">        start.py to print out. This function acts as a handler that calls the functions associated with blackjack to allow the player to progress in the game or execute game specific menu options</span>
+<span class="sd">        chosen and then returns the output.</span>
+<span class="sd">            </span>
+<span class="sd">        Args:</span>
+<span class="sd">            user_input: input from user varying from menu options to game options such as hit or stand</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            String: returns current state of user and house hands </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;help&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">blackjack_game</span><span class="o">.</span><span class="n">get_help</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;reset&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">blackjack_game</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;clear&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">blackjack_game</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;state&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">blackjack_game</span><span class="o">.</span><span class="n">game_state</span>
+        <span class="k">if</span> <span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;save&quot;</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blackjack_game</span>
+            <span class="k">return</span> <span class="n">output</span>
+
+        <span class="k">if</span> <span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;load&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">blackjack_game</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_to_load</span>
+            <span class="n">win_status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blackjack_game</span><span class="o">.</span><span class="n">win_condition</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">blackjack_game</span><span class="o">.</span><span class="n">display_state</span><span class="p">(</span><span class="n">win_status</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;hit&quot;</span> <span class="ow">or</span> <span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;stand&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">blackjack_game</span><span class="o">.</span><span class="n">start_game</span><span class="p">(</span><span class="n">user_input</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;Invalid input. User should specify hit or stand.&quot;</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, group 12
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
