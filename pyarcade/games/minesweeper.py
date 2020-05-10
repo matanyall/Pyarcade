@@ -62,24 +62,23 @@ class Minesweeper:
         Returns:
             board_str (str): string representation of minesweeper board
         """
-        board_string = ""
+        output_grid = ""
+        for row_idx in range(self.height + 1):
+            for col_idx in range(self.width + 1):
+                if row_idx == 0 and col_idx == 0:
+                    output_grid = "X"
+                elif row_idx == 0 and col_idx > 0:
+                    output_grid += (str(col_idx - 1))
+                elif row_idx > 0 and col_idx == 0:
+                    output_grid += (str(row_idx - 1))
+                elif row_idx > 0 and col_idx > 0:
+                    if self.game_state != "Game over." and self.hidden_grid[row_idx - 1][col_idx - 1] == '*':
+                        output_grid += "-"
+                    else:
+                        output_grid += self.hidden_grid[row_idx - 1][col_idx - 1]
+            output_grid += "\n"
 
-        for x in range(0, self.width):
-            board_string += '  %s ' % x
-        board_string += '\n' + '  ' + ('====' * self.width)
-
-        for row in range(self.height):
-            board_string += '\n' + '{idx}|'.format(idx=row)
-            for col in range(self.width):
-                if self.game_state != "Game over." and self.hidden_grid[row][col] == '*':
-                    board_string += ' %s ' % '-' + '|'
-                else:
-                    board_string += ' %s ' % self.hidden_grid[row][col] + '|'
-            if row != self.width - 1:
-                board_string += '\n |' + ('---|' * self.width)
-        board_string += '\n  ' + ('====' * self.width)
-
-        return board_string
+        return output_grid
 
     def count_threebv(self):
         """
@@ -158,10 +157,10 @@ class Minesweeper:
 
         if self.hidden_grid[row_guess][col_guess] == '*':
             self.game_state = "Game over."
-            return Minesweeper.draw_board(self) + "\nBOOM! Game over."
+            return "BOOM! Game over.\n" + self.draw_board()
 
         if self.hidden_grid[row_guess][col_guess] == ' ' or self.hidden_grid[row_guess][col_guess].isdigit():
-            return Minesweeper.draw_board(self) + "\nLocation already uncovered"
+            return "Location already uncovered\n" + self.draw_board()
 
         self.bfs(self.hidden_grid, row_guess, col_guess, False)
 
@@ -169,9 +168,9 @@ class Minesweeper:
             self.game_state = "Game over."
             self.end_time = time.time()
             self.set_score()
-            return Minesweeper.draw_board(self) + "\nCongratulations! You win!"
+            return "Congratulations! You win!\n" + self.draw_board()
 
-        return self.draw_board()
+        return "Minesweeper\n" + self.draw_board()
 
     def bfs(self, grid: [[str]], row_idx: int, col_idx: int, reveal_board: bool):
         """
@@ -240,14 +239,18 @@ class Minesweeper:
     """Define methods that all games are required to implement.
     """
 
-    def get_name(self):
+    @staticmethod
+    def get_name():
         return 'Minesweeper'
 
-    def get_subdir(self) -> str:
+    @staticmethod
+    def get_subdir() -> str:
         return 'minesweeper'
 
-    def get_help(self):
-        return "The goal is to find all the mines in the board by clicking on and revealing the number of mines in the area." \
+    @staticmethod
+    def get_help():
+        return "The goal is to find all the mines in the board by clicking on " \
+               "and revealing the number of mines in the area." \
                "To click on that coordinate in the minesweeper board" \
                "enter coordinates in the format number,number i.e: 4,5" \
-               "dashes represent remaining spaces that are available" \
+               "dashes represent remaining spaces that are available"

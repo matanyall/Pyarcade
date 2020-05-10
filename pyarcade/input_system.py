@@ -54,9 +54,9 @@ class InputSystem:
             if user_input.lower() == "new game":
                 self.minesweeper_game = Minesweeper()
                 self.current_game = self.minesweeper_game
-                return "\nMinesweeper\n\n" + self.minesweeper_game.draw_board() + "\n"
+                return "Minesweeper\n" + self.minesweeper_game.draw_board()
             elif user_input.lower() == "continue":
-                return "\nMinesweeper\n\n" + self.minesweeper_game.draw_board() + "\n"
+                return "Minesweeper\n" + self.minesweeper_game.draw_board()
             return self.handle_minesweeper_input(user_input)
         elif game_name.lower() == "crazy eights":
             if user_input.lower() == "new game":
@@ -125,7 +125,10 @@ class InputSystem:
             two_comma_separated_digits_regex = r"^\d,\d$"
             if re.search(two_comma_separated_digits_regex, location_input):
                 location_guess = location_input.split(',')
-                return self.minesweeper_game.make_move([int(location_guess[0]), int(location_guess[1])])
+                if self.minesweeper_game.is_valid(int(location_guess[0]), int(location_guess[1])):
+                    return self.minesweeper_game.make_move([int(location_guess[0]), int(location_guess[1])])
+                else:
+                    return "Guess is out of bounds. Please provide input within the bounds of the grid."
             elif location_input.lower() == "reset":
                 output = self.minesweeper_game.reset_game() + "\n"
                 return output + self.minesweeper_game.draw_board()
@@ -139,13 +142,13 @@ class InputSystem:
                 return self.minesweeper_game.draw_board()
 
             elif location_input.lower() == "clear":
-                return self.minesweeper_game.clear_game_history()
+                return self.minesweeper_game.clear_game_history() + "\n" + self.minesweeper_game.draw_board()
             elif location_input.lower() == "state":
                 return self.minesweeper_game.game_state
             elif location_input.lower() == "help":
                 return self.minesweeper_game.get_help()
 
-        return "Invalid input. User should specify an x and y coordinate: \"#,#\""
+        return "Invalid input. User should specify an x and y coordinate: \"<row>,<col>\""
 
     @staticmethod
     def handle_card(user_card: str):

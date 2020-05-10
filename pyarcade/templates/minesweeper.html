@@ -11,38 +11,39 @@
 {% endblock %}
 
 {% block subcontent %}
-<table style="width:30%">
-  {% for row in range(output_grid|count) %}
-    <tr>
-      {% for col in range(output_grid[row]|count) %}
-        <td>
-          {{ output_grid[row][col] }}
-        </td>
-      {% endfor %}
-    </tr>
-  {% endfor %}
-</table>
+<div class="container-fluid">
+  <div class="row">
+    <table style="width:30%">
+      <h5 style="text-align:left">{{output_lines[0]}}</h5>
+      {% for row in range(1, output_lines|count) %}
+        <tr>
+          {% for col in range(output_lines[row]|count) %}
+            <td>
+              {{ output_lines[row][col] }}
+            </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    <div class="row placeholders">
+      <div class="col-sm-3 col-sm-3 placeholder">
+        <form class="form-input" method="POST" action="{{ url_for('play', game=game_subdir) }}">
+          <p>Please enter either a guess in the form #,#</p>
+          {{ form.hidden_tag() }}
+          {{ wtf.form_field(form.input) }}
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+        </form>
 
-<div>
-  <h5>{{ game_status }}</h5>
-</div>
-<div class="row placeholders">
-  <div class="col-xs-6 col-sm-3 placeholder">
-    <form class="form-input" method="POST" action="{{ url_for('play', game=game_subdir) }}">
-      <p>Please enter either a guess in the form #,#</p>
-      {{ form.hidden_tag() }}
-      {{ wtf.form_field(form.input) }}
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-    </form>
-
-    <form class="form-options" method="POST" action="{{ url_for('play', game=game_subdir) }}">
-      <h6><input type="submit" name="option" value="New Game"></h6>
-      <h6><input type="submit" name="option" value="Reset"></h6>
-      <h6><input type="submit" name="option" value="Clear"></h6>
-      <h6><input type="submit" name="option" value="Save"></h6>
-      <h6><input type="submit" name="option" value="Help"></h6>
-      <h6><input type="submit" name="option" value="Quit"></h6>
-    </form>
+        <form class="form-options" method="POST" action="{{ url_for('play', game=game_subdir) }}">
+          <h6><input type="submit" name="option" value="New Game"></h6>
+          <h6><input type="submit" name="option" value="Reset"></h6>
+          <h6><input type="submit" name="option" value="Clear"></h6>
+          <h6><input type="submit" name="option" value="Save"></h6>
+          <h6><input type="submit" name="option" value="Help"></h6>
+          <h6><input type="submit" name="option" value="Quit"></h6>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}
