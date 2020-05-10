@@ -80,10 +80,10 @@ uncovers cells, all of the adjacent cells that do not contain mines will be reve
 (User input should be in the form of: #,#)
 
 ## Contributors
-### Jill (35%)
+### Jill (55%)
 - 
 
-### Anders (%)
+### Anders (25%)
 - Refactor Blackjack and Crazy Eights to use uniform Card, Deck, and Player classes
 - Refactor Flask routing and all templates to use Flask variable routing and
 template inheritance to eliminate duplicate code
@@ -91,18 +91,17 @@ template inheritance to eliminate duplicate code
 - Add high scores database, REST API, and template
 - Fix login bugs and update templates
 
-### Andy(20%)
+### Andy(25%)
 - Implemented documention using sphinx 
 - documented and reviewed code 
 - Format the documentation to be visually appealing 
 
-### Matanya (30%)
-- Implemented storing and loading function for games in Pyarcade
-  - Implemented Pickling with Pickle to serialize games and store them
-  - Added ability to see loaded games.
-- Added automatic testing with Gitlab CI/CD and tox.
-  - Switched over testing framework.
+### Matanya (25%)
+- Implemented DevOps through Gitlab CI/CD
+  - Automatic Testing with pytest, as well as coverage
+- Added Favorite and Friends functionality through the rest API
 - Did general bug fixes and improvements
 - Updated documentation
+- Managed Zoom Meetings
 
 
