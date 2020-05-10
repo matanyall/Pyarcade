@@ -1,8 +1,10 @@
+import pytest
 from pyarcade.games.card import Rank, Suit, Card
 from pyarcade.games.player import Player
 import unittest
 
 
+@pytest.mark.local
 class PlayerTestCase(unittest.TestCase):
     def test_remove_from_hand(self):
         pass

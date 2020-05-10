@@ -1,8 +1,10 @@
+import pytest
 from pyarcade.games.ordered_enum import OrderedEnum
 from enum import unique
 import unittest
 
 
+@pytest.mark.local
 @unique
 class Grade(OrderedEnum):
     """https://docs.python.org/3/library/enum.html#orderedenum

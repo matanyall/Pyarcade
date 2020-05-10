@@ -1,0 +1,24 @@
+/* Remove the height margins that accounts for the navbar to properly size the
+content height. */
+body {
+    margin-top: 0;
+}
+
+/* Display games inside a smaller box on the screen. Spare 1vh for hidden
+elements. */
+#content {
+    margin: 13vh auto 6vh auto;
+    padding: 0;
+    width: 50%;
+    height: 80vh;
+    box-sizing: border-box;
+    border: 1px solid black;
+    border-radius: 1em;
+    text-align: center;
+}
+
+/* Render the Minesweeper board correctly. */
+table, th, td {
+    border: 1px solid black;
+    text-align: center;
+}

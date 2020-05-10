@@ -1,3 +1,4 @@
+import pytest
 from pyarcade.games.card import Rank, Suit, Card
 from pyarcade.games.deck import Deck
 from pyarcade.games.player import Player
@@ -5,6 +6,7 @@ from pyarcade.games.crazy_eights import CrazyEights
 import unittest
 
 
+@pytest.mark.local
 class CrazyEightsTestCase(unittest.TestCase):
     def test_setup_round(self):
         pass

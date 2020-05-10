@@ -1,11 +1,13 @@
 import unittest
+
+import pytest
 from pyarcade.games.card import Rank, Suit, Card
 from pyarcade.games.deck import Deck
-
 
 _DECK_SZ = 52
 
 
+@pytest.mark.local
 class DeckTestCase(unittest.TestCase):
     def test_new_single_deck(self):
         deck = Deck()
