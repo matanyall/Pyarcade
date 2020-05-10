@@ -1,0 +1,335 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyarcade.start &mdash; pyarcade  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pyarcade
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pyarcade_extension</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyarcade</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyarcade.start</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyarcade.start</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pyarcade.model</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">pyarcade.input_system</span> <span class="kn">import</span> <span class="n">InputSystem</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">system</span><span class="p">,</span> <span class="n">name</span>
+
+
+<div class="viewcode-block" id="run_pyarcade"><a class="viewcode-back" href="../../pyarcade.html#pyarcade.start.run_pyarcade">[docs]</a><span class="k">def</span> <span class="nf">run_pyarcade</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Method used to start the pyarcade. Logic of navigating the pyarcade and starting selected games as well</span>
+<span class="sd">    as output of choices are encapsulated in this method</span>
+
+<span class="sd">    Return:</span>
+<span class="sd">        String: output of current state of pyarcade ex: menus, game outputs, etc</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
+    <span class="n">input_sys</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+    <span class="n">username_logged_in</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">clear</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Welcome to PyArcade (Enter number)&#39;</span><span class="p">)</span>
+        <span class="n">menu</span> <span class="o">=</span> <span class="s1">&#39;(1) Mastermind  (2) Minesweeper  (3) Crazy Eights  (4) Blackjack  (5) Create Account  (6) Login  (7) &#39;</span> \
+               <span class="s1">&#39;Exit &#39;</span>
+        <span class="k">if</span> <span class="n">username_logged_in</span><span class="p">:</span>
+            <span class="n">menu</span> <span class="o">=</span> <span class="s1">&#39;(1) Mastermind  (2) Minesweeper  (3) Crazy Eights  (4) Blackjack  (5) Logout  (6) Exit  (7) Load &#39;</span> \
+                   <span class="s1">&#39;Save &#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">menu</span><span class="p">)</span>
+        <span class="n">game_input</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">game_input</span> <span class="o">==</span> <span class="s1">&#39;5&#39;</span> <span class="ow">and</span> <span class="n">username_logged_in</span><span class="p">:</span>
+            <span class="n">username_logged_in</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">game_input</span> <span class="o">==</span> <span class="s1">&#39;5&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">username_logged_in</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Username:&#39;</span><span class="p">)</span>
+            <span class="n">username</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Password:&#39;</span><span class="p">)</span>
+            <span class="n">passwd</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Confirm password:&#39;</span><span class="p">)</span>
+            <span class="n">confirm</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+            <span class="n">register_status</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">passwd</span><span class="p">,</span> <span class="n">confirm</span><span class="p">)</span>
+
+            <span class="n">clear</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">register_status</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Failed to create account.&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Account created.&#39;</span><span class="p">)</span>
+                <span class="n">model</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">passwd</span><span class="p">)</span>
+                <span class="n">username_logged_in</span> <span class="o">=</span> <span class="n">username</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">game_input</span> <span class="o">==</span> <span class="s1">&#39;6&#39;</span> <span class="ow">and</span> <span class="n">username_logged_in</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">game_input</span> <span class="o">==</span> <span class="s1">&#39;6&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">username_logged_in</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Username:&#39;</span><span class="p">)</span>
+            <span class="n">username</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Password:&#39;</span><span class="p">)</span>
+            <span class="n">passwd</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+            <span class="n">auth_status</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">passwd</span><span class="p">)</span>
+
+            <span class="n">clear</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">auth_status</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Login failed.&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Login success.&#39;</span><span class="p">)</span>
+                <span class="n">username_logged_in</span> <span class="o">=</span> <span class="n">username</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">game_input</span> <span class="o">==</span> <span class="s1">&#39;7&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">username_logged_in</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">game_input</span> <span class="o">==</span> <span class="s1">&#39;7&#39;</span> <span class="ow">and</span> <span class="n">username_logged_in</span><span class="p">:</span>
+            <span class="n">saves</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">list_saves</span><span class="p">(</span><span class="n">username_logged_in</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">save</span> <span class="ow">in</span> <span class="n">saves</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">save</span><span class="o">.</span><span class="n">save_name</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Enter any key to continue:&quot;</span><span class="p">)</span>
+            <span class="nb">input</span><span class="p">()</span>
+
+        <span class="n">game_in_play</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">game_input</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
+            <span class="n">game_in_play</span> <span class="o">=</span> <span class="s2">&quot;Mastermind&quot;</span>
+        <span class="k">elif</span> <span class="n">game_input</span> <span class="o">==</span> <span class="s2">&quot;2&quot;</span><span class="p">:</span>
+            <span class="n">game_in_play</span> <span class="o">=</span> <span class="s2">&quot;Minesweeper&quot;</span>
+        <span class="k">elif</span> <span class="n">game_input</span> <span class="o">==</span> <span class="s2">&quot;3&quot;</span><span class="p">:</span>
+            <span class="n">game_in_play</span> <span class="o">=</span> <span class="s2">&quot;Crazy Eights&quot;</span>
+        <span class="k">elif</span> <span class="n">game_input</span> <span class="o">==</span> <span class="s2">&quot;4&quot;</span><span class="p">:</span>
+            <span class="n">game_in_play</span> <span class="o">=</span> <span class="s2">&quot;BlackJack&quot;</span>
+
+        <span class="n">clear</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">input_sys</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="n">game_in_play</span><span class="p">,</span> <span class="s2">&quot;New Game&quot;</span><span class="p">))</span>
+        <span class="k">while</span> <span class="n">game_in_play</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Game Options: </span><span class="se">\n</span><span class="s2">&quot;</span>
+                  <span class="s2">&quot;New Game (Start new game)</span><span class="se">\n</span><span class="s2">&quot;</span>
+                  <span class="s2">&quot;Reset    (Reset game)</span><span class="se">\n</span><span class="s2">&quot;</span>
+                  <span class="s2">&quot;Clear    (Clear game history)</span><span class="se">\n</span><span class="s2">&quot;</span>
+                  <span class="s2">&quot;Save     (Save Game)</span><span class="se">\n</span><span class="s2">&quot;</span>
+                  <span class="s2">&quot;Load     (Load Game)</span><span class="se">\n</span><span class="s2">&quot;</span>
+                  <span class="s2">&quot;Help     (Game Instructions)</span><span class="se">\n</span><span class="s2">&quot;</span>
+                  <span class="s2">&quot;Quit     (Leave game)</span><span class="se">\n</span><span class="s2">&quot;</span>
+                  <span class="s2">&quot;* The options above can be entered at any time during game play *</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">game_input</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please enter your guess (</span><span class="se">\&quot;</span><span class="s2">####</span><span class="se">\&quot;</span><span class="s2">)&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">game_input</span> <span class="o">==</span> <span class="s2">&quot;2&quot;</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please enter x, y coordinate (</span><span class="se">\&quot;</span><span class="s2">#,#</span><span class="se">\&quot;</span><span class="s2">)&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">game_input</span> <span class="o">==</span> <span class="s2">&quot;3&quot;</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please type draw or enter card you wish to play (Ex: Eight,Spades).&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">game_input</span> <span class="o">==</span> <span class="s2">&quot;4&quot;</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please enter your move (hit or stand)&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Invalid selection&quot;</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="n">user_move</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
+            <span class="n">clear</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">user_move</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;quit&quot;</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">user_move</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;save&quot;</span> <span class="ow">and</span> <span class="n">username_logged_in</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Enter save name: &quot;</span><span class="p">)</span>
+                <span class="n">save_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
+                <span class="n">game_obj</span> <span class="o">=</span> <span class="n">input_sys</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="n">game_in_play</span><span class="p">,</span> <span class="n">user_move</span><span class="p">)</span>
+                <span class="n">model</span><span class="o">.</span><span class="n">save_game_by_username</span><span class="p">(</span><span class="n">game_obj</span><span class="p">,</span> <span class="n">save_name</span><span class="p">,</span> <span class="n">username_logged_in</span><span class="p">)</span>
+                <span class="n">input_sys</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="n">game_in_play</span><span class="p">,</span> <span class="n">user_move</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">user_move</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;load&quot;</span> <span class="ow">and</span> <span class="n">username_logged_in</span><span class="p">:</span>
+                <span class="n">saves</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">list_saves</span><span class="p">(</span><span class="n">username_logged_in</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">save</span> <span class="ow">in</span> <span class="n">saves</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">save</span><span class="o">.</span><span class="n">save_name</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Type name of save: &quot;</span><span class="p">)</span>
+                <span class="n">save_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
+                <span class="n">game_save</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">load_game</span><span class="p">(</span><span class="n">save_name</span><span class="p">,</span> <span class="n">username_logged_in</span><span class="p">)</span>
+                <span class="n">input_sys</span><span class="o">.</span><span class="n">set_game_to_load</span><span class="p">(</span><span class="n">game_save</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">input_sys</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="n">game_in_play</span><span class="p">,</span> <span class="n">user_move</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">input_sys</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="n">game_in_play</span><span class="p">,</span> <span class="n">user_move</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">input_sys</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="n">game_in_play</span><span class="p">,</span> <span class="s2">&quot;state&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Game over.&quot;</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Game over. Play again? y/n&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span> <span class="o">!=</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">input_sys</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="n">game_in_play</span><span class="p">,</span> <span class="s2">&quot;reset&quot;</span><span class="p">))</span></div>
+
+
+<span class="c1"># define our clear function</span>
+<span class="k">def</span> <span class="nf">clear</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;nt&#39;</span><span class="p">:</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">system</span><span class="p">(</span><span class="s1">&#39;cls&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">system</span><span class="p">(</span><span class="s1">&#39;clear&#39;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">run_pyarcade</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, group 12
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

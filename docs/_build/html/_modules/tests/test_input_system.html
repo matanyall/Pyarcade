@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tests.test_input_system &mdash; pyarcade  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pyarcade
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pyarcade_extension</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyarcade</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>tests.test_input_system</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tests.test_input_system</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">pyarcade.input_system</span> <span class="kn">import</span> <span class="n">InputSystem</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+
+<div class="viewcode-block" id="InputSystemTestCase"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">local</span>
+<span class="k">class</span> <span class="nc">InputSystemTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<div class="viewcode-block" id="InputSystemTestCase.test_mastermind_wrong_size"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_mastermind_wrong_size">[docs]</a>    <span class="k">def</span> <span class="nf">test_mastermind_wrong_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">input_system</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s2">&quot;Mastermind&quot;</span><span class="p">,</span> <span class="s2">&quot;53255&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Invalid input&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_mastermind_clear"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_mastermind_clear">[docs]</a>    <span class="k">def</span> <span class="nf">test_mastermind_clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">input_system</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="s2">&quot;History cleared&quot;</span><span class="p">,</span> <span class="n">input_system</span><span class="o">.</span><span class="n">handle_mastermind_input</span><span class="p">(</span><span class="s2">&quot;Clear&quot;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_mastermind_reset"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_mastermind_reset">[docs]</a>    <span class="k">def</span> <span class="nf">test_mastermind_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">input_system</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">handle_mastermind_input</span><span class="p">(</span><span class="s2">&quot;reset&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Game reset&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_mastermind_help"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_mastermind_help">[docs]</a>    <span class="k">def</span> <span class="nf">test_mastermind_help</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">input_system</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">handle_mastermind_input</span><span class="p">(</span><span class="s2">&quot;help&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;bulls are numbers&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_mastermind_invalid_input"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_mastermind_invalid_input">[docs]</a>    <span class="k">def</span> <span class="nf">test_mastermind_invalid_input</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">input_system</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">input_system</span><span class="o">.</span><span class="n">handle_mastermind_input</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Invalid input&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_valid_minesweeper_choice_invalid_input"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_valid_minesweeper_choice_invalid_input">[docs]</a>    <span class="k">def</span> <span class="nf">test_valid_minesweeper_choice_invalid_input</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">input_sys</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">input_sys</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s2">&quot;Minesweeper&quot;</span><span class="p">,</span> <span class="s2">&quot;string&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Invalid input&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_minesweeper_input_reset"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_minesweeper_input_reset">[docs]</a>    <span class="k">def</span> <span class="nf">test_minesweeper_input_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">i_s</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">i_s</span><span class="o">.</span><span class="n">handle_minesweeper_input</span><span class="p">(</span><span class="s2">&quot;4,3&quot;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">i_s</span><span class="o">.</span><span class="n">handle_minesweeper_input</span><span class="p">(</span><span class="s2">&quot;Reset&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Game reset&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_minesweeper_input_clear"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_minesweeper_input_clear">[docs]</a>    <span class="k">def</span> <span class="nf">test_minesweeper_input_clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">in_sys</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">in_sys</span><span class="o">.</span><span class="n">handle_minesweeper_input</span><span class="p">(</span><span class="s2">&quot;4,3&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">([[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span> <span class="n">in_sys</span><span class="o">.</span><span class="n">minesweeper_game</span><span class="o">.</span><span class="n">game_history</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">([[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span> <span class="n">in_sys</span><span class="o">.</span><span class="n">minesweeper_game</span><span class="o">.</span><span class="n">game_history</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_minesweeper_input_invalid"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_minesweeper_input_invalid">[docs]</a>    <span class="k">def</span> <span class="nf">test_minesweeper_input_invalid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">in_sys</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">in_sys</span><span class="o">.</span><span class="n">handle_minesweeper_input</span><span class="p">(</span><span class="s2">&quot;Mines&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Invalid input&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">in_sys</span><span class="o">.</span><span class="n">handle_minesweeper_input</span><span class="p">(</span><span class="s2">&quot;1,2,3&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Invalid input&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_minesweeper_input_help"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_minesweeper_input_help">[docs]</a>    <span class="k">def</span> <span class="nf">test_minesweeper_input_help</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">i_s</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">i_s</span><span class="o">.</span><span class="n">handle_minesweeper_input</span><span class="p">(</span><span class="s2">&quot;help&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;find all the mines&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_handle_game_input_correct"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_handle_game_input_correct">[docs]</a>    <span class="k">def</span> <span class="nf">test_handle_game_input_correct</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">in_sys</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">in_sys</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s2">&quot;Minesweeper&quot;</span><span class="p">,</span> <span class="s2">&quot;1,2&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]],</span> <span class="n">in_sys</span><span class="o">.</span><span class="n">minesweeper_game</span><span class="o">.</span><span class="n">game_history</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_handle_game_input_incorrect"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_handle_game_input_incorrect">[docs]</a>    <span class="k">def</span> <span class="nf">test_handle_game_input_incorrect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">in_sys</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">in_sys</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s2">&quot;Go Fish&quot;</span><span class="p">,</span> <span class="s2">&quot;1,2&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Invalid game&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_crazy_eights_input_invalid"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_crazy_eights_input_invalid">[docs]</a>    <span class="k">def</span> <span class="nf">test_crazy_eights_input_invalid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">input_sys</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">input_sys</span><span class="o">.</span><span class="n">handle_crazy_eights_input</span><span class="p">(</span><span class="s2">&quot;345&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Invalid input&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_crazy_eights_input_valid"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_crazy_eights_input_valid">[docs]</a>    <span class="k">def</span> <span class="nf">test_crazy_eights_input_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">input_sys</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">input_sys</span><span class="o">.</span><span class="n">handle_crazy_eights_input</span><span class="p">(</span><span class="s2">&quot;Eight,Spades&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Player Hand&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_crazy_eights_input_clear"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_crazy_eights_input_clear">[docs]</a>    <span class="k">def</span> <span class="nf">test_crazy_eights_input_clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">input_sys</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">input_sys</span><span class="o">.</span><span class="n">handle_crazy_eights_input</span><span class="p">(</span><span class="s2">&quot;clear&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;History cleared&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_crazy_eights_game"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_crazy_eights_game">[docs]</a>    <span class="k">def</span> <span class="nf">test_crazy_eights_game</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">input_sys</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">input_sys</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s2">&quot;Crazy Eights&quot;</span><span class="p">,</span> <span class="s2">&quot;Eight,Spades&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Player Hand&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_crazy_eights_input_help"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_crazy_eights_input_help">[docs]</a>    <span class="k">def</span> <span class="nf">test_crazy_eights_input_help</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">input_sys</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">input_sys</span><span class="o">.</span><span class="n">handle_crazy_eights_input</span><span class="p">(</span><span class="s2">&quot;help&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;matches either the suit&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_blackjack_input_invalid"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_blackjack_input_invalid">[docs]</a>    <span class="k">def</span> <span class="nf">test_blackjack_input_invalid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">input_sys</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">input_sys</span><span class="o">.</span><span class="n">handle_blackjack_input</span><span class="p">(</span><span class="s2">&quot;345&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Invalid input&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_blackjack_input_valid"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_blackjack_input_valid">[docs]</a>    <span class="k">def</span> <span class="nf">test_blackjack_input_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">input_sys</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">input_sys</span><span class="o">.</span><span class="n">handle_blackjack_input</span><span class="p">(</span><span class="s2">&quot;hit&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;CURRENT HAND&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_blackjack_input_help"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_blackjack_input_help">[docs]</a>    <span class="k">def</span> <span class="nf">test_blackjack_input_help</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">input_sys</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">input_sys</span><span class="o">.</span><span class="n">handle_blackjack_input</span><span class="p">(</span><span class="s2">&quot;help&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;If your hand&#39;s sum&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_blackjack_input_clear"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_blackjack_input_clear">[docs]</a>    <span class="k">def</span> <span class="nf">test_blackjack_input_clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">input_sys</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">input_sys</span><span class="o">.</span><span class="n">handle_blackjack_input</span><span class="p">(</span><span class="s2">&quot;clear&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;History cleared&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InputSystemTestCase.test_blackjack_game"><a class="viewcode-back" href="../../tests.html#tests.test_input_system.InputSystemTestCase.test_blackjack_game">[docs]</a>    <span class="k">def</span> <span class="nf">test_blackjack_game</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">input_sys</span> <span class="o">=</span> <span class="n">InputSystem</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">input_sys</span><span class="o">.</span><span class="n">handle_game_input</span><span class="p">(</span><span class="s2">&quot;BlackJack&quot;</span><span class="p">,</span> <span class="s2">&quot;stand&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;CURRENT HAND&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, group 12
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

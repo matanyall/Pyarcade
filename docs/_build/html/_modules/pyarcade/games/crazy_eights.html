@@ -1,0 +1,506 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyarcade.games.crazy_eights &mdash; pyarcade  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pyarcade
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">pyarcade_extension</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyarcade</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyarcade.games.crazy_eights</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyarcade.games.crazy_eights</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">pyarcade.games.card</span> <span class="kn">import</span> <span class="n">Rank</span><span class="p">,</span> <span class="n">Suit</span><span class="p">,</span> <span class="n">Card</span>
+<span class="kn">from</span> <span class="nn">pyarcade.games.deck</span> <span class="kn">import</span> <span class="n">Deck</span>
+<span class="kn">from</span> <span class="nn">pyarcade.games.player</span> <span class="kn">import</span> <span class="n">Player</span>
+
+
+<div class="viewcode-block" id="CrazyEights"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.crazy_eights.CrazyEights">[docs]</a><span class="k">class</span> <span class="nc">CrazyEights</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Represent a crazy eights game.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        num_players (int): number of players from [2, 7].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_players</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="c1"># Set up the game.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setup_game</span><span class="p">(</span><span class="n">num_players</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">curr_suit</span> <span class="o">=</span> <span class="n">Suit</span><span class="o">.</span><span class="n">SPADES</span>  <span class="c1"># suit choice after an eight is played</span>
+
+        <span class="c1"># Keep track of the game history.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">game_hist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">game_state</span> <span class="o">=</span> <span class="s2">&quot;Round 1&quot;</span>
+
+<div class="viewcode-block" id="CrazyEights.setup_round"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.crazy_eights.CrazyEights.setup_round">[docs]</a>    <span class="k">def</span> <span class="nf">setup_round</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_players</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set up the game by making a deck, shuffling it, dealing cards,</span>
+<span class="sd">        making a discard, flipping over the top card, and creating the</span>
+<span class="sd">        round points.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            num_players (int): number of players</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            CrazyEights: game after the setup is complete</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">player</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">player</span><span class="o">.</span><span class="n">clear_hand</span><span class="p">()</span>  <span class="c1"># empty the players&#39; hands from prev rounds</span>
+        <span class="n">num_decks</span> <span class="o">=</span> <span class="mi">2</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span> <span class="k">else</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deck</span> <span class="o">=</span> <span class="n">Deck</span><span class="p">(</span><span class="n">num_decks</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deck</span><span class="o">.</span><span class="n">shuffle</span><span class="p">()</span>
+        <span class="n">num_cards</span> <span class="o">=</span> <span class="mi">5</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="mi">7</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deal</span><span class="p">(</span><span class="n">num_cards</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">discard</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">discard</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deck</span><span class="o">.</span><span class="n">draw</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pts</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">num_players</span></div>
+
+<div class="viewcode-block" id="CrazyEights.setup_game"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.crazy_eights.CrazyEights.setup_game">[docs]</a>    <span class="k">def</span> <span class="nf">setup_game</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_players</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CrazyEights</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Set up the game by creating the players, creating the round history,</span>
+<span class="sd">        and completing round setup.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            num_players (int): number of players the game will have</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            CrazyEights: game after being set up</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Create the players, numbering them from [1, num_players]. The user</span>
+        <span class="c1"># is player 1.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">players</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_players</span><span class="p">):</span>
+            <span class="c1"># Note that constructing with [] is needed to block pointer aliases</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Player</span><span class="p">([])</span>
+
+        <span class="c1"># Create the round history.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">round_hist</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Set up for the first round.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setup_round</span><span class="p">(</span><span class="n">num_players</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="CrazyEights.deal"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.crazy_eights.CrazyEights.deal">[docs]</a>    <span class="k">def</span> <span class="nf">deal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_cards</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CrazyEights</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Deal the cards in the deck out to the players.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            num_cards (Optional[int], optional): number of cards to deal each</span>
+<span class="sd">            player. If less than zero or greater than the deck size, deal out</span>
+<span class="sd">            all the cards in the deck. Defaults to -1 (deal whole deck).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            CrazyEights: game after the cards have been dealt</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cards_to_deal</span> <span class="o">=</span> <span class="n">num_cards</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cards_to_deal</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">cards_to_deal</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">deck</span><span class="o">.</span><span class="n">size</span><span class="p">():</span>
+            <span class="n">cards_to_deal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">deck</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">card_count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cards_to_deal</span><span class="p">):</span>
+            <span class="n">player_to_deal</span> <span class="o">=</span> <span class="p">(</span><span class="n">card_count</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">card</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">deck</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">player_to_deal</span><span class="p">)</span><span class="o">.</span><span class="n">add_to_hand</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="CrazyEights.show_player_hand"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.crazy_eights.CrazyEights.show_player_hand">[docs]</a>    <span class="k">def</span> <span class="nf">show_player_hand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Show the current hand of a player.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            player_num (int): number of the player&#39;s hand to show</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: hand of the player; empty string if player doesn&#39;t exist</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">player_num</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">player_num</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">player_num</span><span class="p">)</span><span class="o">.</span><span class="n">show_hand</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="CrazyEights.draw"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.crazy_eights.CrazyEights.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CrazyEights</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Draw a card off the top of the deck and place it into a player&#39;s</span>
+<span class="sd">        hand.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            player_num (int): number of the player who is drawing a card</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            CrazyEights: game after the player has drawn</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">player_num</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">player_num</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">deck</span><span class="o">.</span><span class="n">is_empty</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">discard</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reset_round</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">deck</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+            <span class="n">top_card</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">discard</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">deck</span><span class="o">.</span><span class="n">add_cards</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">discard</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">discard</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">discard</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">top_card</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">deck</span><span class="o">.</span><span class="n">shuffle</span><span class="p">()</span>
+
+        <span class="n">card</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">deck</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">player_num</span><span class="p">)</span><span class="o">.</span><span class="n">add_to_hand</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="CrazyEights.play"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.crazy_eights.CrazyEights.play">[docs]</a>    <span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">card_to_play</span><span class="p">:</span> <span class="n">Card</span><span class="p">,</span>
+             <span class="n">set_suit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Suit</span><span class="p">]</span> <span class="o">=</span> <span class="n">Suit</span><span class="o">.</span><span class="n">SPADES</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Play a specific card, if possible.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            player_num (int): number of the player playing the card. Defaults</span>
+<span class="sd">            to player 1, the user.</span>
+<span class="sd">            card_to_play (Card): desired card to play</span>
+<span class="sd">            set_suit (Optional[Suit], optional): suit to change the play to</span>
+<span class="sd">            if the card being played is an eight. Defaults to spades.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the card was played, and False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">player_num</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">player</span><span class="o">.</span><span class="n">has</span><span class="p">(</span><span class="n">card_to_play</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">playable</span><span class="p">(</span><span class="n">card_to_play</span><span class="p">):</span>
+            <span class="n">player</span><span class="o">.</span><span class="n">remove_from_hand</span><span class="p">(</span><span class="n">card_to_play</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">discard</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">card_to_play</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">player</span><span class="o">.</span><span class="n">has_cards</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">game_state</span> <span class="o">=</span> <span class="s2">&quot;Round </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">round_hist</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">reset_round</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">card_to_play</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span> <span class="o">==</span> <span class="n">Rank</span><span class="o">.</span><span class="n">EIGHT</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">curr_suit</span> <span class="o">=</span> <span class="n">set_suit</span>
+
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+    <span class="k">def</span> <span class="nf">show_top_card</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">discard</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="CrazyEights.playable"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.crazy_eights.CrazyEights.playable">[docs]</a>    <span class="k">def</span> <span class="nf">playable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">card_to_play</span><span class="p">:</span> <span class="n">Card</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Checks whether a card can be played.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            card_to_play (Card): card to try to play</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: whether the card can be played or not</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">top_card</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">discard</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">tc_suit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_top_card_suit</span><span class="p">()</span>  <span class="c1"># suit might be set differently</span>
+
+        <span class="c1"># Check the conditions to be met for the card to be playable.</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">card_to_play</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span> <span class="o">==</span> <span class="n">top_card</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span> <span class="ow">or</span>
+                <span class="n">card_to_play</span><span class="o">.</span><span class="n">get_suit</span><span class="p">()</span> <span class="o">==</span> <span class="n">tc_suit</span> <span class="ow">or</span>
+                <span class="n">card_to_play</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span> <span class="o">==</span> <span class="n">Rank</span><span class="o">.</span><span class="n">EIGHT</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CrazyEights.get_top_card_suit"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.crazy_eights.CrazyEights.get_top_card_suit">[docs]</a>    <span class="k">def</span> <span class="nf">get_top_card_suit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Suit</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the top card&#39;s suit, as it might be set by an eight.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Suit: suit of top card in discard</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">discard</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">tc_suit</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">get_suit</span><span class="p">()</span>
+        <span class="c1"># TODO: add prot for when card flipped to start game is an eight</span>
+        <span class="k">if</span> <span class="n">tc</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span> <span class="o">==</span> <span class="n">Rank</span><span class="o">.</span><span class="n">EIGHT</span><span class="p">:</span>
+            <span class="n">tc_suit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curr_suit</span>
+        <span class="k">return</span> <span class="n">tc_suit</span></div>
+
+<div class="viewcode-block" id="CrazyEights.play_options"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.crazy_eights.CrazyEights.play_options">[docs]</a>    <span class="k">def</span> <span class="nf">play_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Card</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Find the cards in a player&#39;s hand that can be played.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            player_num (int): player number</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Card]: cards in the player&#39;s hand that are viable</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">top_card</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">discard</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">tc_suit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_top_card_suit</span><span class="p">()</span>
+
+        <span class="n">player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">player_num</span><span class="p">)</span>
+        <span class="n">same_rank</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">get_cards</span><span class="p">(</span><span class="n">top_card</span><span class="o">.</span><span class="n">get_rank</span><span class="p">())</span>
+        <span class="n">same_suit</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">get_cards</span><span class="p">(</span><span class="n">tc_suit</span><span class="p">)</span>
+        <span class="n">eights</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">get_cards</span><span class="p">(</span><span class="n">Rank</span><span class="o">.</span><span class="n">EIGHT</span><span class="p">)</span>
+
+        <span class="n">cards</span> <span class="o">=</span> <span class="n">same_rank</span> <span class="o">+</span> <span class="n">same_suit</span> <span class="o">+</span> <span class="n">eights</span>
+        <span class="k">return</span> <span class="n">cards</span></div>
+
+<div class="viewcode-block" id="CrazyEights.turn"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.crazy_eights.CrazyEights.turn">[docs]</a>    <span class="k">def</span> <span class="nf">turn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Card</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Play out a player&#39;s turn using automated choices.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            player_num (int): number of the player whose turn it is</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Card: card that the player plays</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="c1"># Try to play the first possible card.</span>
+            <span class="n">card_ops</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">play_options</span><span class="p">(</span><span class="n">player_num</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">card_ops</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">player_num</span><span class="p">,</span> <span class="n">card_ops</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">break</span>
+            <span class="c1"># Draw a card if none could be played.</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># TODO: check behavior if game ends off of emptying deck</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">player_num</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CrazyEights.reset_round"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.crazy_eights.CrazyEights.reset_round">[docs]</a>    <span class="k">def</span> <span class="nf">reset_round</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CrazyEights</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Reset the round, storing it into the game&#39;s round history.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            CrazyEights: game after the round has been reset</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Store the game state in the round history.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">round_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">)</span>
+
+        <span class="c1"># Count each player&#39;s points.</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">:</span>
+            <span class="n">player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">card</span> <span class="ow">in</span> <span class="n">player</span><span class="o">.</span><span class="n">get_cards</span><span class="p">():</span>
+                <span class="n">card_pts</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span><span class="o">.</span><span class="n">value</span>
+                <span class="k">if</span> <span class="n">card</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span> <span class="o">==</span> <span class="n">Rank</span><span class="o">.</span><span class="n">EIGHT</span><span class="p">:</span>
+                    <span class="n">card_pts</span> <span class="o">=</span> <span class="mi">50</span>
+                <span class="k">if</span> <span class="n">card</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">Rank</span><span class="o">.</span><span class="n">TEN</span><span class="p">:</span>
+                    <span class="n">card_pts</span> <span class="o">=</span> <span class="mi">10</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pts</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">card_pts</span>
+
+        <span class="c1"># The player(s) with the lowest points won. Add the differences between</span>
+        <span class="c1"># their points and each of the other players&#39; points to their scores.</span>
+        <span class="n">min_score</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pts</span><span class="p">)</span>
+        <span class="n">winners</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">total_pts_diff</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">min_score</span><span class="p">:</span>
+                <span class="n">winners</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">min_score</span><span class="p">:</span>
+                <span class="n">total_pts_diff</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">min_score</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">winners</span><span class="p">)):</span>
+            <span class="n">winner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">winner</span><span class="o">.</span><span class="n">increase_score</span><span class="p">(</span><span class="n">total_pts_diff</span><span class="p">)</span>
+
+        <span class="c1"># Reset the round by setting up a new round and return.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setup_round</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="CrazyEights.reset"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.crazy_eights.CrazyEights.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_players</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Reset the game, storing its current state in the game history.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            num_players (Optional[int], optional): number of players to start</span>
+<span class="sd">            the new game with. Defaults to None (use current number of players)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            CrazyEights: game after being reset</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">game_state</span> <span class="o">=</span> <span class="s2">&quot;Round 1&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_round</span><span class="p">()</span>  <span class="c1"># reset round to store current round into hist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">game_hist</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">round_hist</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">num_players</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setup_game</span><span class="p">(</span><span class="n">num_players</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setup_game</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">))</span>
+        <span class="k">return</span> <span class="s2">&quot;Game reset&quot;</span></div>
+
+<div class="viewcode-block" id="CrazyEights.clear"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.crazy_eights.CrazyEights.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Reset the current game and clear all game history.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            CrazyEights: game after being cleared</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">game_hist</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">return</span> <span class="s2">&quot;History cleared&quot;</span></div>
+
+    <span class="sd">&quot;&quot;&quot;Define methods that all games are required to implement.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_name</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s1">&#39;Crazy Eights&#39;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_subdir</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;crazy_eights&#39;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_help</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s2">&quot; Play a card that matches either the suit or value of the top card. Input is taken as value,suit i.e&quot;</span> \
+               <span class="s2">&quot;seven,hearts to play the seven of hearts.&quot;</span> \
+               <span class="s2">&quot; The first one to play all of their cards wins.&quot;</span>\
+               <span class="s2">&quot; If you don&#39;t have a corresponding card then type draw to draw a card.&quot;</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, group 12
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

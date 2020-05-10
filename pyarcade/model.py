@@ -9,9 +9,11 @@ from pyarcade.gamedb import GameDB
 
 
 class Model():
-    """Query the database.
+    """Class to create the database and interact with it
     """
     def __init__(self):
+        """ instantiates the database and creates the session
+        """
         # Create the engine. echo=(True|False) reflects the state of SQLAlchemy logging.
         # TODO: Fix password security issues.
         self.engine = sqlalchemy.create_engine('mysql+pymysql://root@db:3306/pyarcadedb',
@@ -120,16 +122,45 @@ class Model():
         pass
 
     def save_game(self, game_object, save_name: str, user_id: int):
+        """Saves a game object through pickling
+
+        Args: 
+            game_object (BLOB): game object to be pickled and saved in database
+            save_name (str): name of the save for later reference
+            user_id (int): unique identifier associated with user
+        
+        returns:
+            None
+        """
         game_pickle = pickle.dumps(game_object)
         game = GameDB(player_id=user_id, save_name=save_name, save=game_pickle)
         self.session.add(game)
         self.session.commit()
 
     def save_game_by_username(self, game_object, save_name, username):
+        """saves a game and associates it with a given username, this takes the place of userid
+
+        Args:
+            game_object (BLOB): game object to be pickled and saved in database
+            save_name (str): name of the save for later reference
+            username (str): username to be associated with game save 
+        
+        Returns:
+            None
+        """
         user_id = self._get_user(username)
         return self.save_game(game_object, save_name, user_id.id)
 
     def load_game(self, save_name: str, username: int):
+        """retrieves game save from database
+
+        Args: 
+            save_name (str): name of the save to query database with
+            username (str): name of user to query database with
+        
+        Return:
+            game object: game object that is unpickled 
+        """
         user_id = self._get_user(username)
         game = self.session.query(GameDB).filter(GameDB.user_id == user_id.id).filter(
             GameDB.save_name == save_name).first()
@@ -137,15 +168,39 @@ class Model():
         return result
 
     def list_saves(self, username: str):
+        """ returns list of saves associated with user id
+
+        Args:
+            username (str): used to query database for save list
+        
+        Returns:
+            List: list of saves associated with user
+        """
         user_id = self._get_user(username)
         save_list = self.session.query(GameDB).filter(GameDB.user_id == user_id.id).all()
         return save_list
 
     def get_save(self, save_name: str, username: str):
+        """ returns save object
+        
+        Args:
+            save_name (str) : name associated with save
+            username (str): used to query database for save list
+            
+        
+        Returns:
+            BLOB: save object 
+        """
         user_id = self._get_user(username)
         save = self.session.query(GameDB).filter(GameDB.user_id == user_id.id).filter(
             GameDB.save_name == save_name).first()
         return save
 
     def delete_save(self, save_name: str, user_id: int):
+        """deletes a save 
+        
+        Args:
+            save_name (str): name of the save
+            user_id (int): unique id of user
+        """
         pass

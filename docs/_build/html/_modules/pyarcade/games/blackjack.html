@@ -1,0 +1,384 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyarcade.games.blackjack &mdash; pyarcade  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pyarcade
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">pyarcade_extension</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyarcade</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyarcade.games.blackjack</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyarcade.games.blackjack</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pyarcade.games.card</span> <span class="kn">import</span> <span class="n">Rank</span>
+<span class="kn">from</span> <span class="nn">pyarcade.games.deck</span> <span class="kn">import</span> <span class="n">Deck</span>
+<span class="kn">from</span> <span class="nn">pyarcade.games.player</span> <span class="kn">import</span> <span class="n">Player</span>
+
+
+<span class="c1"># Count all aces as 11 for now.</span>
+<span class="c1"># TODO: Implement user choosing ace value to be 1 or 11.</span>
+<div class="viewcode-block" id="Blackjack"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.blackjack.Blackjack">[docs]</a><span class="k">class</span> <span class="nc">Blackjack</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Represent a game of blackjack, controlling game flow.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">Player</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">house</span> <span class="o">=</span> <span class="n">Player</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">game_state</span> <span class="o">=</span> <span class="s2">&quot;New Game&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Blackjack.setup"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.blackjack.Blackjack.setup">[docs]</a>    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Set up the game by dealing the player and the house two cards each.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deck</span> <span class="o">=</span> <span class="n">Deck</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deck</span><span class="o">.</span><span class="n">shuffle</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_to_hand</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deck</span><span class="o">.</span><span class="n">draw</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">house</span><span class="o">.</span><span class="n">add_to_hand</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deck</span><span class="o">.</span><span class="n">draw</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">add_to_hand</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deck</span><span class="o">.</span><span class="n">draw</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">house</span><span class="o">.</span><span class="n">add_to_hand</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deck</span><span class="o">.</span><span class="n">draw</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="Blackjack.hit"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.blackjack.Blackjack.hit">[docs]</a>    <span class="k">def</span> <span class="nf">hit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">:</span> <span class="n">Player</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Deal a card to a player.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            player (Player): player who gets card</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">player</span><span class="o">.</span><span class="n">add_to_hand</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deck</span><span class="o">.</span><span class="n">draw</span><span class="p">())</span></div>
+
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
+        <span class="k">return</span> <span class="s2">&quot;Game reset&quot;</span>
+
+<div class="viewcode-block" id="Blackjack.clear"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.blackjack.Blackjack.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Reset the game by clearing all player hands.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">house</span><span class="o">.</span><span class="n">clear_hand</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">clear_hand</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">game_state</span> <span class="o">=</span> <span class="s2">&quot;New Game&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;History cleared&quot;</span></div>
+
+<div class="viewcode-block" id="Blackjack.calculate_current_sum"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.blackjack.Blackjack.calculate_current_sum">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">calculate_current_sum</span><span class="p">(</span><span class="n">player</span><span class="p">:</span> <span class="n">Player</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the sum of the card values in a player&#39;s hand.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">curr_sum</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">card</span> <span class="ow">in</span> <span class="n">player</span><span class="o">.</span><span class="n">get_cards</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">card</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span> <span class="o">==</span> <span class="n">Rank</span><span class="o">.</span><span class="n">ACE</span><span class="p">:</span>
+                <span class="n">curr_sum</span> <span class="o">+=</span> <span class="mi">11</span>
+            <span class="k">elif</span> <span class="n">card</span><span class="o">.</span><span class="n">is_face_card</span><span class="p">():</span>
+                <span class="n">curr_sum</span> <span class="o">+=</span> <span class="mi">10</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">curr_sum</span> <span class="o">+=</span> <span class="n">card</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="k">return</span> <span class="n">curr_sum</span></div>
+
+<div class="viewcode-block" id="Blackjack.bust"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.blackjack.Blackjack.bust">[docs]</a>    <span class="k">def</span> <span class="nf">bust</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;updates game state and returns loss string </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">game_state</span> <span class="o">=</span> <span class="s2">&quot;Game over.&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;BUST&quot;</span></div>
+
+<div class="viewcode-block" id="Blackjack.win"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.blackjack.Blackjack.win">[docs]</a>    <span class="k">def</span> <span class="nf">win</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;updates game state and returns win string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">game_state</span> <span class="o">=</span> <span class="s2">&quot;Game over.&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;WIN BABY&quot;</span></div>
+
+    <span class="k">def</span> <span class="nf">tie</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">game_state</span> <span class="o">=</span> <span class="s2">&quot;Game over.&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;TIE&quot;</span>
+
+    <span class="c1"># defines win conditions given both user sum and hand sum</span>
+<div class="viewcode-block" id="Blackjack.win_condition"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.blackjack.Blackjack.win_condition">[docs]</a>    <span class="k">def</span> <span class="nf">win_condition</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Check if the user has won or lost when the game is ending.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: result of the game</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">user_sum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_current_sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        <span class="n">house_sum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_current_sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">house</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">user_sum</span> <span class="o">&gt;</span> <span class="mi">21</span> <span class="ow">and</span> <span class="n">house_sum</span> <span class="o">&gt;</span> <span class="mi">21</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tie</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">user_sum</span> <span class="o">&gt;</span> <span class="mi">21</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bust</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">house_sum</span> <span class="o">&gt;</span> <span class="mi">21</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">user_sum</span> <span class="o">&gt;</span> <span class="n">house_sum</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">()</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bust</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Blackjack.check_if_bust"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.blackjack.Blackjack.check_if_bust">[docs]</a>    <span class="k">def</span> <span class="nf">check_if_bust</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_sum</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">house_sum</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        checks if after a turn the user has busted or not. Used when input is hit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">user_sum</span> <span class="o">&gt;</span> <span class="mi">21</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bust</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="n">user_sum</span> <span class="o">==</span> <span class="mi">21</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">house_sum</span> <span class="o">&gt;</span> <span class="mi">21</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="Blackjack.next_state"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.blackjack.Blackjack.next_state">[docs]</a>    <span class="k">def</span> <span class="nf">next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decision</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Play out one turn of blackjack given the user decision to hit or</span>
+<span class="sd">        stand.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            decision (str): user decision to hit or stand</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: next game state</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">win_status</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">house_sum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_current_sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">house</span><span class="p">)</span>
+        <span class="n">user_sum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_current_sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+
+        <span class="c1"># user hits</span>
+        <span class="k">if</span> <span class="n">decision</span> <span class="o">==</span> <span class="s2">&quot;hit&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+            <span class="n">user_sum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_current_sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+            <span class="n">win_status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_if_bust</span><span class="p">(</span><span class="n">user_sum</span><span class="p">,</span> <span class="n">house_sum</span><span class="p">)</span>
+
+        <span class="c1"># user stands</span>
+        <span class="k">elif</span> <span class="n">decision</span> <span class="o">==</span> <span class="s2">&quot;stand&quot;</span><span class="p">:</span>
+            <span class="c1"># dealer must hit under 17</span>
+            <span class="k">while</span> <span class="n">house_sum</span> <span class="o">&lt;</span> <span class="mi">17</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">hit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">house</span><span class="p">)</span>
+                <span class="n">house_sum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_current_sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">house</span><span class="p">)</span>
+
+            <span class="n">win_status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">win_condition</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="n">decision</span> <span class="o">==</span> <span class="s2">&quot;help&quot;</span> <span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;Welcome to blackjack. Please type in your next move.&quot;</span> \
+                   <span class="s2">&quot; Acceptable commands are hit or stand. To quit type quit. To see this help menu type help.&quot;</span>
+
+        <span class="k">elif</span> <span class="n">decision</span> <span class="o">==</span> <span class="s2">&quot;quit&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;QUIT&quot;</span>
+
+        <span class="c1"># return the decision</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">display_state</span><span class="p">(</span><span class="n">win_status</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Blackjack.display_state"><a class="viewcode-back" href="../../../pyarcade.games.html#pyarcade.games.blackjack.Blackjack.display_state">[docs]</a>    <span class="k">def</span> <span class="nf">display_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">win_status</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;[summary]</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            win_status (str): [description]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">user_hand_sum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_current_sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        <span class="n">house_hand_sum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_current_sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">house</span><span class="p">)</span>
+
+        <span class="c1"># strings to display</span>
+        <span class="n">user_hand_str</span> <span class="o">=</span> <span class="s2">&quot;CURRENT HAND: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">user_hand_sum</span><span class="p">)</span>
+        <span class="n">house_hand_str</span> <span class="o">=</span> <span class="s2">&quot;HOUSE HAND: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">house_hand_sum</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">user_hand_str</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">house_hand_str</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">win_status</span></div>
+
+    <span class="k">def</span> <span class="nf">start_game</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decision</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;BUST&quot;</span><span class="p">,</span> <span class="s2">&quot;WIN BABY&quot;</span><span class="p">,</span> <span class="s2">&quot;TIE&quot;</span><span class="p">,</span> <span class="s2">&quot;QUIT&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">decision</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+            <span class="n">decision</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_state</span><span class="p">(</span><span class="n">decision</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">decision</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_name</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s1">&#39;Blackjack&#39;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_subdir</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;blackjack&#39;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_help</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s2">&quot;You are originally dealt two cards and one card from the houses hand will be flipped up.&quot;</span> \
+                <span class="s2">&quot;You have the choice to either have another card dealt to you (hit) or to stick with &quot;</span> \
+               <span class="s2">&quot;your cards (stand). If your hand&#39;s sum is closest to twenty-one then you win, if the sum &quot;</span> \
+               <span class="s2">&quot;is over twenty-one, you lose (bust), or if the sum is exactly twenty-one you win (blackjack).&quot;</span> \
+               <span class="s2">&quot;(User input should be in the form of either: Hit or Stand))&quot;</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, group 12
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

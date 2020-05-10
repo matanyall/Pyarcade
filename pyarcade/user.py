@@ -3,6 +3,13 @@ from sqlalchemy import Column, Integer, String
 
 
 class User(Base):
+    """ user class that represents the model to create users 
+
+    Args:
+        id (int) : the primary key that uniquely identifies a user
+        username (str): username associated with the user 
+        passwd (str): password associated with user
+    """
     __tablename__ = 'Users'
 
     id = Column(Integer, primary_key=True)

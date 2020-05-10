@@ -44,6 +44,7 @@ class User(UserMixin, db.Model):
 
 @login_manager.user_loader
 def load_user(user_id):
+
     return User.query.get(int(user_id))
 
 
@@ -58,7 +59,7 @@ class UserListResource(Resource):
         """Responds to http://[domain or IP]:[port (default 5000)]/users
 
         Returns:
-            List of dictionaries describing all users in the database. We should only include some information if
+            List: a list of dictionaries describing all users in the database. We should only include some information if
             passwords or other personal information is involved.
         """
         return [{"username": user.username, "id": user.id} for user in User.query.all()]
@@ -128,6 +129,14 @@ api.add_resource(UserResource, '/users/<int:user_id>')
 
 
 class Save(db.Model):
+    """ A SQLAlchemy Model used to store saves for a Game and its state
+
+       Args:
+           id (int): id of game save
+           player_id (int): id of player associated with save
+           save_name (str): name of game save
+           save (BLOB): save object
+       """
     __tablename__ = 'Saves'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -437,28 +446,53 @@ api.add_resource(FavoritesResource, '/favorites/<int:user_id>')
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username:', validators=[InputRequired(), Length(min=4, max=15)])
-    password = PasswordField('Password:', validators=[InputRequired(), Length(min=8, max=80)])
-    remember = BooleanField('Remember Me')
+    """Represents a login form that is used to send the fields a User fills out to authenticate via REST
+
+    Args: 
+        username (str): username field of user 
+        Password (str): password field of user 
+        remember (bool): boolean field checked to remember user
+    """
+
+    username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
+    password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
 
 
 class RegisterForm(FlaskForm):
+    """Represents a form that allows a user to store fields required to register for a pyaracade account via REST 
+
+    Args:
+        username (str): username field of user being registered
+        password (str): password field of user being registered
+    """
     username = StringField('Username:', validators=[InputRequired(), Length(min=4, max=15)])
     password = PasswordField('Password:', validators=[InputRequired(), Length(min=8, max=80)])
     confirm = PasswordField('Confirm Password:', validators=[
-        InputRequired(), EqualTo('password', message='Passwords must match')])
+    InputRequired(), EqualTo('password', message='Passwords must match')])
 
 
 class GameForm(FlaskForm):
+    """Represents a form to store fields required to record the input from the user on pyarcade website
+
+    Args:
+        input(str): game menu option field
+    """
     input = StringField()
 
 
 class SaveForm(FlaskForm):
+    """Represents a form to store fields required to record the save name 
+
+    Args:
+        save_name (str): name of save 
+    """
     save_name = StringField(validators=[InputRequired(), Length(min=2, max=15)])
 
 
 @app.route('/')
 def index():
+    """default route. Displays home page 
+    """
     if current_user.is_authenticated:
         return redirect(url_for('dashboard'))
     return render_template('index.html')
@@ -573,6 +607,8 @@ def high_scores(game):
 @app.route('/game/<game>/save', methods=['GET', 'POST'])
 @login_required
 def save(game):
+    """routes to /save displays save form and allows user to save game to database
+        """
     form = SaveForm()
 
     if form.validate_on_submit():
@@ -620,6 +656,8 @@ def load(game):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """routes to /login , displays login page and allows a user to login.
+    """
     form = LoginForm()
 
     if form.validate_on_submit():
@@ -636,6 +674,8 @@ def login():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    """routes to /signup displays signup page and allows user to sign up for pyarcade
+    """
     form = RegisterForm()
 
     if form.validate_on_submit():
@@ -658,12 +698,16 @@ def signup():
 @app.route('/dashboard')
 @login_required
 def dashboard():
+    """ routes to /dashboard displays user dashboard
+    """
     return render_template('dashboard.html', name=current_user.username)
 
 
 @app.route('/logout')
 @login_required
 def logout():
+    """routes to /logout. Logs out the user 
+    """
     logout_user()
     return redirect(url_for('index'))
 
