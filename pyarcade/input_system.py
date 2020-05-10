@@ -5,14 +5,12 @@ from pyarcade.games.crazy_eights import CrazyEights
 from pyarcade.games.blackjack import Blackjack
 import re
 
-
 _SUPPORTED_GAMES = {
     'blackjack': 'Blackjack',
     'crazy_eights': 'Crazy Eights',
     'mastermind': 'Mastermind',
     'minesweeper': 'Minesweeper'
 }
-
 
 MASTERMIND_WIDTH = 4
 CRAZY_EIGHTS_NUM_PLAYERS = 4
@@ -29,7 +27,8 @@ class InputSystem:
         self.game_to_load = None
         self.current_game = None
 
-    def get_supported_games(self):
+    @staticmethod
+    def get_supported_games():
         return _SUPPORTED_GAMES
 
     def get_current_game(self):
@@ -79,8 +78,6 @@ class InputSystem:
                        + str(self.blackjack_game.user.get_cards()[0].get_rank().value) + ", " \
                        + str(self.blackjack_game.user.get_cards()[1].get_rank().value) + "\n"
             elif user_input.lower() == "continue":
-                user_hand_sum = self.blackjack_game.calculate_current_sum(self.blackjack_game.user)
-                house_hand_sum = self.blackjack_game.calculate_current_sum(self.blackjack_game.house)
                 win_status = self.blackjack_game.win_condition()
                 return self.blackjack_game.display_state(win_status)
             return self.handle_blackjack_input(user_input)
@@ -167,7 +164,7 @@ class InputSystem:
 
     def handle_crazy_eights_input(self, card_input: str) -> str:
         if card_input.lower() == "help":
-            return CrazyEights.get_help()
+            return self.crazy_eights_game.get_help()
         if card_input.lower() == "clear":
             return self.crazy_eights_game.clear()
         if card_input.lower() == "state":
@@ -204,13 +201,13 @@ class InputSystem:
         else:
             invalid_str = "Invalid input. User should specify either to draw or which card to place (Ex: Eight," \
                           "Spades)\n "
-            return invalid_str + "\nTop Card: " + self.crazy_eights_game.show_top_card() + "\n\nPlayer Hand: \n" \
-                   + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM)
+            return invalid_str + "\nTop Card: " + self.crazy_eights_game.show_top_card() \
+                   + "\n\nPlayer Hand: \n" + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM)
 
     def handle_blackjack_input(self, user_input: str) -> str:
 
         if user_input.lower() == "help":
-            return Blackjack.get_help()
+            return self.blackjack_game.get_help()
         if user_input.lower() == "reset":
             return self.blackjack_game.reset()
         if user_input.lower() == "clear":
@@ -223,10 +220,8 @@ class InputSystem:
 
         if user_input.lower() == "load":
             self.blackjack_game = self.game_to_load
-            user_hand_sum = Blackjack.calculate_current_sum(self.blackjack_game.user)
-            house_hand_sum = Blackjack.calculate_current_sum(self.blackjack_game.house)
-            win_status = Blackjack.win_condition()
-            return Blackjack.display_state(win_status)
+            win_status = self.blackjack_game.win_condition()
+            return self.blackjack_game.display_state(win_status)
         if user_input.lower() == "hit" or user_input.lower() == "stand":
             return self.blackjack_game.start_game(user_input)
         else:

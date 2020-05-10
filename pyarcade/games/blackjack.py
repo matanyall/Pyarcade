@@ -32,12 +32,12 @@ class Blackjack:
         """
         player.add_to_hand(self.deck.draw())
 
-    def reset(self) -> None:
+    def reset(self) -> str:
         self.clear()
         self.setup()
         return "Game reset"
 
-    def clear(self) -> None:
+    def clear(self) -> str:
         """Reset the game by clearing all player hands.
         """
         self.house.clear_hand()
@@ -154,7 +154,7 @@ class Blackjack:
         # return the decision
         return self.display_state(win_status)
 
-    def display_state(self, win_status: str) -> None:
+    def display_state(self, win_status: str) -> str:
         """[summary]
 
         Args:
@@ -170,22 +170,21 @@ class Blackjack:
         return user_hand_str + "\n" + house_hand_str + "\n" + win_status
 
     def start_game(self, decision: str):
-        #self.setup()
         result = ["BUST", "WIN BABY", "TIE", "QUIT"]
         if decision not in result:
             decision = self.next_state(decision)
         return decision
 
-    """Define methods that all games are required to implement.
-    """
-
-    def get_name(self):
+    @staticmethod
+    def get_name():
         return 'Blackjack'
 
-    def get_subdir(self) -> str:
+    @staticmethod
+    def get_subdir() -> str:
         return 'blackjack'
 
-    def get_help(self):
+    @staticmethod
+    def get_help():
         return "You are originally dealt two cards and one card from the houses hand will be flipped up." \
                 "You have the choice to either have another card dealt to you (hit) or to stick with " \
                "your cards (stand). If your hand's sum is closest to twenty-one then you win, if the sum " \
