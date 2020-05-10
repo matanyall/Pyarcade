@@ -20,7 +20,7 @@ class CrazyEights:
         self.game_hist = []
         self.game_state = "Round 1"
 
-    def setup_round(self, num_players: int) -> CrazyEights:
+    def setup_round(self, num_players: int):
         """Set up the game by making a deck, shuffling it, dealing cards,
         making a discard, flipping over the top card, and creating the
         round points.
@@ -107,7 +107,7 @@ class CrazyEights:
         hand.
 
         Args:
-            player (int): number of the player who is drawing a card
+            player_num (int): number of the player who is drawing a card
 
         Returns:
             CrazyEights: game after the player has drawn
@@ -302,13 +302,16 @@ class CrazyEights:
     """Define methods that all games are required to implement.
     """
 
-    def get_name(self):
+    @staticmethod
+    def get_name():
         return 'Crazy Eights'
 
-    def get_subdir(self) -> str:
+    @staticmethod
+    def get_subdir() -> str:
         return 'crazy_eights'
 
-    def get_help(self):
+    @staticmethod
+    def get_help():
         return " Play a card that matches either the suit or value of the top card. Input is taken as value,suit i.e" \
                "seven,hearts to play the seven of hearts." \
                " The first one to play all of their cards wins."\

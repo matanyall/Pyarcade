@@ -5,14 +5,12 @@ from pyarcade.games.crazy_eights import CrazyEights
 from pyarcade.games.blackjack import Blackjack
 import re
 
-
 _SUPPORTED_GAMES = {
     'blackjack': 'Blackjack',
     'crazy_eights': 'Crazy Eights',
     'mastermind': 'Mastermind',
     'minesweeper': 'Minesweeper'
 }
-
 
 MASTERMIND_WIDTH = 4
 CRAZY_EIGHTS_NUM_PLAYERS = 4
@@ -29,7 +27,8 @@ class InputSystem:
         self.game_to_load = None
         self.current_game = None
 
-    def get_supported_games(self):
+    @staticmethod
+    def get_supported_games():
         return _SUPPORTED_GAMES
 
     def get_current_game(self):
@@ -54,9 +53,9 @@ class InputSystem:
             if user_input.lower() == "new game":
                 self.minesweeper_game = Minesweeper()
                 self.current_game = self.minesweeper_game
-                return "\nMinesweeper\n\n" + self.minesweeper_game.draw_board() + "\n"
+                return "Minesweeper\n" + self.minesweeper_game.draw_board()
             elif user_input.lower() == "continue":
-                return "\nMinesweeper\n\n" + self.minesweeper_game.draw_board() + "\n"
+                return "Minesweeper\n" + self.minesweeper_game.draw_board()
             return self.handle_minesweeper_input(user_input)
         elif game_name.lower() == "crazy eights":
             if user_input.lower() == "new game":
@@ -79,8 +78,6 @@ class InputSystem:
                        + str(self.blackjack_game.user.get_cards()[0].get_rank().value) + ", " \
                        + str(self.blackjack_game.user.get_cards()[1].get_rank().value) + "\n"
             elif user_input.lower() == "continue":
-                user_hand_sum = self.blackjack_game.calculate_current_sum(self.blackjack_game.user)
-                house_hand_sum = self.blackjack_game.calculate_current_sum(self.blackjack_game.house)
                 win_status = self.blackjack_game.win_condition()
                 return self.blackjack_game.display_state(win_status)
             return self.handle_blackjack_input(user_input)
@@ -125,7 +122,10 @@ class InputSystem:
             two_comma_separated_digits_regex = r"^\d,\d$"
             if re.search(two_comma_separated_digits_regex, location_input):
                 location_guess = location_input.split(',')
-                return self.minesweeper_game.make_move([int(location_guess[0]), int(location_guess[1])])
+                if self.minesweeper_game.is_valid(int(location_guess[0]), int(location_guess[1])):
+                    return self.minesweeper_game.make_move([int(location_guess[0]), int(location_guess[1])])
+                else:
+                    return "Guess is out of bounds. Please provide input within the bounds of the grid."
             elif location_input.lower() == "reset":
                 output = self.minesweeper_game.reset_game() + "\n"
                 return output + self.minesweeper_game.draw_board()
@@ -139,13 +139,13 @@ class InputSystem:
                 return self.minesweeper_game.draw_board()
 
             elif location_input.lower() == "clear":
-                return self.minesweeper_game.clear_game_history()
+                return self.minesweeper_game.clear_game_history() + "\n" + self.minesweeper_game.draw_board()
             elif location_input.lower() == "state":
                 return self.minesweeper_game.game_state
             elif location_input.lower() == "help":
                 return self.minesweeper_game.get_help()
 
-        return "Invalid input. User should specify an x and y coordinate: \"#,#\""
+        return "Invalid input. User should specify an x and y coordinate: \"<row>,<col>\""
 
     @staticmethod
     def handle_card(user_card: str):
@@ -164,7 +164,7 @@ class InputSystem:
 
     def handle_crazy_eights_input(self, card_input: str) -> str:
         if card_input.lower() == "help":
-            return CrazyEights.get_help()
+            return self.crazy_eights_game.get_help()
         if card_input.lower() == "clear":
             return self.crazy_eights_game.clear()
         if card_input.lower() == "state":
@@ -201,13 +201,13 @@ class InputSystem:
         else:
             invalid_str = "Invalid input. User should specify either to draw or which card to place (Ex: Eight," \
                           "Spades)\n "
-            return invalid_str + "\nTop Card: " + self.crazy_eights_game.show_top_card() + "\n\nPlayer Hand: \n" \
-                   + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM)
+            return invalid_str + "\nTop Card: " + self.crazy_eights_game.show_top_card() \
+                   + "\n\nPlayer Hand: \n" + self.crazy_eights_game.show_player_hand(CRAZY_EIGHTS_PLAYER_NUM)
 
     def handle_blackjack_input(self, user_input: str) -> str:
 
         if user_input.lower() == "help":
-            return Blackjack.get_help()
+            return self.blackjack_game.get_help()
         if user_input.lower() == "reset":
             return self.blackjack_game.reset()
         if user_input.lower() == "clear":
@@ -220,10 +220,8 @@ class InputSystem:
 
         if user_input.lower() == "load":
             self.blackjack_game = self.game_to_load
-            user_hand_sum = Blackjack.calculate_current_sum(self.blackjack_game.user)
-            house_hand_sum = Blackjack.calculate_current_sum(self.blackjack_game.house)
-            win_status = Blackjack.win_condition()
-            return Blackjack.display_state(win_status)
+            win_status = self.blackjack_game.win_condition()
+            return self.blackjack_game.display_state(win_status)
         if user_input.lower() == "hit" or user_input.lower() == "stand":
             return self.blackjack_game.start_game(user_input)
         else:
